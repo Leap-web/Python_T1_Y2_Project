@@ -1,3 +1,4 @@
+# Dashboard show role of admin
 def admin_dashboard():
     while True:
         print("\nAdmin Dashboard")
@@ -31,3 +32,10 @@ def check_report():
 
 def log_out():
     pass
+
+# show log in as admin
+def admin_log():
+    username = input("Enter ur username: ")
+    id_n = int("Enter ID: ")
+    email = input("Enter ur gmail: ")
+    passwords = input("Enter ur gmail: ")
