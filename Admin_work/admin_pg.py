@@ -1,24 +1,33 @@
-def main_menu():
+def admin_dashboard():
     while True:
-        print("Choose ur role")
-        print("1. Admin")
-        print("2. Employee")
-        print("3. User")
-        print("4. Exit")
-    try:
-        choice = int(input("Enter ur specific role: "))
-        if choice == 1:
-            admin_menu()
-        elif choice == 2:
-            employee_menu()
-        elif choice == 3:
-            user_menu()
-        elif choice == 4:
-            print("Exiting the program.............!!!")
-            break
-        else:
-            print("Invalid option here")
-    except ValueError as f:
-        print(f)
+        print("\nAdmin Dashboard")
+        print("1. Add or update stock")
+        print("2. View stock")
+        print("3. Check Report")
+        print("4. Log out")
+        print("5. Exit")
+
+        choose = int(input("Choose ur task to do: "))
+        if choose == 1:
+            add_stock()
+        elif choose == 2:
+            view_stock()
+        elif choose == 3:
+            check_report()
+        elif choose == 4:
+            log_out()
+        elif choose == 5:
+            exit()
 
 
+def add_stock():
+    pass
+
+def view_stock():
+    pass
+
+def check_report():
+    pass
+
+def log_out():
+    pass
