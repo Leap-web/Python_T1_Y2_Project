@@ -1,5 +1,9 @@
-Airpods = {
-    "Airpods_2nd_Gen" : 13,
-    "Airpods_Pro" : 22,
-    "Airpods_Max" : 8,
-}
+                ============================================
+                              AirPod_Product
+                ============================================
+
+                        Airpods = {
+                            "Airpods_2nd_Gen" : 13,
+                            "Airpods_Pro" : 22,
+                            "Airpods_Max" : 8,
+                        }
