@@ -161,6 +161,10 @@ class UpdateStock:
                 break
             else:
                 print("Invalid choice. Try again.")
-filename = r"C:\Users\DELL\OneDrive - Cambodia Academy of Digital Technology\Desktop\File\W07_text.txt"
-file_updater = UpdateStock(filename)
+file_paths = [
+    r"C:\Python_T1_Y2_Project\Employees\iphone.txt",
+    r"C:\Python_T1_Y2_Project\Employees\airpod_user.txt",
+    r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
+]
+file_updater = UpdateStock(file_paths)
 file_updater.menu()
