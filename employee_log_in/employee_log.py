@@ -1,50 +1,45 @@
-
+import getpass                                   
 def check_employee_name(username):
     try:
         with open('employee_username.txt', 'r') as file:
-            usernames = [line.strip() for line in file]
-            return username in usernames
+            usernames = [line.strip().lower() for line in file]
+            return username.strip().lower() in usernames
     except FileNotFoundError:
         return False 
     
 def  check_employee_email(email):
     try:
         with open('employee_email.txt', 'r') as file:
-            emails = [line.strip() for line in file]
-            return email in  emails
+            emails = [line.strip().lower() for line in file]
+            return email.strip().lower() in emails
     except FileNotFoundError:
-            return False
+        return False
     
-def  check_employee_ID(id):
+def  check_employee_ID(employee_id):
     try:
-        with open('employee_email.txt', 'r') as file:
-            ID = [line.strip() for line in file]
-            return id in  ID
+        with open('employee_id.txt', 'r') as file:
+            IDs = [line.strip() for line in file]
+            return employee_id.strip() in IDs
     except FileNotFoundError:
-            return False
+        return False
     
 def  check_employee_password(password):
     try:
-        with open('employee_email.txt', 'r') as file:
+        with open('employee_password.txt', 'r') as file:
             passwords = [line.strip() for line in file]
-            return password in  passwords
+            return password.strip() in passwords
     except FileNotFoundError:
-            return False
+        return False
 
 def employee_login():
     print("===============EMPLOYEE_LOGIN===============")
     employee_username = input("Enter your username: ")
     employee_email = input("Enter your email: ")
     employee_id = input("Enter your ID: ")
-    employee_password = input("Enter your password: ")
+    employee_password = getpass.getpass("Enter your password: ")
 
-    is_employee_username = check_employee_name(employee_username)
-    is_employee_email = check_employee_email(employee_email)
-    is_employee_id = check_employee_ID(employee_id)
-    is_employee_password = check_employee_password(employee_password)
-
-    if (is_employee_username and is_employee_email and is_employee_id and is_employee_password):
-         print("<<<<<<<<<<<<<<<YOU ARE OUR EMPLOYEE>>>>>>>>>>>>>>>")
-    else:
-         print("###############YOU ARE NOT OUR EMPLOYEE YOUR ARE HACKER###############")
+    if not (check_employee_name(employee_username) and check_employee_email(employee_email) and check_employee_ID(employee_id) and check_employee_password(employee_password)):
+        print("###############YOU ARE NOT OUR EMPLOYEE YOU ARE HECKER###############")
+        return
+    print("<<<<<<<<<<<<<<<YOU ARE OUR EMPLOYEE>>>>>>>>>>>>>>>")
 employee_login()
