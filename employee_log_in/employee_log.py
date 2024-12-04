@@ -1,4 +1,4 @@
-import getpass                                   
+import getpass                                  
 def check_employee_name(username):
     try:
         with open('employee_username.txt', 'r') as file:
