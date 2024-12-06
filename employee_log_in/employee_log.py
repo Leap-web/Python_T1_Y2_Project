@@ -38,8 +38,11 @@ def employee_login():
     employee_id = input("Enter your ID: ")
     employee_password = getpass.getpass("Enter your password: ")
 
-    if not (check_employee_name(employee_username) and check_employee_email(employee_email) and check_employee_ID(employee_id) and check_employee_password(employee_password)):
-        print("###############YOU ARE NOT OUR EMPLOYEE YOU ARE HECKER###############")
+    if not (check_employee_name(employee_username) and 
+            check_employee_email(employee_email) and 
+            check_employee_ID(employee_id) and 
+            check_employee_password(employee_password)):
+        print("###############YOU ARE NOT OUR EMPLOYEE YOU ARE MY LOVE###############")
         return
     print("<<<<<<<<<<<<<<<YOU ARE OUR EMPLOYEE>>>>>>>>>>>>>>>")
 employee_login()
