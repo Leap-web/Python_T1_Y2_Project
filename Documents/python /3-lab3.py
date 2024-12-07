@@ -1,0 +1,6 @@
+tuple = (4,5,6,7,8)
+print(tuple)
+# tuple.remove(4)
+# print(tuple)
+lst = list(tuple)
+print(lst)

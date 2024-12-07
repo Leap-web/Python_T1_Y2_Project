@@ -1,0 +1,1 @@
+python -u "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/stock.py"
