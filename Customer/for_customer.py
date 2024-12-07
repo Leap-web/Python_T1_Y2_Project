@@ -36,16 +36,16 @@ class User:
     def register(self):
         try:  
             with open(self.filename, 'a') as file:   
-                while 1 > 0:
-                    user = input("Enter a username to register: ")
+                while True:
+                    username = input("Enter a username to register: ")
                     for i in self.users:
-                        if user == i["username"]:
+                        if username == i["username"]:
                             print("This user has already been existed. Please try again!")
                             break
                     else:
                         break
 
-                while 1 > 0:
+                while True:
                     email = input("Enter your email address: ")
                     if '@' in email and '.' in email: 
                         break
@@ -53,7 +53,7 @@ class User:
                         print("Invalid email format. Please enter a valid email address.")
                         continue
 
-                while 1 > 0:
+                while True:
                     pw = getpass.getpass("Enter a Password: ")
                     if len(pw) < 8:
                         print("Password too short. Must be at least 8 Characters.")
@@ -76,18 +76,21 @@ class User:
                         continue
                     break
 
-                while 1 > 0:
+                while True:
                     secret_pin = getpass.getpass("Enter a secret Pin: ")
                     if len(secret_pin) < 4:
                         print("Secret is too short. Must be a 4-digit number.")
                         continue
-                    if not (s.isdigit() for s in secret_pin):
+                    if len(secret_pin) > 4:
+                        print("Secret is too long. Must be a 4-digit number.")
+                        continue
+                    if not secret_pin.isdigit():
                         print("Pin must be a number.")
                         continue
 
                     hashed_pw = self.hash_password(pw)
                     hashed_secret_pin = self.hash_secret_pin(secret_pin)
-                    new_user = {"username": user, "email": email, "password": hashed_pw, "secret pin": hashed_secret_pin}
+                    new_user = {"username": username, "email": email, "password": hashed_pw, "secret pin": hashed_secret_pin}
                     self.users.append(new_user)
                     file.write(f"username: {new_user['username']}, email: {new_user['email']}, password: {new_user['password']}, secret pin: {new_user['secret pin']}\n")
                     break
@@ -119,27 +122,50 @@ class User:
 
     def forgot(self):
         try:
-            with open(self.filename, "w") as file:
-                user = input("Enter your username: ")
-                email = input("Enter your email: ")
-                secret_pin = getpass.getpass("Enter your secret pin:")
-                hashed_secret_pin = self.hash_secret_pin(secret_pin)
-                for k in self.users:
-                    if k["username"] == user and k["email"] == email and k["secret pin"] == secret_pin:
-                        pw = getpass.getpass("Enter your new password: ")
-                        for f in self.users:
-                            if f["user"] == user and f["email"] == email and f["secret pin"] == secret_pin:
-                                f["password"] = pw
-                                file.write(f"username: {f['username']}, email: {f['email']}, password: {f['password']}, secret pin: {f['secret pin']}\n")
-                                break
-                            break
+            username = input("Enter your username: ")
+            email = input("Enter your email: ")
+            secret_pin = getpass.getpass("Enter your secret pin:")
+            hashed_secret_pin = self.hash_secret_pin(secret_pin)
+            # user_found = False
+            for k in self.users:
+                if k["username"] == username and k["email"] == email and k["secret pin"] == hashed_secret_pin:
+                    # user_found = True
+                    while True:
+                        new_pw = getpass.getpass("Enter your new password: ")
+                        if len(new_pw) < 8:
+                            print("Password too short. Must be at least 8 Characters.")
+                            continue
+                        if not any(c.isupper()for c in new_pw):
+                            print("Password must contain at least one uppercase letter.")
+                            continue
+                        if not any(c.islower()for c in new_pw):
+                            print("password must contain at least one lowercase letter.")
+                            continue
+                        if not any(c.isdigit()for c in new_pw):
+                            print("Password must contain at least one digit.")
+                            continue
+                        if not any(c in '!@#$%^&*'for c in new_pw):
+                            print("Password must contain at least one special character.")
+                            continue
+                        confirm_pw = getpass.getpass("Confirm your Password: ")
+                        if confirm_pw != new_pw:
+                            print("Password do not match. Please try again.")
+                            continue
+                        break
+                    hashed_pw = self.hash_password(new_pw)
+                    k["password"] = hashed_pw
+                    print("Reset password successfully!.")
+
+                    with open(self.filename, "w") as file:
+                        for user in self.users: 
+                            file.write(f"username: {user['username']}, email: {user['email']}, password: {user['password']}, secret pin: {user['secret pin']}\n")
                     break
-                else:
-                    print(f"There is no valid account with {user} exist.")
+            else:
+                print(f"There is no valid account with {username} exist.")
         except Exception as e:
             print(f"There is an error occur in your forgot proceess: {e} Please try again!.")
-        else:
-            print("Reset password succesfully!.")
+            
+
     def return_back(self):
         pass
     
@@ -157,7 +183,7 @@ class User:
         print("|                         Role User                        |")
         print("============================================================")
         try:
-            while 1 > 0:
+            while True:
                 print("Menu:")
                 print("1. login")
                 print("2. Register")
@@ -184,9 +210,7 @@ class User:
 filename = "Customer/customer_pw.txt"
 user1 = User(filename)
 
-user1.register()
-# user1.show_list()
-# user1.login()
+user1.user_menu()
 
 def usage_menu():
     pass
