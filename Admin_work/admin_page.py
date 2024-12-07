@@ -1,9 +1,18 @@
 from datetime import datetime
 import sys
+import msvcrt
+import os
 
+admin_name = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/admin_name.txt'
+admin_id = r'C:\/Users\/USER\Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/admin_ID.txt'
+admin_email = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/admin_email.txt'
+admin_pw = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/admin_pw.txt'
+manage_employ = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/manage_employee.txt'
+system_log = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/system_log.txt'
 
 # Dashboard show role of admin
 def admin_dashboard():
+        os.system('cls')
         print("\nAdmin Dashboard")
         print("1. Add or update stock")
         print("2. View stock")
@@ -32,7 +41,7 @@ def admin_dashboard():
                 elif choose == 7:
                     history_log()
                 elif choose == 8:
-                    break
+                    exit()
                 else:
                     print("Choose a correct option")
             except ValueError as e:
@@ -50,71 +59,62 @@ def delete_stock():
     pass
 
 def manage_employee_acc():
-    print("\nManage Employee accounts")
-    print("1. Add new employee")
-    print("2. View employee account")
-    print("3. Delete employee account")
-    print("4. Back to main menu")
+    while True:
+        os.system('cls')
+        print("\nManage Employee Accounts")
+        print("1. Add new employee")
+        print("2. View employee accounts")
+        print("3. Delete employee account")
+        print("4. Back to main menu")
 
-    while True: 
         try:
-            choose = int(input("Choose the task to do: "))
-            if choose == 1:
-                employee_add_name = input("Enter employee name: ")
-                employee_add_email = input("Enter employee gmail address: ")
-                employee_add_id = input("Create employee id number: ")
-                employee_add_password = input("Create password for this employee: ")
-                with open('manage_employee.txt', 'a') as file:
-                    file.write(f"{employee_add_name}, {employee_add_email}, {employee_add_id}, {employee_add_password}\n")
-                print("New Employee account created successfully")
-
-            elif choose == 2:
+            choice = int(input("Choose the task: "))
+            if choice == 1:
+                employee_name = input("Enter employee name: ")
+                employee_email = input("Enter employee email: ")
+                employee_id = input("Create employee ID: ")
+                employee_password = input("Create password: ")
+                with open(manage_employ, 'a') as file:
+                    file.write(f"{employee_name}, {employee_email}, {employee_id}, {employee_password}\n")
+                print("Employee account created successfully.")
+                log_action("Added new employee", "Admin")
+            elif choice == 2:
                 try:
-                    with open('manage_employee.txt', 'r') as file:
-                        print("Employee list in our company: ")
+                    with open(manage_employ, 'r') as file:
+                        print("\nEmployee Accounts:")
                         for line in file:
-                            employee_add_name, employee_add_email, employee_add_id, employee_add_password = line.strip().split(', ')
-                            print(f"Name: {employee_add_name}, Email: {employee_add_email}, ID: {employee_add_id}, Password: {employee_add_password}")
-                except FileNotFoundError as no:
-                    print(no)
-
-            elif choose == 3:
-                try:
-                    with open('manage_employee.txt', 'r') as file:
-                        employees = [line.strip() for line in file]
-                    
-                    if not employees:
-                        print("No employee records to delete.")
-                        continue
-
-                    print("\nEmployee List:")
-                    for emp in employees:
-                        emp_id, emp_name, emp_email, emp_password = emp.split(', ')
-                        print(f"ID: {emp_id}, Name: {emp_name}, Email: {emp_email}")
-                    employee_id_to_delete = input("\nEnter the ID of the employee to delete: ").strip()
-                    updated_employees = [emp for emp in employees if not emp.startswith(employee_id_to_delete + ",")]
-                    if len(updated_employees) == len(employees):
-                        print(f"Employee ID '{employee_id_to_delete}' not found.")
-                    else:
-                        with open('manage_employee.txt', 'w') as file:
-                            for emp in updated_employees:
-                                file.write(emp + '\n')
-                        print(f"Employee ID '{employee_id_to_delete}' has been successfully deleted.")
-                        print("\nUpdated Employee List:")
-                        for emp in updated_employees:
-                            emp_id, emp_name, emp_email, emp_password = emp.split(', ')
-                            print(f"ID: {emp_id}, Name: {emp_name}, Email: {emp_email}")
+                            employee_name, employee_email, employee_id, employee_password = line.strip().split(', ')
+                            print(f"Name: {employee_name}, Email: {employee_email}, ID: {employee_id}")
                 except FileNotFoundError:
-                    print("Employee file not found. Please add employees first.")
-
-            elif choose == 4:
-                print("Returning to Main Menu...")
-                break
-
+                    print("No employee records found.")
+            elif choice == 3:
+                try:
+                    with open(manage_employ, 'r') as file:
+                        employees = file.readlines()
+                    if not employees:
+                        print("No employees to delete.")
+                        continue
+                    print("\nEmployees:")
+                    for i, employee in enumerate(employees, 1):
+                        employee_name, employee_email, employee_id, _ = employee.strip().split(', ')
+                        print(f"{i}. {employee_name} (ID: {employee_id})")
+                    emp_to_delete = int(input("Enter the number of the employee to delete: "))
+                    if 1 <= emp_to_delete <= len(employees):
+                        del employees[emp_to_delete - 1]
+                        with open(manage_employ, 'w') as file:
+                            file.writelines(employees)
+                        print("Employee deleted successfully.")
+                        log_action("Deleted employee", "Admin")
+                    else:
+                        print("Invalid selection.")
+                except FileNotFoundError:
+                    print("No employee file found.")
+            elif choice == 4:
+                admin_dashboard()
             else:
-                print("Invalid choice. Please choose a valid option.")
+                print("Invalid choice.")
         except ValueError:
-            print("Please enter a valid number.")
+            print("Enter a valid number.")
 
 def manage_customer_acc():
     print("\nManage Customer Account Menu: ")
@@ -176,7 +176,7 @@ def manage_customer_acc():
             
             elif choose == 3: 
                 print("Returning to the main menu...")
-                break
+                admin_dashboard()
             else:
                 print("Invalid choice. Please select a valid option.")
 
@@ -186,54 +186,50 @@ def manage_customer_acc():
 def sales_report():
     pass
 
-def log_action(action, username="Employee"):
+def log_action(action, username="Admin"):
     try:
-        with open('', 'a') as log_file:
+        with open(system_log, 'a') as log_file:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             log_file.write(f"{timestamp} - {username}: {action}\n")
     except Exception as ex:
         print(f"Error logging action : {ex}")
 
 def history_log():
-    print("\nSystem Log Menu")
-    print("1. View System Logs")
-    print("2. Clear logs")
-    print("3. Return to Main menu")
-
     while True:
-        try:
-            option = int(input("Choose an option to check the history_log: "))
+        print("\nSystem Log")
+        print("1. View logs")
+        print("2. Clear logs")
+        print("3. Back to main menu")
 
+        try:
+            option = int(input("Choose an option: "))
             if option == 1:
                 try:
-                    with open ('system_log.txt', 'r') as log_file:
-                        logs = log_file.readlines()
+                    with open(system_log, 'r') as file:
+                        logs = file.readlines()
                     if logs:
-                        print("\n System Logs: ")
+                        print("\nSystem Logs:")
                         for log in logs:
                             print(log.strip())
                     else:
-                        print("No one log in yet")
-                except FileNotFoundError as fe:
-                    print(fe)
-
+                        print("No logs found.")
+                except FileNotFoundError:
+                    print("System log file not found.")
             elif option == 2:
-                confirm = input("Are you sure you want to clear all history logs? (yes/no): ").strip().lower()
+                confirm = input("Are you sure you want to clear all logs? (yes/no): ").lower()
                 if confirm == 'yes':
-                    with open('system_log.txt', 'w') as log_file:
+                    with open(system_log, 'w') as file:
                         pass
-                    print("All log in history have been cleared.")
+                    print("Logs cleared.")
+                    log_action("Cleared system logs", "Admin")
                 else:
-                    print("Clearing logs cancelled.")
-
+                    print("Clear logs cancelled.")
             elif option == 3:
-                print("Returning to the main menu...")
-                break
-
+                admin_dashboard()
             else:
-                print("Invalid option. Please choose a valid option.")
-        except ValueError as v:
-            print(v)
+                print("Invalid option.")
+        except ValueError:
+            print("Enter a valid number.")
 
 # Function to hash a password using SHA-256
 try:
@@ -259,30 +255,49 @@ def take_password():
             password += ch
             sys.stdout.write("*")
             sys.stdout.flush()
+    return password
 
 # show log in as admin
 def admin_log():
-    print("======================= Admin Login ==========================")
-    admin_username = input("Enter ur username: ")
-    admin_id = input("Enter ID: ")
-    admin_email = input("Enter ur gmail: ")
-    admin_password = take_password()
+    os.system('cls')
+    print("======= Admin Login =======")
+    username = input("Enter username: ").strip()
+    admin_id_input = input("Enter admin ID: ").strip()
+    email = input("Enter email: ").strip()
+    password = take_password()
 
-    # Validate check for admin
-    is_admin_username_valid = check_admin_name(admin_username)
-    is_admin_id_valid = check_admin_id(admin_id)
-    is_admin_email_valid = check_admin_email(admin_email)
-    is_admin_passwords = check_admin_password(admin_password)
-
-    if ( is_admin_username_valid and is_admin_passwords and is_admin_id_valid and is_admin_email_valid ):
-        print(">>>>>>>>>>>>>>>>>>>>>> Admin Login Successful <<<<<<<<<<<<<<<<<<<<<<<<")
+    if validate_login(username, admin_id_input, email, password):
+        print("\n✅ Login successful!")
+        log_action("Logged in", username)
         admin_dashboard()
     else:
-        print("Bro stop try to hack the admin account.")
+        print("\n❌ Login failed.")
+
+# Validate login credentials
+def validate_login(username, admin_id_input, email, password):
+    try:
+        with open(admin_name, 'r') as name_file, \
+             open(admin_id, 'r') as id_file, \
+             open(admin_email, 'r') as email_file, \
+             open(admin_pw, 'r') as pw_file:
+            
+            admin_records = zip(
+                (line.strip() for line in name_file),
+                (line.strip() for line in id_file),
+                (line.strip() for line in email_file),
+                (line.strip() for line in pw_file)
+            )
+            for record in admin_records:
+                if (username, admin_id_input, email, password) == record:
+                    return True
+        return False
+    except FileNotFoundError:
+        print("Error: Data files are missing.")
+        sys.exit(1)
 
 def check_admin_name(username):
     try:
-        with open('admin_name.txt', 'r') as fi:
+        with open(admin_name, 'r') as fi:
             usernames = [line.strip() for line in fi]
             return username in usernames
     except FileNotFoundError:
@@ -290,7 +305,7 @@ def check_admin_name(username):
     
 def check_admin_id(id):
     try:
-        with open('admin_id.txt', 'r') as fi:
+        with open(admin_id, 'r') as fi:
             ids = [line.strip() for line in fi]
             return id in ids
     except FileNotFoundError:
@@ -298,7 +313,7 @@ def check_admin_id(id):
     
 def check_admin_email(email):
     try:
-        with open('admin_email.txt', 'r') as fi:
+        with open(admin_email, 'r') as fi:
             emails = [line.strip() for line in fi]
             return email in emails
     except FileNotFoundError:
@@ -306,7 +321,7 @@ def check_admin_email(email):
 
 def check_admin_password(password):
     try:
-        with open('admin_pw.txt', 'r') as fi:
+        with open(admin_pw, 'r') as fi:
             passwords = [line.strip() for line in fi]
             return password in passwords
     except FileNotFoundError:
