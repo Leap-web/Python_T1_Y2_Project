@@ -16,6 +16,7 @@ def masked_input(prompt= ""):
             password += char.decode()
             print('*', end='', flush=True)
     return password
+
 def check_employee_inf(username, email, ID, password):
     try:
         with open(r'C:\Users\User\OneDrive\ドキュメント\GitHub\Python_T1_Y2_Project\employee_log\inf_employee.txt', 'r') as file:
@@ -27,21 +28,30 @@ def check_employee_inf(username, email, ID, password):
                     stored_ID.strip() == ID.strip() and
                     stored_password.strip() == password.strip()):
                     return True
-
             return False
     except FileNotFoundError:
-        print("Employee informatioon not foun!")
+        print("Employee information not found!")
         return False
-def employee_login():
-    print("===============EMPLOYEE_LOGIN===============")
-    employee_username = input("Enter your username: ")
-    employee_email = input("Enter your email: ")
-    employee_id = input("Enter your ID: ")
-    employee_password = masked_input("Enter your password: ")
     
-    if not check_employee_inf(employee_username,employee_email,employee_id,employee_password):
-        print("###############YOU ARE NOT OUR EMPLOYEE YOU ARE HACKER###############")
-        return
-    print("<<<<<<<<<<<<<<<YOU ARE OUR EMPLOYEE>>>>>>>>>>>>>>>")
+def employee_login():
+    print("----------------------------------------------")
+    print("||              EMPLOYEE_LOGIN              ||")
+    print("----------------------------------------------")
+    for attempt in range(2):
+        print(f"\nATTEMPT {attempt +1} of 2")
+        employee_username = input("Enter your username: ")
+        employee_email = input("Enter your email: ")
+        employee_id = input("Enter your ID: ")
+        employee_password = masked_input("Enter your password: ")
+    
+        if check_employee_inf(employee_username,employee_email,employee_id,employee_password):
+            print("\n<<<<<<<<<<<<<<<YOU ARE OUR EMPLOYEE>>>>>>>>>>>>>>>")
+            return
+        else:
+            if attempt == 0:
+                print("\n############### LOGIN FAILED. YOU HAVE 1 MORE ATTEMPT ###############")
+            else:
+                print("\n############### LOGIN FAILED. NO MORE ATTEMPTS ALLOWED. ###############")
+    print("======/Access denied./======")
 employee_login()
 
