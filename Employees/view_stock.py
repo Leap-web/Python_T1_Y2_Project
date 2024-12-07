@@ -1,170 +1,143 @@
-print("*" * 40)
-print("Welcome To Customer Support!")
-print("*" * 40)
-class MainStock:
-    def __init__(self, filename):
-        self.filename = filename
-    def create_file(self):
-        try:
-            with open(self.filename) as file:
-                print(f"File '{self.filename}' was opened successfully.")
+import ast
 
-        except IOError as e:
-            print(f"An error occurred while opening the file: {e}")
-        finally:
-            print("Opening the file process completed.")
-    def read_file(self):
-        try:
-            with open(self.filename, 'r') as file:
-                content = file.readlines()
-                print(f"Contents of '{self.filename}':")
-                for line in content:
-                    print(f"- {line.strip()}")
-        except FileNotFoundError:
-            print(f"File '{self.filename}' not found.")
-        except IOError as e:
-            print(f"An error occurred while reading the file: {e}")
-        finally:
-            print("Read file operation is completed.")
-file_paths = [
-    r"C:\Python_T1_Y2_Project\Employees\iphone.txt",
-    r"C:\Python_T1_Y2_Project\Employees\airpod_user.txt",
-    r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
-]
-for path in file_paths:
-    main_stock = MainStock(path)
-    main_stock.create_file()
-    main_stock.read_file()
- # make change in stock
-print("Make some change in stock")
-import os
-import platform
-class MainStock:
-    def __init__(self, filename):
-        self.filename = filename
-    def create_file(self):
-        try:
-            with open(self.filename) as file:
-                print(f"File '{self.filename}' was opened successfully.")
-        except IOError as e:
-            print(f"An error occurred while opening the file: {e}")
-        finally:
-            print("Opening the file process completed.")
-    def read_file(self):
-        try:
-            with open(self.filename, 'r') as file:
-                content = file.readlines()
-                print(f"Contents of '{self.filename}':")
-                for line in content:
-                    print(f"- {line.strip()}")
-        except FileNotFoundError:
-            print(f"File '{self.filename}' not found.")
-        except IOError as e:
-            print(f"An error occurred while reading the file: {e}")
-        finally:
-            print("Read file operation is completed.")
-class UpdateStock:
-    def __init__(self, filename):
-        self.filename = filename
-        self.product_dict = {}
+class StockManager:
+    def __init__(self):
+        self.fileiphone = r"C:\Python_T1_Y2_Project\Employees\iphone.txt"
+        self.filemacbook = r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
+        self.fileairpod = r"C:\Python_T1_Y2_Project\Employees\airpod_user.txt"
 
-    def clear_screen(self):
-        if platform.system() == "Windows":
-            os.system("cls")
-        else:
-            os.system("clear")
-    def convert(self):
-        try:
-            self.product_dict = {}
-            with open(self.filename) as file:
-                id = 1
-                for line in file:
-                    self.product_dict[f"{id}"] = line.strip()
-                    id += 1
-        except FileNotFoundError:
-            print("File not found.")
-        print(f"Current Data: {self.product_dict}")
-    def add_to_stock(self):
-        try:
-            employee_input = input("Enter the product to add to stock, separated by commas: ")
-            products = employee_input.split(",")
-            with open(self.filename, 'a') as file:
-                for product in products:
-                    file.write(product.strip() + "\n")
-            print(f"Data written successfully to '{self.filename}'.")
-        except IOError as e:
-            print(f"An error occurred while writing to the file: {e}")
-        finally:
-            print("Add product to file successful.")
-    def update_items(self):
-        self.convert()
-        try:
-            product_key = input("Enter the key of the item to update: ")
-            if product_key not in self.product_dict:
-                print("There is no such key.")
-                return
-            value = input("Enter a new value: ")
-            self.product_dict[product_key] = value
-
-            with open(self.filename, "r") as file:
-                lines = file.readlines()
-
-            key_index = int(product_key) - 1
-            if key_index < len(lines):
-                lines[key_index] = f"{value}\n"
-
-            with open(self.filename, "w") as file:
-                file.writelines(lines)
-            print(f"File '{self.filename}' updated successfully.")
-        except ValueError:
-            print("Error: Please enter a valid integer for the key.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
-        finally:
-            print("Update operation completed.")
-    def delete_items(self):
-        self.convert()
-        try:
-            print("Current Data:")
-            for key, value in self.product_dict.items():
-                print(f"{key}: {value}")
-            key = input("Enter the key of the item to delete: ")
-            if key not in self.product_dict:
-                print("Key not found.")
-                return
-
-            del self.product_dict[key]
-            with open(self.filename, "w") as file:
-                for value in self.product_dict.values():
-                    file.write(value + "\n")
-            print(f"Item deleted successfully from '{self.filename}'.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
-        finally:
-            print("Delete operation completed.")
-    def menu(self):
+    def main_menu(self):
         while True:
-            print("\n1. Add to Stock\n2. Update Stock\n3. Delete from Stock\n4. Exit")
-            option = input("Enter your choice (1-4): ")
-            if option == "1":
-                self.clear_screen()
-                self.add_to_stock()
-                self.convert()
-            elif option == "2":
-                self.clear_screen()
-                self.update_items()
-            elif option == "3":
-                self.clear_screen()
-                self.delete_items()
-            elif option == "4":
-                print("Exiting the program. Goodbye!")
+            print("=" * 50)
+            print("Main Menu:")
+            print("1. Change Stock")
+            print("2. Do Report")
+            print("3. Exit Program")
+            print("=" * 50)
+
+            choice = input("Enter your choice: ").strip()
+            if choice == "1":
+                self.stock_menu()
+            elif choice == "2":
+                self.generate_report()
+            elif choice == "3":
+                print("Exiting the program. Thank you!")
                 break
             else:
-                print("Invalid choice. Try again.")
-file_paths = [
-    r"C:\Python_T1_Y2_Project\Employees\iphone.txt",
-    r"C:\Python_T1_Y2_Project\Employees\airpod_user.txt",
-    r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
-]
-file_updater = UpdateStock(file_paths)
-file_updater.menu()
+                print("Invalid choice. Please try again.")
+
+    def stock_menu(self):
+        while True:
+            print("=" * 50)
+            print("Stock Management:")
+            print("1. Add Stock")
+            print("2. Delete Stock")
+            print("3. Exit to Main Menu")
+            print("=" * 50)
+
+            choice = input("Enter your choice: ").strip()
+            if choice == "1":
+                self.add_stock()
+            elif choice == "2":
+                self.delete_stock()
+            elif choice == "3":
+                print("Returning to Main Menu...")
+                break
+            else:
+                print("Invalid choice. Please try again.")
+
+    def add_stock(self):
+        file_path = self.get_file_path()
+        try:
+            with open(file_path, "r") as file:
+                stock_data = ast.literal_eval(file.read())
+        except FileNotFoundError:
+            print("Stock file not found. Creating a new one.")
+            stock_data = {}
+
+        model = input("Enter the model to add (e.g., iphone_11): ").strip()
+        storage = input("Enter the storage size to add (e.g., 128GB): ").strip()
+        quantity = int(input("Enter the quantity to add: ").strip())
+
+        if model in stock_data:
+            if storage in stock_data[model]:
+                stock_data[model][storage] += quantity
+            else:
+                stock_data[model][storage] = quantity
+        else:
+            stock_data[model] = {storage: quantity}
+
+        with open(file_path, "w") as file:
+            file.write(str(stock_data))
+
+        print(f"Successfully added {quantity} of {model} ({storage}).")
+
+    def delete_stock(self):
+        file_path = self.get_file_path()
+        try:
+            with open(file_path, "r") as file:
+                stock_data = ast.literal_eval(file.read())
+        except FileNotFoundError:
+            print("Stock file not found. Nothing to delete.")
+            return
+
+        model = input("Enter the model to delete from (e.g., iphone_11): ").strip()
+        storage = input("Enter the storage size to delete (e.g., 128GB): ").strip()
+        quantity = int(input("Enter the quantity to delete: ").strip())
+
+        if model in stock_data and storage in stock_data[model]:
+            if stock_data[model][storage] >= quantity:
+                stock_data[model][storage] -= quantity
+                if stock_data[model][storage] == 0:
+                    del stock_data[model][storage]
+                if not stock_data[model]:
+                    del stock_data[model]
+                print(f"Successfully deleted {quantity} of {model} ({storage}).")
+            else:
+                print(f"Not enough stock to delete. Current stock: {stock_data[model][storage]}")
+        else:
+            print("Model or storage not found in stock.")
+
+        with open(file_path, "w") as file:
+            file.write(str(stock_data))
+
+    def generate_report(self):
+        file_path = self.get_file_path()
+        try:
+            with open(file_path, "r") as file:
+                stock_data = ast.literal_eval(file.read())
+        except FileNotFoundError:
+            print("Stock file not found. Cannot generate report.")
+            return
+
+        print("=" * 50)
+        print("Stock Report:")
+        for model, storages in stock_data.items():
+            print(f"Model: {model}")
+            for storage, quantity in storages.items():
+                print(f"  Storage: {storage} - Quantity: {quantity}")
+        print("=" * 50)
+
+    def get_file_path(self):
+        print("=" * 50)
+        print("Choose the stock file:")
+        print("1. iPhone")
+        print("2. MacBook")
+        print("3. AirPod")
+        print("=" * 50)
+
+        choice = input("Enter your choice: ").strip()
+        if choice == "1":
+            return self.fileiphone
+        elif choice == "2":
+            return self.filemacbook
+        elif choice == "3":
+            return self.fileairpod
+        else:
+            print("Invalid choice. Please try again.")
+            return self.get_file_path()
+
+# Initialize and start the program
+if __name__ == "__main__":
+    stock_manager = StockManager()
+    stock_manager.main_menu()
