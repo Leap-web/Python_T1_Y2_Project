@@ -2,8 +2,4 @@
                               AirPod_Product
                 ============================================
 
-                        Airpods = {
-                            "Airpods_2nd_Gen" : 13,
-                            "Airpods_Pro" : 22,
-                            "Airpods_Max" : 8,
-                        }
+{'Airpods_2nd_Gen': 12, 'Airpods_Pro': 22, 'Airpods_Max': 6}
