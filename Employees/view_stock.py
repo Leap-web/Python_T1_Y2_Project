@@ -289,7 +289,6 @@ class StockManager:
             print("Invalid model. Please enter a valid model (2ndGen/Pro/Max).")
             return
 
-<<<<<<< HEAD
         try:
             quantity = int(input("Enter the quantity to remove: "))
         except ValueError:
@@ -324,9 +323,3 @@ filemacbook_staff = r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
 # stockmanager = StockManager(fileiphone_staff,fileairpod_staff,filemacbook_staff)
 stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staff)
 stockmanager.main_menu()
-=======
-# Initialize and start the program
-if __name__ == "__main__":
-    stock_manager = StockManager()
-    stock_manager.main_menu()
->>>>>>> 630bd410731c0f6e0e7cdab56cd6a3cf87accd62
