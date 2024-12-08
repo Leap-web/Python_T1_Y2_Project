@@ -8,6 +8,7 @@ class User:
         self.balance_filename = balance_filename
         self.users = []
         self.load_users()
+        self.balance = 0.0
         self.balances = {}
         self.load_balance()
 
@@ -39,10 +40,11 @@ class User:
         try:  
             with open(self.user_filename, 'a') as file:   
                 while True:
-                    username = input("Enter a username to register: ")
+                    print("\n----------Register----------")
+                    username = input("\nEnter a username to register: ")
                     for i in self.users:
                         if username == i["username"]:
-                            print("This user has already been existed. Please try again!")
+                            print("This user has already been existed. Please try again!\n")
                             break
                     else:
                         break
@@ -52,42 +54,42 @@ class User:
                     if '@' in email and '.' in email: 
                         break
                     else:
-                        print("Invalid email format. Please enter a valid email address.")
+                        print("Invalid email format. Please enter a valid email address.\n")
                         continue
 
                 while True:
                     pw = getpass.getpass("Enter a Password: ")
                     if len(pw) < 8:
-                        print("Password too short. Must be at least 8 Characters.")
+                        print("Password too short. Must be at least 8 Characters.\n")
                         continue
                     if not any(c.isupper()for c in pw):
-                        print("Password must contain at least one uppercase letter.")
+                        print("Password must contain at least one uppercase letter.\n")
                         continue
                     if not any(c.islower()for c in pw):
-                        print("password must contain at least one lowercase letter.")
+                        print("password must contain at least one lowercase letter.\n")
                         continue
                     if not any(c.isdigit()for c in pw):
-                        print("Password must contain at least one digit.")
+                        print("Password must contain at least one digit.\n")
                         continue
                     if not any(c in '!@#$%^&*'for c in pw):
-                        print("Password must contain at least one special character.")
+                        print("Password must contain at least one special character.\n")
                         continue
                     confirm_pw = getpass.getpass("Confirm your Password: ")
                     if confirm_pw != pw:
-                        print("Password do not match. Please try again.")
+                        print("Password do not match. Please try again.\n")
                         continue
                     break
 
                 while True:
                     secret_pin = getpass.getpass("Enter a secret Pin: ")
                     if len(secret_pin) < 4:
-                        print("Secret is too short. Must be a 4-digit number.")
+                        print("Secret is too short. Must be a 4-digit number.\n")
                         continue
                     if len(secret_pin) > 4:
-                        print("Secret is too long. Must be a 4-digit number.")
+                        print("Secret is too long. Must be a 4-digit number.\n")
                         continue
                     if not secret_pin.isdigit():
-                        print("Pin must be a number.")
+                        print("Pin must be a number.\n")
                         continue
 
                     hashed_pw = self.hash_password(pw)
@@ -95,10 +97,10 @@ class User:
                     new_user = {"username": username, "email": email, "password": hashed_pw, "secret pin": hashed_secret_pin}
                     self.users.append(new_user)
                     file.write(f"username: {new_user['username']}, email: {new_user['email']}, password: {new_user['password']}, secret pin: {new_user['secret pin']}\n")
-                    print("Registration account successful!")
+                    print("Registration account successful!\n")
                     
                     with open(self.balance_filename, "a") as balance_file:
-                        balance_file.write(f"username: {username}, balance: 0.0\n")
+                        balance_file.write(f"username: {username}, balance: {self.balance}\n")
                     break
         except Exception as e:
             print(f"There's an error with your registration: {e}. please try again!.")
@@ -106,14 +108,16 @@ class User:
     def login(self):
         try:
             for i in range(3, 0, -1):
-                username = input("Enter your username: ")
+                print("\n----------Login----------")
+                username = input("\nEnter your username: ")
                 email = input("Enter your email: ")
                 pw = getpass.getpass("Enter your password: ")
                 hashed_pw = self.hash_password(pw)
                 for user in self.users:
                     if user["username"] == username and user["email"] == email and user["password"] == hashed_pw :
-                        print(f"Login successful! Welcome, {username}")
+                        print(f"Login successfully! Welcome, {username}\n")
                         self.current_user = username
+                        self.load_balance()
                         self.usage_menu()
                         break
                 else:
@@ -121,14 +125,15 @@ class User:
                     continue
                 break
             else:
-                print("Too many failed attempts. Access blocked.")
+                print("Too many failed attempts. Access blocked.\n")
         except Exception as e:
-            print(f"There is an error with your logn: {e}. Please try again!.")
+            print(f"There is an error with your login: {e}. Please try again!.")
             
 
     def forgot(self):
         try:
-            username = input("Enter your username: ")
+            print("\n----------Forgot----------")
+            username = input("\nEnter your username: ")
             email = input("Enter your email: ")
             secret_pin = getpass.getpass("Enter your secret pin:")
             hashed_secret_pin = self.hash_secret_pin(secret_pin)
@@ -160,14 +165,14 @@ class User:
                         break
                     hashed_pw = self.hash_password(new_pw)
                     k["password"] = hashed_pw
-                    print("Reset password successfully!.")
+                    print("Reset password successfully!.\n")
 
                     with open(self.user_filename, "w") as file:
                         for user in self.users: 
                             file.write(f"username: {user['username']}, email: {user['email']}, password: {user['password']}, secret pin: {user['secret pin']}\n")
                     break
             else:
-                print(f"There is no valid account with {username} exist.")
+                print(f"There is no valid account with {username} exist.\n")
         except Exception as e:
             print(f"There is an error occur in your forgot proceess: {e} Please try again!.")
             
@@ -189,24 +194,28 @@ class User:
 
     def manage_balance(self):
         try:
-            print(f"Your current balance: ${self.balances[self.current_user]}")
+            print("\n----------Manage Balance----------")
+            print(f"\nYour current balance: ${self.balances[self.current_user]}")
             while True:
                 print("Do you want to deposit money into your account?")
                 print("1. Yes")
                 print("2. No")
                 option = int(input("Choose Option(1,2): "))
                 if option == 1:
-                    amount = float(input("Input the amount you want to deposit: "))
+                    amount = float(input("\nInput the amount you want to deposit: "))
                     if amount > 0:
                         self.balances[self.current_user] += amount
-                        print(f"Your balance now is ${self.balances[self.current_user]}")
+                        print(f"\nYour balance now is ${self.balances[self.current_user]}")
                         with open(self.balance_filename, "w") as balance_file:
                             for username, balance in self.balances.items():
                                 balance_file.write(f"username: {username}, balance: {balance}\n")
                     else:
-                        print("Invalid amount. Please enter a valid amount.")
+                        print("Invalid amount. Please enter a valid amount.\n")
                 elif option == 2:
+                    print("\n")
                     break
+                else:
+                    print("Please input a valid option(1,2)!\n")
         except Exception as e:
             print(f"An error occur in your deposit process: {e}. Please try again!")
                    
@@ -226,11 +235,12 @@ class User:
                 print("|                         Role User                        |")
                 print("============================================================")
                 print("Menu:")
-                print("1. login")
+                print("1. Login")
                 print("2. Register")
                 print("3. Forgot Password")
                 print("4. Return")
-                print("5. exit")
+                print("4. Help Us")
+                print("6. Exit")
                 option = int(input("Choose an option (1-6): "))
                 if option == 1:
                     self.login()
@@ -261,12 +271,12 @@ class User:
                 print("============================================================")
                 print(f"Welcome, {self.current_user}")
                 print("Menu:")
-                print("1. browse Item")
-                print("2. Order history")
-                print("3. Manage balance")
+                print("1. Browse Item")
+                print("2. Order History")
+                print("3. Manage Balance")
                 print("4. Return")
                 print("5. Help Us")
-                print("6. exit")
+                print("6. Exit")
                 option = int(input("Choose an option (1-6): "))
                 if option == 1:
                     self.browse_item()
