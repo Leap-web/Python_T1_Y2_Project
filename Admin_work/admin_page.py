@@ -59,8 +59,8 @@ def delete_stock():
     pass
 
 def manage_employee_acc():
+    os.system('cls')
     while True:
-        os.system('cls')
         print("\nManage Employee Accounts")
         print("1. Add new employee")
         print("2. View employee accounts")
@@ -70,21 +70,45 @@ def manage_employee_acc():
         try:
             choice = int(input("Choose the task: "))
             if choice == 1:
+                print("Eg: Name: John_Doe")
                 employee_name = input("Enter employee name: ")
-                employee_email = input("Enter employee email: ")
-                employee_id = input("Create employee ID: ")
-                employee_password = input("Create password: ")
-                with open(manage_employ, 'a') as file:
-                    file.write(f"{employee_name}, {employee_email}, {employee_id}, {employee_password}\n")
-                print("Employee account created successfully.")
-                log_action("Added new employee", "Admin")
+                if employee_name and "_" in employee_name and not any(c.isspace() for c in employee_name) and any(c.isupper() for c in employee_name) and any(c.islower() for c in employee_name):
+                    print("Eg: Email: john.doe@employee.iec.com")
+                    employee_email = input("Enter employee email: ")
+                    if "@employee.iec.com" in employee_email and not any(c.isupper() for c in employee_email) and not any(c.isspace() for c in employee_email):
+                        employee_id = input("Create employee ID (Eg: IDTB1234): ")
+                        if employee_id.startswith("IDTB"):
+                            employee_password = input("Create password (min 8 chars, uppercase, lowercase, number, special char): ")
+                            if (
+                                len(employee_password) >= 8
+                                and any(c.isupper() for c in employee_password)
+                                and any(c.islower() for c in employee_password)
+                                and any(c.isdigit() for c in employee_password)
+                                and any(c in "!@#$%^&*()_+-=" for c in employee_password)
+                            ):
+                                with open(manage_employ, 'a') as file:
+                                    file.write(f"{employee_name}, {employee_email}, {employee_id}, {employee_password}\n")
+                                print("Employee account created successfully.")
+                                log_action("Added new employee", "Admin")
+                            else:
+                                print("Password must contain at least 8 characters, including uppercase, lowercase, a number, and a special character.")
+                        else:
+                            print("Employee ID must start with 'IDTB'")
+                    else:
+                        print("Invalid email format. Ensure it ends with '@employee.iec.com' and contains no spaces or uppercase letters.")
+                else:
+                    print("Invalid name format. Ensure it contains an underscore (_) and no spaces.")
             elif choice == 2:
                 try:
                     with open(manage_employ, 'r') as file:
-                        print("\nEmployee Accounts:")
-                        for line in file:
-                            employee_name, employee_email, employee_id, employee_password = line.strip().split(', ')
-                            print(f"Name: {employee_name}, Email: {employee_email}, ID: {employee_id}")
+                        employees = file.readlines()
+                        if employees:
+                            print("\nEmployee Accounts:")
+                            for line in employees:
+                                employee_name, employee_email, employee_id, employee_password = line.strip().split(', ')
+                                print(f"Name: {employee_name}, Email: {employee_email}, ID: {employee_id}")
+                        else:
+                            print("No employee found")
                 except FileNotFoundError:
                     print("No employee records found.")
             elif choice == 3:
@@ -92,7 +116,7 @@ def manage_employee_acc():
                     with open(manage_employ, 'r') as file:
                         employees = file.readlines()
                     if not employees:
-                        print("No employees to delete.")
+                        print("No employees to delete .")
                         continue
                     print("\nEmployees:")
                     for i, employee in enumerate(employees, 1):
