@@ -8,10 +8,10 @@ class StockManager:
 
     def main_menu(self):
         while True:
-            print("=" * 50)
+            print("*" * 50)
             print("Main Menu:")
             print("1. Change Stock\n2. Do Report\n3. Exit Program")
-            print("=" * 50)
+            print("*" * 50)
 
             choice = input("Enter your choice: ").strip()
             if choice == "1":
@@ -323,3 +323,6 @@ filemacbook_staff = r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
 # stockmanager = StockManager(fileiphone_staff,fileairpod_staff,filemacbook_staff)
 stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staff)
 stockmanager.main_menu()
+
+    def svhfjkjlghj'k
+l;
