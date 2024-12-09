@@ -21,7 +21,6 @@ def check_employee_inf(username, email, ID, password):
         with open(r'C:\Users\User\OneDrive\ドキュメント\GitHub\Python_T1_Y2_Project\employee_log\inf_employee.txt', 'r') as file:
             for line in file:
                 stored_username, stored_email, stored_ID, stored_password = line.strip().split(',')
-                
                 if (stored_username.strip().lower() == username.strip().lower() and
                     stored_email.strip().lower() == email.strip().lower() and
                     stored_ID.strip() == ID.strip() and
