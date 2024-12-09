@@ -324,5 +324,3 @@ filemacbook_staff = r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
 stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staff)
 stockmanager.main_menu()
 
-    def svhfjkjlghj'k
-l;
