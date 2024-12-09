@@ -1,5 +1,4 @@
 import msvcrt
-
 def masked_input(prompt= ""):
     print(prompt, end="", flush=True)
     password = ""
@@ -22,7 +21,7 @@ def check_employee_inf(username, email, ID, password):
         with open(r'C:\Users\User\OneDrive\ドキュメント\GitHub\Python_T1_Y2_Project\employee_log\inf_employee.txt', 'r') as file:
             for line in file:
                 stored_username, stored_email, stored_ID, stored_password = line.strip().split(',')
-                '''print(f"Comparing: {stored_username.strip()} == {username.strip()}?")'''
+                
                 if (stored_username.strip().lower() == username.strip().lower() and
                     stored_email.strip().lower() == email.strip().lower() and
                     stored_ID.strip() == ID.strip() and
@@ -38,7 +37,6 @@ def employee_login():
     print("||              EMPLOYEE_LOGIN              ||")
     print("----------------------------------------------")
     for attempt in range(2):
-        print(f"\nATTEMPT {attempt +1} of 2")
         employee_username = input("Enter your username: ")
         employee_email = input("Enter your email: ")
         employee_id = input("Enter your ID: ")
