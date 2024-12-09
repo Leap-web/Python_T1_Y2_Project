@@ -1,8 +1,1 @@
-                    *********************************************
-                    *              MacBook_Product              *
-                    *********************************************     
-
-{'MacBook_Air_M1': {'256GB': 7, '512GB': 10}, 
-'MacBook_Air_M2': {'256GB': 19, '512GB': 20}, 
-'MacBook_Pro_14inch': {'512GB': 14, '1TB': 15}, 
-'MacBook_Pro_16inch': {'512GB': 5, '1TB': 5}}
+{'MacBook_Air_M1': {'256GB': 3, '512GB': 10}, 'MacBook_Air_M2': {'256GB': 19, '512GB': 20}, 'MacBook_Pro_14inch': {'512GB': 14, '1TB': 15}, 'MacBook_Pro_16inch': {'512GB': 5, '1TB': 5}}
