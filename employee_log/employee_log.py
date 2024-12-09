@@ -1,21 +1,22 @@
+import sys
 import msvcrt
-
-def masked_input(prompt= ""):
-    print(prompt, end="", flush=True)
+def take_password():
     password = ""
+    print("Enter your password: ", end="", flush=True)
     while True:
-        char = msvcrt.getch()
-        if char in {b'\r',b'\n'}:
+        char = msvcrt.getch().decode('utf-8')
+        if char == '\r' or char == '\n':  # Enter key
             print()
             break
-        elif char == b'\x80':
+        elif char == '\b' or ord(char) == 127:  # Backspace key
             if len(password) > 0:
                 password = password[:-1]
-                print("\b \b", end='', flush=True)
+                sys.stdout.write("\b \b")
+                sys.stdout.flush()
         else:
-            password += char.decode()
-            print('*', end='', flush=True)
-    return password
+            password += char
+            sys.stdout.write("*")
+            sys.stdout.flush()
 
 def check_employee_inf(username, email, ID, password):
     try:
@@ -38,11 +39,10 @@ def employee_login():
     print("||              EMPLOYEE_LOGIN              ||")
     print("----------------------------------------------")
     for attempt in range(2):
-        print(f"\nATTEMPT {attempt +1} of 2")
         employee_username = input("Enter your username: ")
         employee_email = input("Enter your email: ")
         employee_id = input("Enter your ID: ")
-        employee_password = masked_input("Enter your password: ")
+        employee_password = take_password()
     
         if check_employee_inf(employee_username,employee_email,employee_id,employee_password):
             print("\n<<<<<<<<<<<<<<<YOU ARE OUR EMPLOYEE>>>>>>>>>>>>>>>")
