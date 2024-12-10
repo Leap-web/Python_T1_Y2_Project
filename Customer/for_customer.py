@@ -3,6 +3,7 @@ import getpass
 import sys
 
 
+
 class User:
     def __init__(self, user_filename, balance_filename):
         self.user_filename = user_filename

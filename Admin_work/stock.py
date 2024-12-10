@@ -1,4 +1,5 @@
 import ast, os
+
 class Stock:
     
     def __init__(self,fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user):
@@ -64,7 +65,7 @@ class Stock:
             print("3.iPhone13")
             print("4.iPhone14")
             print("5.iPhone15")
-            print("6.Exit")
+            print("6.Back to menu")
             choice = input("Model:").strip()
             if choice == "1" : 
                 print("Model:iPhone_11")
@@ -129,7 +130,7 @@ class Stock:
             print("3.iPhone13")
             print("4.iPhone14")
             print("5.iPhone15")
-            print("6.Exit")
+            print("6.Back to menu")
             model = input("Model:")
             if model == "1":
                 storage = input("Storage:")
@@ -386,7 +387,7 @@ class Stock:
             print("2.M2")
             print("3.Pro_14inch")
             print("4.Pro_16inch")
-            print("5.Exit")
+            print("5.Back to menu")
             model = input('Choose Model:')
             if model == "1":
                 model_key = "MacBook_Air_M1"
@@ -506,9 +507,15 @@ class Stock:
                 print("Invalid option, please choose again.")
 
 # view stock for staff 
+<<<<<<< HEAD:Admin_work/stock.py
 fileiphone_staff = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/iphone.txt'
 fileairpod_staff = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/airpod.txt'
 filemacbook_staff = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/macbook.txt'
+=======
+fileiphone_staff = "/Users/savonchanserey/Desktop/my-repo/Employees/iphone.txt" 
+fileairpod_staff = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/airpod.txt"
+filemacbook_staff = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/macbook.txt"
+>>>>>>> a2935373dad76e4f7e2e620d8a408a9a84d6003b:Employees/stock.py
 
 # view stock for users iphone
 fileiphone11_user = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/iphone11_user.txt'

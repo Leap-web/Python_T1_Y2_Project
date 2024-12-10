@@ -8,10 +8,10 @@ class StockManager:
 
     def main_menu(self):
         while True:
-            print("=" * 50)
+            print("*" * 50)
             print("Main Menu:")
-            print("1. Change Stock\n2. Do Report\n3. Exit Program")
-            print("=" * 50)
+            print("1. Change Stock\n2. Do Report\n3. View Stock\n4. Exit Program")
+            print("*" * 50)
 
             choice = input("Enter your choice: ").strip()
             if choice == "1":
@@ -19,11 +19,56 @@ class StockManager:
             elif choice == "2":
                 self.generate_report()
             elif choice == "3":
+                self.view_stock()
+            elif choice == "4":
                 print("Exiting the program. Thank you!")
                 break
             else:
                 print("Invalid choice. Please try again.")
 
+    def view_stock(self):
+        print("=" * 50)
+        print("View Stock:")
+        print("1.\tiPhone")
+        print("2.\tMacbook")
+        print("3.\tAirpod")
+        print("4.\tExit to Main Menu")
+        choice = input("Enter the model to add (1/2/3/4): ")
+        if choice == "1":
+            self.view_iphone()
+        elif choice == "2":
+            self.view_macbook()
+        elif choice == "3":
+            self.view_airpod()
+        elif choice == "4":
+            self.main_menu()
+        else:
+            print("Invalid choice. Please try again.")
+            
+    def view_iphone(self):
+        try:
+            with open(self.fileiphone_staff, "r") as file:
+                stock_data = ast.literal_eval(file.read())
+                print(stock_data)
+        except FileNotFoundError:
+            print("Stock file not found. Creating a new one.")
+        
+    def view_macbook(self):
+        try:
+            with open(self.filemacbook_staff, "r") as file:
+                stock_data = ast.literal_eval(file.read())
+                print(stock_data)
+        except FileNotFoundError:
+            print("Stock file not found. Creating a new one.")
+            
+    def view_airpod(self):
+        try:
+            with open(self.fileairpod_staff, "r") as file:
+                stock_data = ast.literal_eval(file.read())
+                print(stock_data)
+        except FileNotFoundError:
+            print("Stock file not found. Creating a new one.")
+            
     def stock_menu(self):
         while True:
             print("=" * 50)
@@ -322,4 +367,9 @@ filemacbook_staff = r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
 
 # stockmanager = StockManager(fileiphone_staff,fileairpod_staff,filemacbook_staff)
 stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staff)
+<<<<<<< HEAD:Admin_work/view_stock.py
 stockmanager.main_menu()
+=======
+stockmanager.main_menu()
+
+>>>>>>> a2935373dad76e4f7e2e620d8a408a9a84d6003b:Employees/view_stock.py
