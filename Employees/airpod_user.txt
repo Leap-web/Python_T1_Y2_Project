@@ -3,7 +3,7 @@
                 ============================================
 
                         Airpods = {
-                            "Airpods_2nd_Gen" : 13,
-                            "Airpods_Pro" : 22,
-                            "Airpods_Max" : 8,
+                            "Airpods_2nd_Gen" : $159,
+                            "Airpods_Pro" : $249,
+                            "Airpods_Max" : $549,
                         }
