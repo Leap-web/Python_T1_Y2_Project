@@ -127,11 +127,21 @@ class StockManager:
                 
             model = input("Enter the model to add (11/12/13/14/15): ")
             model_key = f"iphone_{model}"
+            if model_key not in stock_data:
+                print (f"cannot add products.Model '{model}' not found.")
+                return
             storage = input("Enter the storage size to add (64/128/256/512(GB)/1(TB)): ")
-            if storage == "64" or storage == "128" or storage == "256" or storage == "512":
+            if storage in ["64", "128", "256", "512"]:
                 storage_key = f"{storage}GB"
-            else:
+            elif storage == "1":    
                 storage_key = f"{storage}TB"
+            else:
+                print("Invalid storage size.Please enter 64,128,256,512(GB)or1(TB).")
+                return
+            if storage_key not in stock_data[model_key]:
+                print (f"cannot add products.Storage '{storage}' not found for model '{model}'.")
+                return
+
             try:
                 quantity = int(input("Enter the quantity to add: "))
             except ValueError:
@@ -139,7 +149,7 @@ class StockManager:
                 return
             if model_key in stock_data:
                 if storage_key in stock_data[model_key]:
-                    if stock_data [model_key][storage_key] >= 5:
+                    if stock_data [model_key][storage_key] > 5:
                         print(f"Cannot add stock. Adding {quantity} would exceed the limit of 5 for {model_key} ({storage_key}).")
                         return
                     else:
@@ -155,6 +165,7 @@ class StockManager:
                 print(f"Successfully added {quantity} of {model_key} ({storage_key}).")
             except IOError:
                 print("Error writing to the stock file.")
+
     def remove_iphone(self):
             try:
                 with open(self.fileiphone_staff, "r") as file:
@@ -193,47 +204,69 @@ class StockManager:
                 print(f"Successfully removing {quantity} of {model_key} ({storage_key}).")
             except IOError:
                 print("Error writing to the stock file.")
-    def add_macbook(self):
-            try:
-                with open(self.filemacbook_staff, "r") as file:
-                    stock_data = ast.literal_eval(file.read())
-            except FileNotFoundError:
-                print("Stock file not found. Creating a new one.")
-                stock_data = {}
-                
-            model = input("Enter the model to added (1(AirM1)/2(AirM2)/14(Pro_14inch)/16(Pro_16inch)): ")
-            if model == "1" or model == "2":
-                model_key = f"MacBook_Air_M{model}"
-            else:
-                model_key = f"MacBook_Pro_{model}inch"
-            storage = input("Enter the storage size to added (256/512(GB)/1(TB)): ")
-            if storage == "256" or storage == "512":
-                storage_key = f"{storage}GB"
-            else:
-                storage_key = f"{storage}TB"
-            try:
-                quantity = int(input("Enter the quantity to added: "))
-            except ValueError:
-                print("Invalid quantity. Please enter a number.")
-                return
-            if model_key in stock_data:
-                if storage_key in stock_data[model_key]:
-                    if stock_data [model_key][storage_key] >= 5:
-                        print(f"Cannot add stock. Adding {quantity} would exceed the limit of 5 for {model_key} ({storage_key}).")
-                        return
-                    else:
-                        stock_data[model_key][storage_key] += quantity
-                else:
-                    stock_data[model_key][storage_key] = quantity
-            else:
-                stock_data[model_key] = {storage_key: quantity}
 
-            try:
-                with open(self.filemacbook_staff, "w") as file:
-                    file.write(str(stock_data))
-                print(f"Successfully adding {quantity} of {model_key} ({storage_key}).")
-            except IOError:
-                print("Error writing to the stock file.")
+    def add_macbook(self):
+        try:
+            # Load stock data from file
+            with open(self.filemacbook_staff, "r") as file:
+                stock_data = ast.literal_eval(file.read())
+        except FileNotFoundError:
+            print("Stock file not found. Creating a new one.")
+            stock_data = {}
+
+        # Predefined valid models
+        valid_models = {
+            "1": "MacBook_Air_M1",
+            "2": "MacBook_Air_M2",
+            "14": "MacBook_Pro_14inch",
+            "16": "MacBook_Pro_16inch"
+        }
+
+        # User inputs
+        model = input("Enter the model to add (1(AirM1)/2(AirM2)/14(Pro_14inch)/16(Pro_16inch)): ")
+
+        # Check if the model is valid
+        if model not in valid_models:
+            print("Cannot add product. Model not found.")
+            return
+
+        model_key = valid_models[model]
+        storage = input("Enter the storage size to add (256/512(GB)/1(TB)): ")
+
+        # Validate storage and construct storage key
+        if storage in ["256", "512"]:
+            storage_key = f"{storage}GB"
+        elif storage == "1":
+            storage_key = "1TB"
+        else:
+            print("Invalid storage size. Please enter 256, 512 (GB) or 1 (TB).")
+            return
+
+        # Check if the storage type exists for the given model
+        if storage_key not in stock_data.get(model_key, {}):
+            print(f"Cannot add product. Storage '{storage}' not found for model '{model}'.")
+            return
+
+        try:
+            quantity = int(input("Enter the quantity to add: "))
+        except ValueError:
+            print("Invalid quantity. Please enter a number.")
+            return
+
+        # Check the existing stock level and limit
+        if stock_data[model_key][storage_key] + quantity > 5:
+            print(f"Cannot add stock. Adding {quantity} would exceed the limit of 5 for {model_key} ({storage_key}).")
+            return
+        else:
+            stock_data[model_key][storage_key] += quantity
+
+        try:
+            with open(self.filemacbook_staff, "w") as file:
+                file.write(str(stock_data))
+            print(f"Successfully added {quantity} of {model_key} ({storage_key}).")
+        except IOError:
+            print("Error writing to the stock file.")
+            
     def remove_macbook(self):
         try:
             with open(self.filemacbook_staff, "r") as file:
@@ -283,17 +316,29 @@ class StockManager:
 
     def add_airpod(self):
         try:
+            # Load stock data from file
             with open(self.fileairpod_staff, "r") as file:
                 stock_data = ast.literal_eval(file.read())
         except FileNotFoundError:
             print("Stock file not found. Creating a new one.")
             stock_data = {}
 
+        # Predefined valid models
+        valid_models = {
+            "2ndGen": "Airpods_2nd_Gen",
+            "Pro": "Airpods_Pro",
+            "Max": "Airpods_Max"
+        }
+
+        # User input
         model = input("Enter the model to add (Gen(2ndGen)/Pro/Max): ")
-        if model == "Gen":
-            model_key = f"Airpods_2nd_{model}"
-        else:
-            model_key = f"Airpods_{model}"
+
+        # Check if the model is valid
+        if model not in valid_models:
+            print("Cannot add product. Model not found.")
+            return
+
+        model_key = valid_models[model]
 
         try:
             quantity = int(input("Enter the quantity to add: "))
@@ -301,14 +346,13 @@ class StockManager:
             print("Invalid quantity. Please enter a number.")
             return
 
-        if model_key in stock_data:
-            if stock_data[model_key] >= 5:
-                print(f"Cannot add stock. Adding {quantity} would exceed the limit of 5 for {model_key}.")
-                return
-            else:
-                stock_data[model_key] += quantity
+        # Check the existing stock level and limit
+        
+        if stock_data[model_key] > 5:
+            print(f"Cannot add stock. Adding {quantity} would exceed the limit of 5 for {model_key}.")
+            return
         else:
-            stock_data[model_key] = quantity
+            stock_data[model_key] += quantity
 
         try:
             with open(self.fileairpod_staff, "w") as file:
@@ -326,7 +370,7 @@ class StockManager:
             return
 
         model = input("Enter the model to remove (Gen(2ndGen)/Pro/Max): ")
-        if model == "Gen":
+        if model == "2ndGen":
             model_key = f"Airpods_2nd_Gen"
         elif model in ["Pro", "Max"]:
             model_key = f"Airpods_{model}"
