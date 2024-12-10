@@ -25,7 +25,7 @@ class User:
                         user_data = {}
                         for part in parts:
                             if ": " in part:
-                                key, value = part.split(": ")
+                                key, value = part .split(": ")
                                 user_data[key] = value
                         self.users.append(user_data)
         except FileNotFoundError:
@@ -375,6 +375,3 @@ balance_file = "Customer/customer_balance.txt"
 user1 = User(user_file, balance_file)
 user1.show_list()
 user1.user_menu()
-
-
-
