@@ -404,16 +404,11 @@ class StockManager:
             print("Error writing to the stock file.")
 
 
-fileiphone_staff = r"C:\Python_T1_Y2_Project\Employees\iphone.txt"
-fileairpod_staff = r"C:\Python_T1_Y2_Project\Employees\airpod.txt"
-filemacbook_staff = r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
+fileiphone_staff = r"C:\Python_T1_Y2_Project\Admin_work\iphone.txt"
+fileairpod_staff = r"C:\Python_T1_Y2_Project\Admin_work\airpod.txt"
+filemacbook_staff = r"C:\Python_T1_Y2_Project\Admin_work\macbook.txt"
 
 
 # stockmanager = StockManager(fileiphone_staff,fileairpod_staff,filemacbook_staff)
 stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staff)
-<<<<<<< HEAD:Admin_work/view_stock.py
 stockmanager.main_menu()
-=======
-stockmanager.main_menu()
-
->>>>>>> a2935373dad76e4f7e2e620d8a408a9a84d6003b:Employees/view_stock.py
