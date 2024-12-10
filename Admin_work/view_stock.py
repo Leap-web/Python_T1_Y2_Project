@@ -411,5 +411,9 @@ filemacbook_staff = r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
 
 # stockmanager = StockManager(fileiphone_staff,fileairpod_staff,filemacbook_staff)
 stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staff)
+<<<<<<< HEAD:Admin_work/view_stock.py
+stockmanager.main_menu()
+=======
 stockmanager.main_menu()
 
+>>>>>>> a2935373dad76e4f7e2e620d8a408a9a84d6003b:Employees/view_stock.py

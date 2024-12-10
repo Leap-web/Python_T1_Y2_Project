@@ -507,25 +507,31 @@ class Stock:
                 print("Invalid option, please choose again.")
 
 # view stock for staff 
+<<<<<<< HEAD:Admin_work/stock.py
+fileiphone_staff = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/iphone.txt'
+fileairpod_staff = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/airpod.txt'
+filemacbook_staff = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/macbook.txt'
+=======
 fileiphone_staff = "/Users/savonchanserey/Desktop/my-repo/Employees/iphone.txt" 
 fileairpod_staff = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/airpod.txt"
 filemacbook_staff = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/macbook.txt"
+>>>>>>> a2935373dad76e4f7e2e620d8a408a9a84d6003b:Employees/stock.py
 
 # view stock for users iphone
-fileiphone11_user = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/iphone11_user.txt"
-fileiphone12_user = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/iphone12_user.txt"
-fileiphone13_user = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/iphone13_user.txt"
-fileiphone14_user = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/iphone14_user.txt"
-fileiphone15_user = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/iphone15_user.txt"
+fileiphone11_user = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/iphone11_user.txt'
+fileiphone12_user = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/iphone12_user.txt'
+fileiphone13_user = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/iphone13_user.txt'
+fileiphone14_user = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/iphone14_user.txt'
+fileiphone15_user = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/iphone15_user.txt'
 
 # view stock for users mac
-mac_m1_user = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/mac_m1_user.txt"
-mac_m2_user = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/mac_m2_user.txt"
-mac_pro_14 = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/mac_pro_14.txt"
-mac_pro_16 = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/mac_pro_16.txt"
+mac_m1_user = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/mac_m1_user.txt'
+mac_m2_user = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/mac_m2_user.txt'
+mac_pro_14 = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/mac_pro_14.txt'
+mac_pro_16 = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\mac_pro_16.txt'
 
 # view stock for user airpod
-airpod_user = "/Users/savonchanserey/Documents/python /Python_T1_Y2_Project/Employees/airpod_user.txt"
+airpod_user = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/airpod_user.txt'
 
 stock = Stock(fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user)
 
