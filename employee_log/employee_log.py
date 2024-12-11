@@ -8,7 +8,7 @@ def masked_input(prompt= ""):
         if char in {b'\r',b'\n'}:
             print()
             break
-        elif char == b'\x80':
+        elif char == b'\x08':
             if len(password) > 0:
                 password = password[:-1]
                 print("\b \b", end='', flush=True)
@@ -18,12 +18,14 @@ def masked_input(prompt= ""):
     return password
 
 def encrypt_password(password):
+        if len(password) == 64 and all(c in '1234567890!@#$%&*abcdef' for c in password.lower()):
+            return password
         hashed_password = hashlib.sha256(password.encode()).hexdigest()
         return hashed_password
 def check_employee_inf(username, email, ID, password):
     hashed_password = encrypt_password(password)
     try:
-        with open('employee_log/inf_employee.txt', 'r') as file:
+        with open(r'C:\Users\User\OneDrive\ドキュメント\GitHub\Python_T1_Y2_Project\employee_log\employee_log.py', 'r') as file:
             for line in file:
                 stored_username, stored_email, stored_ID, stored_password = line.strip().split(',')
                 if (stored_username.strip().lower() == username.strip().lower() and
