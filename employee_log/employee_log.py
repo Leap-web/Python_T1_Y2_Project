@@ -1,3 +1,4 @@
+import hashlib
 import msvcrt
 def masked_input(prompt= ""):
     print(prompt, end="", flush=True)
@@ -16,7 +17,11 @@ def masked_input(prompt= ""):
             print('*', end='', flush=True)
     return password
 
+def encrypt_password(password):
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
+        return hashed_password
 def check_employee_inf(username, email, ID, password):
+    hashed_password = encrypt_password(password)
     try:
         with open('employee_log/inf_employee.txt', 'r') as file:
             for line in file:
@@ -24,7 +29,7 @@ def check_employee_inf(username, email, ID, password):
                 if (stored_username.strip().lower() == username.strip().lower() and
                     stored_email.strip().lower() == email.strip().lower() and
                     stored_ID.strip() == ID.strip() and
-                    stored_password.strip() == password.strip()):
+                    stored_password.strip() == hashed_password):
                     return True
             return False
     except FileNotFoundError:

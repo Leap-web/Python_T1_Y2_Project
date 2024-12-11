@@ -1,7 +1,7 @@
 import os
 def help_us():
+    os.system('cls')
     while True:
-        os.system('cls')
         print("\n**********HELP US*********")
         print("1. Provide feedback.")
         print("2. User also as questions.")
