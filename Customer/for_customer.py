@@ -2,6 +2,11 @@ import hashlib
 import getpass
 import sys
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 661cb29335d103bb6d54629af20d6416b85d371b
 class User:
     def __init__(self, user_filename, balance_filename):
         self.user_filename = user_filename
@@ -24,7 +29,7 @@ class User:
                         user_data = {}
                         for part in parts:
                             if ": " in part:
-                                key, value = part.split(": ")
+                                key, value = part .split(": ")
                                 user_data[key] = value
                         self.users.append(user_data)
         except FileNotFoundError:
@@ -413,8 +418,13 @@ class User:
 user_file = "Customer/customer_pw.txt"
 balance_file = "Customer/customer_balance.txt"
 user1 = User(user_file, balance_file)
+<<<<<<< HEAD
 # user1.show_list()
 user1.user_menu()
 
 
 
+=======
+user1.show_list()
+user1.user_menu()
+>>>>>>> 661cb29335d103bb6d54629af20d6416b85d371b
