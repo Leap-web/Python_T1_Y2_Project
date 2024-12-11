@@ -2,7 +2,6 @@ import hashlib
 import getpass
 import sys
 
-
 class User:
     def __init__(self, user_filename, balance_filename):
         self.user_filename = user_filename
@@ -184,7 +183,6 @@ class User:
                     line = line.strip() 
                     if not line:  
                         continue
-                    # if (": "* 2) in line:
                     if ": " in line and ", " in line:
                         parts = line.split(", ")
                         username_part = parts[0].split(": ")[1]  
@@ -200,8 +198,8 @@ class User:
                 print(f"\nYour current balance: ${self.balances[self.current_user]}")
                 print("1. Deposit Balance")
                 print("2. Back")
-                option = int(input("Choose Option(1,2): "))
-                if option == 1:
+                option = input("Choose Option(1,2): ")
+                if option == "1":
                     print("\n------------------------------Deposit Balance------------------------------")
                     amount = float(input("\nInput the amount you want to deposit: "))
                     if amount > 0:
@@ -219,7 +217,7 @@ class User:
                                 print("Invalid pin please try again!") 
                     else:
                         print("Invalid amount. Please enter a valid amount.")
-                elif option == 2:
+                elif option == "2":
                     print("\n")
                     break
                 else:
@@ -236,20 +234,53 @@ class User:
                 print("3. Edit Secret Pin")
                 print("4. Edit Password")
                 print("5. Back")
-                option = int(input("Choose option(1-5): "))
-                if option == 1:
-                    print("\n------------------------------Edit Name------------------------------")
-                elif option == 2:
+                option = input("Choose option(1-5): ")
+                if option == "1":
+                    while True:
+                        print("\n------------------------------Edit Name------------------------------")
+                        new_name = input("Enter your new Name: ")
+                        for user in self.users:
+                            if user["username"] == new_name:
+                                print("Username has exist. Please choose other name!")
+                                break
+                        else:
+                            for user in self.users:
+                                if user["username"] == self.current_user:
+                                    self.current_user = new_name
+                                    user["username"] = self.current_user
+                                    print(f"Successfully change Name into {self.current_user}")
+                                        
+                                    with open(self.user_filename, "w") as file:
+                                        for user in self.users: 
+                                            file.write(f"username: {user['username']}, email: {user['email']}, password: {user['password']}, secret pin: {user['secret pin']}\n")
+                                    return
+
+                if option == "2":
                     print("\n------------------------------Edit Email------------------------------")
-                elif option == 3:
+                    while True:
+                        new_email = input("Enter your new email: ")
+                        if '@' in new_email and '.' in new_email: 
+                            for user in self.users:
+                                if user["username"] == self.current_user:
+                                    user["email"] = new_email
+                                    print(f"Successfully change Email into {new_email}")
+                            
+                                    with open(self.user_filename, "w") as file:
+                                        for user in self.users: 
+                                            file.write(f"username: {user['username']}, email: {user['email']}, password: {user['password']}, secret pin: {user['secret pin']}\n")
+                            break
+                        else:
+                            print("Invalid email format. Please enter a valid email address.\n")
+                            continue
+                        
+                
+                elif option == "3":
                     print("\n------------------------------Edit Secret Pin------------------------------")
-                elif option == 4:
+                elif option == "4":
                     print("\n------------------------------Edit Password------------------------------")
-                elif option == 5:
+                elif option == "5":
                     print("\n")
                     break
-                else:
-                    print("Invalid option. Please choose option(1-4)!")
 
         except Exception as e:
             print(f"An error occur in your editing process: {e}. Please try again!")
@@ -261,32 +292,36 @@ class User:
                 print("\n1. View Profile")
                 print("2. Edit Profile")
                 print("3. Back")
-                option = int(input("Choose Option(1-3): "))
-                if option == 1:
+                option = input("Choose Option(1-3): ")
+                if option == "1":
                     print("\n------------------------------View Profile------------------------------")
                     for v in self.users:
-                        print(f"\nName: {self.current_user}")
-                        print(f"Email: {v['email']}\n")
+                        if v['username'] == self.current_user:
+                            print(f"\nName: {v['username']}")
+                            print(f"Email: {v['email']}\n")
                         
-                elif option == 2:
+                elif option == "2":
                     self.edit_profile()
                     continue
-                elif option == 3:
+                elif option == "3":
                     break
                 else:
-                    print("Invalid option. Please choose option(1,3)!\n")
+                    print("Invalid option. Please choose option(1-3)!\n")
         except Exception as e:
             print(f"An error occur in your managing process: {e}. Please try again!")
 
     def browse_item(self):
-        pass
-
-    def place_order(self):
+        # stock_menu()
         pass
 
     def order_history(self):
+        # stock.iphone_menu()
+        # stock.airpod_menu()
+        # stock.macbook_menu()
         pass
-
+    def order_history(self):
+        # stock.show_total()
+        pass
     def user_menu(self):
         try:
             while True:
@@ -300,80 +335,85 @@ class User:
                 print("4. Back")
                 print("4. Help Us")
                 print("6. Exit")
-                option = int(input("Choose an option (1-6): "))
-                if option == 1:
+                option = input("Choose an option (1-6): ")
+                if option == "1":
                     self.login()
                     continue
-                elif option == 2:
+                elif option == "2":
                     self.register()
                     continue
-                elif option == 3:
+                elif option == "3":
                     self.forgot() 
                     continue
-                elif option == 4:
+                elif option == "4":
                     print("Return back to Role.\n")
                     continue
-                # elif option == 5:
+                # elif option == "5":
                 #     self.help_us()
                     continue
-                elif option == 6:
+                elif option == "6":
                     print("Exiting the programs. Goodbye!\n")
                     sys.exit()
                 else:
                     print("Invalid option. Please choose an option (1-6)!\n")
+                    continue
                 
-        except ValueError:
-            print("Invalid option. Please choose an option (1-6)!\n")
+        except Exception as e:
+            print(f"an error occur {e}")
 
     def usage_menu(self):
         try:
             while True:
                 print("============================================================")
-                print("|                         Role User                        |")
+                print("|                          Role User                       |")
                 print("============================================================")
-                print(f"Welcome, {self.current_user}")
-                print("Usage Menu:")
-                print("1. Browse Item")
-                print("2. Order History")
-                print("3. Manage Balance")
-                print("4. Manage Profile")
-                print("5. Back")
-                print("6. Help Us")
-                print("7. Exit")
-                option = int(input("Choose an option (1-6): "))
-                if option == 1:
+                for user in self.users:
+                    if self.current_user == user["username"]:
+                        print(f"Welcome, {self.current_user}")
+                        print("Usage Menu:")
+                        print("1. Browse Item")
+                        print("2. Order History")
+                        print("3. Manage Balance")
+                        print("4. Manage Profile")
+                        print("5. Back To Menu")
+                        print("6. Help Us")
+                        print("7. Exit")
+                option = input("Choose an option (1-6): ")
+                if option == "1":
                     self.browse_item()
                     continue
-                elif option == 2:
+                elif option == "2":
                     self.order_history()
+                    self.show_list()
                     continue
-                elif option == 3:
+                elif option == "3":
                     self.manage_balance()
                     continue 
-                elif option == 4:
+                elif option == "4":
                     self.manage_profile()
                     continue
-                elif option == 5:
+                elif option == "5":
                     print("Return back to main menu.\n")
                     break
-                # elif option == 6:
+                # elif option == "6":
                 #     self.help_us()
                     continue
-                elif option == 7:
+                elif option == "7":
                     print("Exiting the programs. Goodbye!\n")
                     sys.exit()
                 else:
                     print("Invalid option. Please choose an option (1-6)!\n")
-        except ValueError:
-            print("Invalid option. Please choose an option (1-6)!\n")
+                    continue
+        except Exception as e:
+            print("An error occur : {e}")
 
 
     def show_list(self):
-        print(self.balances)
+        print(self.users)
 user_file = "Customer/customer_pw.txt"
 balance_file = "Customer/customer_balance.txt"
 user1 = User(user_file, balance_file)
-user1.show_list()
+# user1.show_list()
 user1.user_menu()
 
 
