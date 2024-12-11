@@ -1,12 +1,16 @@
 import hashlib
 import getpass
 import sys
+import os
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-<<<<<<< HEAD
-=======
+# Add the parent directory to sys.path
+sys.path.append(parent_dir)
+
+# Now you can import from Admin_work
+from Admin_work import stock
 
 
->>>>>>> 661cb29335d103bb6d54629af20d6416b85d371b
 class User:
     def __init__(self, user_filename, balance_filename):
         self.user_filename = user_filename
@@ -34,7 +38,11 @@ class User:
                         self.users.append(user_data)
         except FileNotFoundError:
             print(f"{self.user_filename} not found.")
-
+    def save_user(self):
+        with open(self.user_filename, "w") as file:
+            for user in self.users: 
+                file.write(f"username: {user['username']}, email: {user['email']}, password: {user['password']}, secret pin: {user['secret pin']}\n")
+    
     def hash_password(self,password):
         return hashlib.sha256(password.encode()).hexdigest()
     
@@ -86,7 +94,7 @@ class User:
                     break
 
                 while True:
-                    secret_pin = getpass.getpass("Enter a secret Pin: ")
+                    secret_pin = getpass.getpass("Enter a 4-digit secret Pin: ")
                     if len(secret_pin) < 4:
                         print("Secret is too short. Must be a 4-digit number.\n")
                         continue
@@ -142,7 +150,7 @@ class User:
             email = input("Enter your email: ")
             secret_pin = getpass.getpass("Enter your secret pin:")
             hashed_secret_pin = self.hash_secret_pin(secret_pin)
-            # user_found = False
+
             for k in self.users:
                 if k["username"] == username and k["email"] == email and k["secret pin"] == hashed_secret_pin:
                     # user_found = True
@@ -198,30 +206,39 @@ class User:
 
     def manage_balance(self):
         try:
-            print("\n==============================Manage Balance==============================")
             while True:
+                print("\n==============================Manage Balance==============================")
                 print(f"\nYour current balance: ${self.balances[self.current_user]}")
                 print("1. Deposit Balance")
                 print("2. Back")
                 option = input("Choose Option(1,2): ")
                 if option == "1":
-                    print("\n------------------------------Deposit Balance------------------------------")
-                    amount = float(input("\nInput the amount you want to deposit: "))
-                    if amount > 0:
-                        secret_pin = getpass.getpass("Enter your secret pin:")
-                        hashed_secret_pin = self.hash_secret_pin(secret_pin)
-                        for i in self.users:
-                            if i["username"] == self.current_user and i["secret pin"] == hashed_secret_pin:
+                    while True:
+                        print("\n------------------------------Deposit Balance------------------------------")
+                        amount = float(input("\nInput the amount you want to deposit: "))
+                        if amount > 0:
+                            secret_pin = getpass.getpass("Enter your secret pin:")
+                            hashed_secret_pin = self.hash_secret_pin(secret_pin)
+                            
+                            current_user_data = None
+                            for user in self.users:
+                                if user["username"] == self.current_user:
+                                    current_user_data = user
+                                    break
+                            
+                            if current_user_data and current_user_data["secret pin"] == hashed_secret_pin:
                                 self.balances[self.current_user] += amount
                                 print("Deposited successfully!")
-                                print(f"Your balance now is ${self.balances[self.current_user]}")
+                                print(f"Your balance now is ${self.balances[self.current_user]}\n")
                                 with open(self.balance_filename, "w") as balance_file:
                                     for username, balance in self.balances.items():
                                         balance_file.write(f"username: {username}, balance: {balance}\n")
+                                break
                             else:
                                 print("Invalid pin please try again!") 
-                    else:
-                        print("Invalid amount. Please enter a valid amount.")
+                                continue
+                        else:
+                            print("Invalid amount. Please enter a valid amount.")
                 elif option == "2":
                     print("\n")
                     break
@@ -246,7 +263,7 @@ class User:
                         new_name = input("Enter your new Name: ")
                         for user in self.users:
                             if user["username"] == new_name:
-                                print("Username has exist. Please choose other name!")
+                                print("Username has exist. Please choose other name!\n")
                                 break
                         else:
                             for user in self.users:
@@ -255,45 +272,114 @@ class User:
                                     user["username"] = self.current_user
                                     print(f"Successfully change Name into {self.current_user}")
                                         
-                                    with open(self.user_filename, "w") as file:
-                                        for user in self.users: 
-                                            file.write(f"username: {user['username']}, email: {user['email']}, password: {user['password']}, secret pin: {user['secret pin']}\n")
-                                    return
-
-                if option == "2":
-                    print("\n------------------------------Edit Email------------------------------")
+                                    self.save_user()
+                                    break
+                        break
+                elif option == "2":
                     while True:
+                        print("\n------------------------------Edit Email------------------------------")
                         new_email = input("Enter your new email: ")
                         if '@' in new_email and '.' in new_email: 
                             for user in self.users:
-                                if user["username"] == self.current_user:
-                                    user["email"] = new_email
-                                    print(f"Successfully change Email into {new_email}")
+                                if user["email"] == new_email:
+                                    print("Email has exist. Please choose other email!\n")
+                                    break
+                            else:
+                                for user in self.users:
+                                    if user["username"] == self.current_user and user["email"] != new_email:
+                                        user["email"] = new_email
+                                        print(f"Successfully change Email into {new_email}")
                             
-                                    with open(self.user_filename, "w") as file:
-                                        for user in self.users: 
-                                            file.write(f"username: {user['username']}, email: {user['email']}, password: {user['password']}, secret pin: {user['secret pin']}\n")
-                            break
+                                        self.save_user()
+                                        break
                         else:
                             print("Invalid email format. Please enter a valid email address.\n")
-                            continue
-                        
-                
+                            continue           
+                        break
+                                
                 elif option == "3":
-                    print("\n------------------------------Edit Secret Pin------------------------------")
+                    while True:
+                        print("\n------------------------------Edit Secret Pin------------------------------")
+                        old_secret_pin = getpass.getpass("Enter your old 4-digit secret pin: ")
+                        hashed_old_secret_pin = self.hash_secret_pin(old_secret_pin)
+                        for user in self.users:
+                            if user["username"] == self.current_user and user["secret pin"] != hashed_old_secret_pin:
+                                print("Wrong secret pin!\n")
+                                break
+                        else:
+                            for user in self.users:
+                                if user["username"] == self.current_user and user["secret pin"] == hashed_old_secret_pin:
+                                    while True:
+                                        new_secret_pin = getpass.getpass("Enter a new 4-digit secret Pin: ")
+                                        if len(new_secret_pin) < 4:
+                                            print("Secret is too short. Must be a 4-digit number.\n")
+                                            continue
+                                        if len(new_secret_pin) > 4:
+                                            print("Secret is too long. Must be a 4-digit number.\n")
+                                            continue
+                                        if not new_secret_pin.isdigit():
+                                            print("Pin must be a number.\n")
+                                            continue
+                                        hashed_new_secret_pin = self.hash_secret_pin(new_secret_pin)
+                                        user["secret pin"] = hashed_new_secret_pin
+                                        print(f"Successfully changed secret pin")
+                            
+                                        self.save_user()
+                                        break
+                        break           
+                    
                 elif option == "4":
-                    print("\n------------------------------Edit Password------------------------------")
+                    while True:
+                        print("\n------------------------------Edit Password------------------------------")
+                        old_password = getpass.getpass("Enter your old password: ")
+                        hashed_old_password = self.hash_password(old_password)
+                        for user in self.users:
+                            if user["username"] == self.current_user and user["password"] != hashed_old_password:
+                                print("Wrong password!\n")
+                                break
+                        else:
+                            for user in self.users:
+                                if user["username"] == self.current_user and user["password"] == hashed_old_password:
+                                    while True:
+                                        new_password = getpass.getpass("Enter a new password: ")
+                                        if len(new_password) < 8:
+                                            print("Password too short. Must be at least 8 Characters.\n")
+                                            continue
+                                        if not any(c.isupper()for c in new_password):
+                                            print("Password must contain at least one uppercase letter.\n")
+                                            continue
+                                        if not any(c.islower()for c in new_password):
+                                            print("password must contain at least one lowercase letter.\n")
+                                            continue
+                                        if not any(c.isdigit()for c in new_password):
+                                            print("Password must contain at least one digit.\n")
+                                            continue
+                                        if not any(c in '!@#$%^&*'for c in new_password):
+                                            print("Password must contain at least one special character.\n")
+                                            continue
+                                        confirm_new_password = getpass.getpass("Confirm your Password: ")
+                                        if confirm_new_password != new_password:
+                                            print("Password do not match. Please try again.\n")
+                                            continue
+                                        hashed_new_password = self.hash_password(new_password)
+                                        user["password"] = hashed_new_password
+                                        print(f"Successfully changed password")
+                            
+                                        self.save_user()
+                                        break
+                        break
                 elif option == "5":
                     print("\n")
                     break
-
+                else:
+                    print("Please choose a valid option(1-5)!\n")
         except Exception as e:
             print(f"An error occur in your editing process: {e}. Please try again!")
 
     def manage_profile(self):
         try:
-            print("\n==============================Manage Profile==============================")
             while True:
+                print("\n==============================Manage Profile==============================")
                 print("\n1. View Profile")
                 print("2. Edit Profile")
                 print("3. Back")
@@ -303,7 +389,7 @@ class User:
                     for v in self.users:
                         if v['username'] == self.current_user:
                             print(f"\nName: {v['username']}")
-                            print(f"Email: {v['email']}\n")
+                            print(f"Email: {v['email']}")
                         
                 elif option == "2":
                     self.edit_profile()
@@ -316,13 +402,13 @@ class User:
             print(f"An error occur in your managing process: {e}. Please try again!")
 
     def browse_item(self):
-        # stock_menu()
-        pass
+        stock.Stock.stock_menu()
+        
 
-    def order_history(self):
-        # stock.iphone_menu()
-        # stock.airpod_menu()
-        # stock.macbook_menu()
+    def place_order(self):
+        stock.iphone_menu()
+        stock.airpod_menu()
+        stock.macbook_menu()
         pass
     def order_history(self):
         # stock.show_total()
@@ -418,13 +504,8 @@ class User:
 user_file = "Customer/customer_pw.txt"
 balance_file = "Customer/customer_balance.txt"
 user1 = User(user_file, balance_file)
-<<<<<<< HEAD
 # user1.show_list()
 user1.user_menu()
 
 
 
-=======
-user1.show_list()
-user1.user_menu()
->>>>>>> 661cb29335d103bb6d54629af20d6416b85d371b
