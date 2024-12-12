@@ -1,2 +1,2 @@
-username: korng, balance: 1300.0
+username: korng, balance: 1500.0
 username: neath, balance: 2993.0

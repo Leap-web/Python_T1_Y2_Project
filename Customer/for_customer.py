@@ -20,6 +20,8 @@ class User:
         self.balance = 0.0
         self.balances = {}
         self.load_balance()
+        stock1 = stock.Stock()
+
 
     def load_users(self):
         try:
@@ -402,14 +404,17 @@ class User:
             print(f"An error occur in your managing process: {e}. Please try again!")
 
     def browse_item(self):
-        stock.Stock.stock_menu()
+        
+        stock1.stock_menu(self)
+        stock.Stock.iphone_menu(self)
         
 
     def place_order(self):
-        stock.iphone_menu()
-        stock.airpod_menu()
-        stock.macbook_menu()
-        pass
+        
+        stock1.iphone_menu()
+        stock1.airpod_menu()
+        stock1.macbook_menu()
+        
     def order_history(self):
         # stock.show_total()
         pass
@@ -496,14 +501,15 @@ class User:
                     print("Invalid option. Please choose an option (1-6)!\n")
                     continue
         except Exception as e:
-            print("An error occur : {e}")
+            print(f"An error occur : {e}")
 
 
     def show_list(self):
         print(self.users)
-user_file = "Customer/customer_pw.txt"
-balance_file = "Customer/customer_balance.txt"
+user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_pw.txt"
+balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_balance.txt"
 user1 = User(user_file, balance_file)
+stock1 = stock.Stock()
 # user1.show_list()
 user1.user_menu()
 
