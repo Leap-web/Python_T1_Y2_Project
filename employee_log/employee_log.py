@@ -6,6 +6,22 @@ class EmployeeSystem:
     def __init__(self):
         self.employees = []
     
+    def choose_option(self): 
+        
+        while True:
+            print("\n**********EmployeeSystem*********")
+            print("1. Create account employee.")
+            print("2. Employee login.")
+            option = input("Enter your choice: ")
+            os.system('cls')
+            if option == "1":
+                self.create_employee_account()
+            elif option == "2":
+                self.employee_login()
+                break
+            else:
+                print("Invalid option. Please try again!")
+
     def masked_input(self, prompt=""):
         print(prompt, end="", flush=True)
         password = ""
@@ -27,10 +43,16 @@ class EmployeeSystem:
         salt = os.urandom(16)
         hashed_password = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100000)
         return salt + hashed_password
+    
+    def verify_password(self, stored_password, input_password):
+        salt = stored_password[:16]
+        stored_hash = stored_password[16:]
+        input_hash = hashlib.pbkdf2_hmac('sha256', input_password.encode(), salt, 100000)
+        return input_hash == stored_hash
 
     def save_employee_to_file(self, username, email, id, hashed_password):
-        with open("employee_inf.txt", "a") as file:
-            file.write(f"Username: {username}, ID: {id}, Email: {email}, Password: {hashed_password.hex()}\n")
+        with open("employee_log/employee_inf.txt", "a") as file:
+            file.write(f"Username: {username}, Email: {email}, ID: {id},Password: {hashed_password.hex()}\n")
 
     def create_employee_account(self):
         while True:
@@ -67,16 +89,17 @@ class EmployeeSystem:
             else:
                 print("Invalid name format. Ensure it contains an underscore (_) and no spaces.")
 
-    def check_employee_inf(self, username, email, ID, password):
-        hashed_password = self.encrypt_password(password)
+    def check_employee_inf(self, username, email, ID, input_password):
+        
         try:
-            with open('employee_inf.txt', 'r') as file:
+            with open("employee_log/employee_inf.txt", "r") as file:
                 for line in file:
                     stored_username, stored_email, stored_ID, stored_password = line.strip().split(', ')
-                    if (stored_username.strip() == f"Username: {username.strip()}" and
-                        stored_email.strip().lower() == f"Email: {email.strip().lower()}" and
-                        stored_ID.strip() == f"ID: {ID.strip()}" and
-                        stored_password.strip() == f"Password: {hashed_password.hex()}"):
+                    stored_password = bytes.fromhex(stored_password.strip(': ')[1])
+                    if (stored_username.strip(': ')[1] == username.strip() and
+                        stored_email.strip(': ')[1].lower() == email.strip().lower() and
+                        stored_ID.strip(': ')[1] == ID.strip() and
+                        self.verify_password(stored_password, input_password)):
                         return True
                 return False
         except FileNotFoundError:
@@ -104,5 +127,4 @@ class EmployeeSystem:
 
 
 employee = EmployeeSystem()
-employee.create_employee_account()
-employee.employee_login()
+employee.choose_option()
