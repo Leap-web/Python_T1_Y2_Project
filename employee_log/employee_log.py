@@ -4,7 +4,8 @@ import msvcrt
 
 class EmployeeSystem:
     def __init__(self):
-        self.employees = []
+        self.employee = []
+        self.load_employee()
     
     def choose_option(self): 
         
@@ -51,8 +52,25 @@ class EmployeeSystem:
         return input_hash == stored_hash
 
     def save_employee_to_file(self, username, email, id, hashed_password):
+        os.makedirs("employee_log", exist_ok=True)
         with open("employee_log/employee_inf.txt", "a") as file:
             file.write(f"Username: {username}, Email: {email}, ID: {id},Password: {hashed_password.hex()}\n")
+
+    def load_employee(self):
+        try:
+            with open("employee_log/employee_inf.txt", "r") as file:
+                for line in file:
+                    fields = dict(field.split(": ", 1) for field in line.strip().split(", "))
+                    self.employee.append({
+                        "username": fields["Username"],
+                        "email": fields["Email"],
+                        "id": fields["ID"],
+                        "password": fields["Password"]
+                    })
+        except FileNotFoundError:
+            pass
+        except KeyError as e:
+            print(f"KeyError: Missing key {e} in the file.")
 
     def create_employee_account(self):
         while True:
@@ -89,22 +107,7 @@ class EmployeeSystem:
             else:
                 print("Invalid name format. Ensure it contains an underscore (_) and no spaces.")
 
-    def check_employee_inf(self, username, email, ID, input_password):
-        
-        try:
-            with open("employee_log/employee_inf.txt", "r") as file:
-                for line in file:
-                    stored_username, stored_email, stored_ID, stored_password = line.strip().split(', ')
-                    stored_password = bytes.fromhex(stored_password.strip(': ')[1])
-                    if (stored_username.strip(': ')[1] == username.strip() and
-                        stored_email.strip(': ')[1].lower() == email.strip().lower() and
-                        stored_ID.strip(': ')[1] == ID.strip() and
-                        self.verify_password(stored_password, input_password)):
-                        return True
-                return False
-        except FileNotFoundError:
-            print("Employee information not found!")
-            return False
+    
 
     def employee_login(self):
         print("----------------------------------------------")
@@ -115,12 +118,18 @@ class EmployeeSystem:
             employee_email = input("Enter your email: ")
             employee_id = input("Enter your ID: ")
             employee_password = self.masked_input("Enter your password: ")
-            if self.check_employee_inf(employee_username, employee_email, employee_id, employee_password):
-                print("\n<<<<<<<<<<<<<<<YOU ARE OUR EMPLOYEE>>>>>>>>>>>>>>>")
-                return
+            for employee in self.employee:
+                if (
+                    employee["username"] == employee_username and
+                    employee["email"] == employee_email and
+                    employee["id"] == employee_id and
+                    self.verify_password(bytes.fromhex(employee["password"]), employee_password)
+                ):
+                    print(f"\nLogin successful! Welcome, {employee_username}.")
+                    return
             else:
                 if attempt == 0:
-                    print("\n############### LOGIN FAILED. YOU HAVE 1 MORE ATTEMPT ###############")
+                    print("\n############### LOGIN FAILED. YOU HAVE 1 MORE ATTEMPT###############")
                 else:
                     print("\n############### LOGIN FAILED. NO MORE ATTEMPTS ALLOWED. ###############")
         print("======/Access denied./======")
