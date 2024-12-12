@@ -1,1 +1,0 @@
-username: korng, balance: 800.0
