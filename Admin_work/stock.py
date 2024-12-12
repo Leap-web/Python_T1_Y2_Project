@@ -107,7 +107,7 @@ class Stock:
                                         stock_data = ast.literal_eval(content)
                                     if model_key in stock_data:
                                         if storage_key in stock_data[model_key]:
-                                            if  stock_data[model_key][storage_key] > 0:
+                                            if  stock_data[model_key][storage_key] > item:
                                                 stock_data[model_key][storage_key] -= item
                                                 print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
                                                 with open(self.fileiphone_staff, "w") as file: 
@@ -164,7 +164,7 @@ class Stock:
                                         stock_data = ast.literal_eval(content)
                                     if model_key in stock_data:
                                         if storage_key in stock_data[model_key]:
-                                            if  stock_data[model_key][storage_key] > 0:
+                                            if  stock_data[model_key][storage_key] > item:
                                                 stock_data[model_key][storage_key] -= item
                                                 print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
                                                 with open(self.fileiphone_staff, "w") as file: 
@@ -221,7 +221,7 @@ class Stock:
                                         stock_data = ast.literal_eval(content)
                                     if model_key in stock_data:
                                         if storage_key in stock_data[model_key]:
-                                            if  stock_data[model_key][storage_key] > 0:
+                                            if  stock_data[model_key][storage_key] > item:
                                                 stock_data[model_key][storage_key] -= item
                                                 print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
                                                 with open(self.fileiphone_staff, "w") as file: 
@@ -281,7 +281,7 @@ class Stock:
                                         stock_data = ast.literal_eval(content)
                                     if model_key in stock_data:
                                         if storage_key in stock_data[model_key]:
-                                            if  stock_data[model_key][storage_key] > 0:
+                                            if  stock_data[model_key][storage_key] > item:
                                                 stock_data[model_key][storage_key] -= item
                                                 print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
                                                 with open(self.fileiphone_staff, "w") as file: 
