@@ -275,10 +275,6 @@ class Stock:
                             model_key = "iphone_14"
                             while True:
                                 storage = input("Storage(128/256/1):")
-                                if storage == "1":
-                                    storage_key = f"{storage}TB"
-                                else:
-                                    storage_key = f"{storage}GB"
                                 try:
                                     with open(self.fileiphone_staff, "r") as file:
                                         content = file.read()
@@ -287,15 +283,18 @@ class Stock:
                                         if storage_key in stock_data[model_key]:
                                             if storage == "128" :
                                                     # print("$599")
+                                                storage_key = f"{storage}GB"
                                                 value = "$899"
                                                 break
                                                     # print(value)
                                             elif storage == "256" :
+                                                storage_key = f"{storage}GB"
                                                     # print("$699")
                                                 value = "$999"
                                                 break
                                                     # print(value)
                                             elif storage == "1" :
+                                                storage_key = f"{storage}TB"
                                                     # print("$799")
                                                 value = "1099"
                                                 break
@@ -341,10 +340,6 @@ class Stock:
                             model_key = "iphone_15"
                             while True:
                                 storage = input("Storage(128/256/1):")
-                                if storage == "1":
-                                    storage_key = f"{storage}TB"
-                                else:
-                                    storage_key = f"{storage}GB"
                                 try:
                                         with open(self.fileiphone_staff, "r") as file:
                                             content = file.read()
@@ -353,15 +348,18 @@ class Stock:
                                             if storage_key in stock_data[model_key]:
                                                 if storage == "128" :
                                                     # print("$599")
+                                                    storage_key = f"{storage}GB"
                                                     value = "$999"
                                                     break
                                                     # print(value)
                                                 elif storage == "256" :
+                                                    storage_key = f"{storage}GB"
                                                     # print("$699")
                                                     value = "$1199"
                                                     break
                                                     # print(value)
                                                 elif storage == "1" :
+                                                    storage_key = f"{storage}TB"
                                                     # print("$799")
                                                     value = "1299"
                                                     break
@@ -604,10 +602,6 @@ class Stock:
                         if user_buy == "yes":
                             model_key = "MacBook_Pro_14inch"
                             storage = input("Storage(1(TB)/512):")
-                            if storage == "1":
-                                storage_key = f"{storage}TB" 
-                            else:
-                                storage_key = f"{storage}GB"
                             while True:
                                 try:
                                     with open(self.filemacbook_staff, "r") as file:
@@ -616,12 +610,14 @@ class Stock:
                                     if model_key in stock_data:
                                         if storage_key in stock_data[model_key]:
                                             if storage == "512" :
+                                                storage_key = f"{storage}GB"
                                                 # print("$999")
                                                 value = "$1249"
                                                 break
                                                 # print(value)
                                             elif storage == "1" :
                                                 # print("$1249")
+                                                storage_key = f"{storage}TB" 
                                                 value = "$2499"
                                                 break
                                                 # print(value)
@@ -667,10 +663,6 @@ class Stock:
                         if user_buy == "yes":
                             model_key = "MacBook_Pro_16inch"
                             storage = input("Storage(1(TB)/512):")
-                            if storage == "1":
-                                storage_key = f"{storage}TB" 
-                            else:
-                                storage_key = f"{storage}GB"
                             while True:
                                 try:
                                     with open(self.filemacbook_staff, "r") as file:
@@ -679,12 +671,14 @@ class Stock:
                                     if model_key in stock_data:
                                         if storage_key in stock_data[model_key]:
                                             if storage == "512" :
+                                                storage_key = f"{storage}GB" 
                                                 # print("$999")
                                                 value = "$2499"
                                                 break
                                                 # print(value)
                                             elif storage == "1" :
                                                 # print("$1249")
+                                                storage_key = f"{storage}TB" 
                                                 value = "$2999"
                                                 break
                                                 # print(value)
@@ -836,6 +830,10 @@ class User(Stock):
             if self.balances[self.current_user] >= self.total_amount:  # Check sufficient balance
                 self.balances[self.current_user] -= self.total_amount  # Deduct total amount
                 print(f"New balance: {self.balances[self.current_user]}")
+                with open(self.balance_filename, "w") as balance_file:
+                    for username, balance in self.balances.items():
+                        balance_file.write(f"username: {username}, balance: {balance}\n")
+
             else:
                 print("Insufficient balance.")
         else:
