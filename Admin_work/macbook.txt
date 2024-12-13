@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+{'MacBook_Air_M1': {'256GB': 3, '512GB': 10}, 'MacBook_Air_M2': {'256GB': 19, '512GB': 20}, 'MacBook_Pro_14inch': {'512GB': 0, '1TB': 13}, 'MacBook_Pro_16inch': {'512GB': 2, '1TB': 0}}
+=======
+<<<<<<< HEAD
 {'MacBook_Air_M1': {'256GB': 1, '512GB': 10}, 'MacBook_Air_M2': {'256GB': 19, '512GB': 20}, 'MacBook_Pro_14inch': {'512GB': 0, '1TB': 13}, 'MacBook_Pro_16inch': {'512GB': 5, '1TB': 5}}
 =======
 {'MacBook_Air_M1': {'256GB': 3, '512GB': 10}, 'MacBook_Air_M2': {'256GB': 19, '512GB': 20}, 'MacBook_Pro_14inch': {'512GB': 0, '1TB': 13}, 'MacBook_Pro_16inch': {'512GB': 2, '1TB': 1}}
 >>>>>>> 0b92d7f2e27d317fac628fddc4e0f8ee6ef9d0bb
+>>>>>>> origin/main
