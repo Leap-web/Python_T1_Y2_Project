@@ -483,7 +483,7 @@ class StockManager:
             print(f"Successfully removed {quantity} of {model_key}.")
         except IOError:
             print("Error writing to the stock file.")
-
+    
 
 fileiphone_staff = r"C:\Python_T1_Y2_Project\Admin_work\iphone.txt"
 fileairpod_staff = r"C:\Python_T1_Y2_Project\Admin_work\airpod.txt"
