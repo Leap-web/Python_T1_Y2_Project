@@ -1,4 +1,4 @@
-import ast, os, sys
+import ast
 import hashlib
 import getpass
 import sys
@@ -1045,11 +1045,18 @@ class User(Stock):
                         else:
                             for user in self.users:
                                 if user["username"] == self.current_user:
+
+                                    if self.current_user in self.balances:
+                                        self.balances[new_name] = self.balances.pop(self.current_user)
+
                                     self.current_user = new_name
                                     user["username"] = self.current_user
                                     print(f"Successfully change Name into {self.current_user}")
                                         
                                     self.save_user()
+                                    with open(self.balance_filename, "w") as balance_file:
+                                        for username, balance in self.balances.items():
+                                            balance_file.write(f"username: {username}, balance: {balance}\n")
                                     break
                         break
                 elif option == "2":
@@ -1184,10 +1191,7 @@ class User(Stock):
         
 
     def place_order(self):
-        
-        user1.iphone_menu()
-        user1.airpod_menu()
-        user1.macbook_menu()
+        pass
         
     def order_history(self):
         user1.show_total()
@@ -1265,8 +1269,8 @@ class User(Stock):
                 elif option == "5":
                     print("Return back to main menu.\n")
                     break
-                # elif option == "6":
-                #     self.help_us()
+                elif option == "6":
+                    self.show_list()
                     continue
                 elif option == "7":
                     print("Exiting the programs. Goodbye!\n")
@@ -1279,7 +1283,7 @@ class User(Stock):
 
 
     def show_list(self):
-        print(self.users)
+        print(self.balances)
 user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_pw.txt"
 balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_balance.txt"
 fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
@@ -1311,4 +1315,30 @@ user1 = User(user_file, balance_file, fileiphone_staff,fileairpod_staff,filemacb
 user1.user_menu()
 
 
-
+# def calculate(self):
+#     while True:
+#                         print("\n------------------------------Deposit Balance------------------------------")
+#                         amount = float(input("\nInput the amount you want to deposit: "))
+#                         if amount > 0:
+#                             secret_pin = getpass.getpass("Enter your secret pin:")
+#                             hashed_secret_pin = self.hash_secret_pin(secret_pin)
+                            
+#                             current_user_data = None
+#                             for user in self.users:
+#                                 if user["username"] == self.current_user:
+#                                     current_user_data = user
+#                                     break
+                            
+#                             if current_user_data and current_user_data["secret pin"] == hashed_secret_pin:
+#                                 self.balances[self.current_user] += amount
+#                                 print("Deposited successfully!")
+#                                 print(f"Your balance now is ${self.balances[self.current_user]}\n")
+#                                 with open(self.balance_filename, "w") as balance_file:
+#                                     for username, balance in self.balances.items():
+#                                         balance_file.write(f"username: {username}, balance: {balance}\n")
+#                                 break
+#                             else:
+#                                 print("Invalid pin please try again!") 
+#                                 continue
+#                         else:
+#                             print("Invalid amount. Please enter a valid amount.")
