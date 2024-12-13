@@ -3,12 +3,12 @@ import msvcrt
 from datetime import datetime
 
 class StockManager:
-    def __init__(self,fileiphone_staff,fileairpod_staff,filemacbook_staff,employeefile,record_employee):
+    def __init__(self,fileiphone_staff,fileairpod_staff,filemacbook_staff,employeefile,recordstock):
         self.fileiphone_staff = fileiphone_staff
         self.fileairpod_staff = fileairpod_staff
         self.filemacbook_staff = filemacbook_staff
         self.employeefile = employeefile
-        self.record_employee = record_employee
+        self.recordstock = recordstock
     def masked_input(self,prompt= ""):
         print(prompt, end="", flush=True)
         password = ""
@@ -60,7 +60,8 @@ class StockManager:
                 if attempt == 2:
                     print("\n############### LOGIN FAILED. NO MORE ATTEMPTS ALLOWED. ###############")
                     print("======/Access denied./======")
-                    self.logged_in_username = employee_username
+                    # self.logged_in_username = employee_username
+                    self.main_menu()
                     return  # Exit the login function after the final failure
                 else:
                     print("\n############### LOGIN FAILED. YOU HAVE {} MORE ATTEMPT{} ###############".format(2 - attempt, 'S' if 2 - attempt > 1 else ''))
@@ -85,7 +86,7 @@ class StockManager:
             else:
                 print("Invalid choice. Please try again.")
 
-    def view_stock(self):
+    def view_stock(self): # menu view stock
         print("=" * 50)
         print("View Stock:")
         print("1.\tiPhone")
@@ -104,7 +105,7 @@ class StockManager:
         else:
             print("Invalid choice. Please try again.")
             
-    def view_iphone(self):
+    def view_iphone(self): #view iphone
         try:
             with open(self.fileiphone_staff, "r") as file:
                 stock_data = ast.literal_eval(file.read())
@@ -112,7 +113,7 @@ class StockManager:
         except FileNotFoundError:
             print("Stock file not found. Creating a new one.")
         
-    def view_macbook(self):
+    def view_macbook(self): #view_mac
         try:
             with open(self.filemacbook_staff, "r") as file:
                 stock_data = ast.literal_eval(file.read())
@@ -120,7 +121,7 @@ class StockManager:
         except FileNotFoundError:
             print("Stock file not found. Creating a new one.")
             
-    def view_airpod(self):
+    def view_airpod(self): #view airpod
         try:
             with open(self.fileairpod_staff, "r") as file:
                 stock_data = ast.literal_eval(file.read())
@@ -128,7 +129,7 @@ class StockManager:
         except FileNotFoundError:
             print("Stock file not found. Creating a new one.")
             
-    def stock_menu(self):
+    def stock_menu(self):  # main menu
         while True:
             print("=" * 50)
             print("Stock Management:")
@@ -145,7 +146,7 @@ class StockManager:
             else:
                 print("Invalid choice. Please try again.")
 
-    def add_stock(self):
+    def add_stock(self): # add stock
         # file_path = self.get_file_path()
         print("1.iPhone")
         print("2.Macbook")
@@ -160,8 +161,7 @@ class StockManager:
         else:
             print("Invalid choice. Please try again.")
 
-    def delete_stock(self):
-        # file_path = self.get_file_path()
+    def delete_stock(self): #delete stock
         print("1.iPhone")
         print("2.Macbook")
         print("3.Airpods")
@@ -176,7 +176,7 @@ class StockManager:
         else:
             print("Invalid choice. Please try again.")
             
-    def add_iphone(self):
+    def add_iphone(self): # add iphone
             try:
                 with open(self.fileiphone_staff, "r") as file:
                     stock_data = ast.literal_eval(file.read())
@@ -219,9 +219,8 @@ class StockManager:
             else:
                 stock_data[model_key] = {storage_key: quantity}
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            with open (self.record_employee, 'a') as file:
-            #   print(f"ADD | {timestamp} | {self.employee_username} | Model: {model_key} | Quantity: {quantity}\n")  
-                file.write(f"{timestamp} | {self.logged_in_username} | Model: {model_key} | Storage: {storage_key} | Quantity: {quantity}\n")
+            with open (self.recordstock, 'a') as file:
+                file.write(f"{timestamp} | {self.logged_in_username} | add |Model: {model_key} | Storage: {storage_key} | Quantity: {quantity}\n")
             
             try:
                 with open(self.fileiphone_staff, "w") as file:
@@ -230,7 +229,7 @@ class StockManager:
             except IOError:
                 print("Error writing to the stock file.")
 
-    def remove_iphone(self):
+    def remove_iphone(self): #remove iphone
             try:
                 with open(self.fileiphone_staff, "r") as file:
                     stock_data = ast.literal_eval(file.read())
@@ -261,6 +260,10 @@ class StockManager:
                     stock_data[model_key][storage_key] = quantity
             else:
                 stock_data[model_key] = {storage_key: quantity}
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            with open (self.recordstock, 'a') as file:
+            #   print(f"ADD | {timestamp} | {self.employee_username} | Model: {model_key} | Quantity: {quantity}\n")  
+                file.write(f"{timestamp} | {self.logged_in_username} |remove | Model: {model_key} | Storage: {storage_key} | Quantity: {quantity}\n")
 
             try:
                 with open(self.fileiphone_staff, "w") as file:
@@ -269,7 +272,7 @@ class StockManager:
             except IOError:
                 print("Error writing to the stock file.")
 
-    def add_macbook(self):
+    def add_macbook(self): #add macbook
         try:
             # Load stock data from file
             with open(self.filemacbook_staff, "r") as file:
@@ -323,6 +326,9 @@ class StockManager:
             return
         else:
             stock_data[model_key][storage_key] += quantity
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        with open (self.recordstock, 'a') as file: 
+            file.write(f"{timestamp} | {self.logged_in_username} | add |Model: {model_key} | Storage: {storage_key} | Quantity: {quantity}\n")
 
         try:
             with open(self.filemacbook_staff, "w") as file:
@@ -331,7 +337,7 @@ class StockManager:
         except IOError:
             print("Error writing to the stock file.")
             
-    def remove_macbook(self):
+    def remove_macbook(self): #remove mac
         try:
             with open(self.filemacbook_staff, "r") as file:
                 stock_data = ast.literal_eval(file.read())
@@ -370,6 +376,9 @@ class StockManager:
         else:
             print(f"{model_key} ({storage_key}) not found in stock.")
             return
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        with open (self.recordstock, 'a') as file:  
+            file.write(f"{timestamp} | {self.logged_in_username} | remove |Model: {model_key} | Storage: {storage_key} | Quantity: {quantity}\n")
 
         try:
             with open(self.filemacbook_staff, "w") as file:
@@ -378,7 +387,7 @@ class StockManager:
         except IOError:
             print("Error writing to the stock file.")
 
-    def add_airpod(self):
+    def add_airpod(self): #add airpod
         try:
             # Load stock data from file
             with open(self.fileairpod_staff, "r") as file:
@@ -395,7 +404,7 @@ class StockManager:
         }
 
         # User input
-        model = input("Enter the model to add (Gen(2ndGen)/Pro/Max): ")
+        model = input("Enter the model to add (2ndGen/Pro/Max): ")
 
         # Check if the model is valid
         if model not in valid_models:
@@ -417,6 +426,10 @@ class StockManager:
             return
         else:
             stock_data[model_key] += quantity
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        with open (self.recordstock, 'a') as file:
+            #   print(f"ADD | {timestamp} | {self.employee_username} | Model: {model_key} | Quantity: {quantity}\n")  
+            file.write(f"{timestamp} | {self.logged_in_username} | add |Model: {model_key} | Quantity: {quantity}\n")
 
         try:
             with open(self.fileairpod_staff, "w") as file:
@@ -425,7 +438,7 @@ class StockManager:
         except IOError:
             print("Error writing to the stock file.")
 
-    def remove_airpod(self):
+    def remove_airpod(self): #remove airpod
         try:
             with open(self.fileairpod_staff, "r") as file:
                 stock_data = ast.literal_eval(file.read())
@@ -433,7 +446,7 @@ class StockManager:
             print("Stock file not found.")
             return
 
-        model = input("Enter the model to remove (Gen(2ndGen)/Pro/Max): ")
+        model = input("Enter the model to remove (2ndGen/Pro/Max): ")
         if model == "2ndGen":
             model_key = f"Airpods_2nd_Gen"
         elif model in ["Pro", "Max"]:
@@ -459,6 +472,10 @@ class StockManager:
         else:
             print(f"{model_key} not found in stock.")
             return
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        with open (self.recordstock, 'a') as file:
+            #   print(f"ADD | {timestamp} | {self.employee_username} | Model: {model_key} | Quantity: {quantity}\n")  
+            file.write(f"{timestamp} | {self.logged_in_username} | remove |Model: {model_key} | Quantity: {quantity}\n")
 
         try:
             with open(self.fileairpod_staff, "w") as file:
@@ -472,10 +489,8 @@ fileiphone_staff = r"C:\Python_T1_Y2_Project\Admin_work\iphone.txt"
 fileairpod_staff = r"C:\Python_T1_Y2_Project\Admin_work\airpod.txt"
 filemacbook_staff = r"C:\Python_T1_Y2_Project\Admin_work\macbook.txt"
 employeefile = r"C:\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
-record_employee = r"C:\Python_T1_Y2_Project\Admin_work\record_employee.txt"
+recordstock = r"C:\Python_T1_Y2_Project\Admin_work\recordstock.txt"
 
 
-# stockmanager = StockManager(fileiphone_staff,fileairpod_staff,filemacbook_staff)
-stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staff,employeefile,record_employee)
+stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staff,employeefile,recordstock)
 stockmanager.employee_login()
-# stockmanager.main_menu()

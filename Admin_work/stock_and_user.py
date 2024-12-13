@@ -48,18 +48,18 @@ class Stock:
         except ValueError:
             print("Invalid price format.")
 
-    def show_total(self):
+    # def show_total(self):
         
-        print("="*80)
-        print("\t\t\t\tYour Purchase:")
-        print("="*80)
-        for purchase in self.purchases:
-            model = purchase["model"]
-            storage = purchase["storage"]
-            item = purchase["item"]
-            subtotal = purchase["subtotal"]
-            print(f"{item}x {model} ({storage}): ${subtotal:.2f}")  
-        print(f"Total amount of purchases: ${self.total_amount:.2f}")
+    #     print("="*80)
+    #     print("\t\t\t\tYour Purchase:")
+    #     print("="*80)
+    #     for purchase in self.purchases:
+    #         model = purchase["model"]
+    #         storage = purchase["storage"]
+    #         item = purchase["item"]
+    #         subtotal = purchase["subtotal"]
+    #         print(f"{item}x {model} ({storage}): ${subtotal:.2f}")  
+    #     print(f"Total amount of purchases: ${self.total_amount:.2f}")
         
     def iphone_menu(self):      
         # Menu bar for user
@@ -844,6 +844,20 @@ class User(Stock):
                 print("Insufficient balance.")
         else:
             print("User not found.")
+
+    def show_total(self):
+        
+        print("="*80)
+        print("\t\t\t\tYour Purchase:")
+        print("="*80)
+        for purchase in self.purchases:
+            model = purchase["model"]
+            storage = purchase["storage"]
+            item = purchase["item"]
+            subtotal = purchase["subtotal"]
+            print(f"{item}x {model} ({storage}): ${subtotal:.2f}")  
+        print(f"Total amount of purchases: ${self.total_amount:.2f}")
+        
 
     def load_users(self):
         try:
