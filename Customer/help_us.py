@@ -1,4 +1,6 @@
+import os
 def help_us():
+    os.system('cls')
     while True:
         print("\n**********HELP US*********")
         print("1. Provide feedback.")
@@ -19,6 +21,7 @@ def help_us():
             print("Invalid option. Please try again!")
 
 def provide_feedback():
+    
     print("\n---------------Provide_feedback---------------")
     try:
         username = input("Enter your username: ").strip()
@@ -34,6 +37,7 @@ def provide_feedback():
         print(f"An error occurred: {e}. Please try again.")
 
 def user_question():
+  
     print("\n---------------User FAQs---------------")
     print("Q: How can I reset my password?")
     print("A: Use the 'Forgot Password' opption from the main menu.")
@@ -43,12 +47,14 @@ def user_question():
     print("A: Check the 'Contact Information' section for detail.")
 
 def contect_information():
+
     print("\n---------------Contect Information---------------")
     print("Customer Support Email: support@gmail.iec.com")
     print("Contact Number: +855 123456789")
     print("Website: www.iec.com.kh")
 
 def back_menu():
+    
     print("Returning to the main menu!")
 
 help_us()
