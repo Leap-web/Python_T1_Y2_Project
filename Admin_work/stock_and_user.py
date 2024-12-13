@@ -1,4 +1,4 @@
-import ast
+import ast, os, sys
 import hashlib
 import getpass
 import sys
@@ -275,6 +275,10 @@ class Stock:
                             model_key = "iphone_14"
                             while True:
                                 storage = input("Storage(128/256/1):")
+                                if storage == "1":
+                                    storage_key = f"{storage}TB"
+                                else:
+                                    storage_key = f"{storage}GB"
                                 try:
                                     with open(self.fileiphone_staff, "r") as file:
                                         content = file.read()
@@ -283,18 +287,15 @@ class Stock:
                                         if storage_key in stock_data[model_key]:
                                             if storage == "128" :
                                                     # print("$599")
-                                                storage_key = f"{storage}GB"
                                                 value = "$899"
                                                 break
                                                     # print(value)
                                             elif storage == "256" :
-                                                storage_key = f"{storage}GB"
                                                     # print("$699")
                                                 value = "$999"
                                                 break
                                                     # print(value)
                                             elif storage == "1" :
-                                                storage_key = f"{storage}TB"
                                                     # print("$799")
                                                 value = "1099"
                                                 break
@@ -340,6 +341,10 @@ class Stock:
                             model_key = "iphone_15"
                             while True:
                                 storage = input("Storage(128/256/1):")
+                                if storage == "1":
+                                    storage_key = f"{storage}TB"
+                                else:
+                                    storage_key = f"{storage}GB"
                                 try:
                                         with open(self.fileiphone_staff, "r") as file:
                                             content = file.read()
@@ -348,18 +353,15 @@ class Stock:
                                             if storage_key in stock_data[model_key]:
                                                 if storage == "128" :
                                                     # print("$599")
-                                                    storage_key = f"{storage}GB"
                                                     value = "$999"
                                                     break
                                                     # print(value)
                                                 elif storage == "256" :
-                                                    storage_key = f"{storage}GB"
                                                     # print("$699")
                                                     value = "$1199"
                                                     break
                                                     # print(value)
                                                 elif storage == "1" :
-                                                    storage_key = f"{storage}TB"
                                                     # print("$799")
                                                     value = "1299"
                                                     break
@@ -602,6 +604,10 @@ class Stock:
                         if user_buy == "yes":
                             model_key = "MacBook_Pro_14inch"
                             storage = input("Storage(1(TB)/512):")
+                            if storage == "1":
+                                storage_key = f"{storage}TB" 
+                            else:
+                                storage_key = f"{storage}GB"
                             while True:
                                 try:
                                     with open(self.filemacbook_staff, "r") as file:
@@ -610,14 +616,12 @@ class Stock:
                                     if model_key in stock_data:
                                         if storage_key in stock_data[model_key]:
                                             if storage == "512" :
-                                                storage_key = f"{storage}GB"
                                                 # print("$999")
                                                 value = "$1249"
                                                 break
                                                 # print(value)
                                             elif storage == "1" :
                                                 # print("$1249")
-                                                storage_key = f"{storage}TB" 
                                                 value = "$2499"
                                                 break
                                                 # print(value)
@@ -663,6 +667,10 @@ class Stock:
                         if user_buy == "yes":
                             model_key = "MacBook_Pro_16inch"
                             storage = input("Storage(1(TB)/512):")
+                            if storage == "1":
+                                storage_key = f"{storage}TB" 
+                            else:
+                                storage_key = f"{storage}GB"
                             while True:
                                 try:
                                     with open(self.filemacbook_staff, "r") as file:
@@ -671,14 +679,12 @@ class Stock:
                                     if model_key in stock_data:
                                         if storage_key in stock_data[model_key]:
                                             if storage == "512" :
-                                                storage_key = f"{storage}GB" 
                                                 # print("$999")
                                                 value = "$2499"
                                                 break
                                                 # print(value)
                                             elif storage == "1" :
                                                 # print("$1249")
-                                                storage_key = f"{storage}TB" 
                                                 value = "$2999"
                                                 break
                                                 # print(value)
@@ -1086,18 +1092,11 @@ class User(Stock):
                         else:
                             for user in self.users:
                                 if user["username"] == self.current_user:
-
-                                    if self.current_user in self.balances:
-                                        self.balances[new_name] = self.balances.pop(self.current_user)
-
                                     self.current_user = new_name
                                     user["username"] = self.current_user
                                     print(f"Successfully change Name into {self.current_user}")
                                         
                                     self.save_user()
-                                    with open(self.balance_filename, "w") as balance_file:
-                                        for username, balance in self.balances.items():
-                                            balance_file.write(f"username: {username}, balance: {balance}\n")
                                     break
                         break
                 elif option == "2":
@@ -1232,7 +1231,10 @@ class User(Stock):
         
 
     def place_order(self):
-        pass
+        
+        user1.iphone_menu()
+        user1.airpod_menu()
+        user1.macbook_menu()
         
     def order_history(self):
         user1.show_total()
@@ -1310,8 +1312,8 @@ class User(Stock):
                 elif option == "5":
                     print("Return back to main menu.\n")
                     break
-                elif option == "6":
-                    self.show_list()
+                # elif option == "6":
+                #     self.help_us()
                     continue
                 elif option == "7":
                     print("Exiting the programs. Goodbye!\n")
@@ -1324,21 +1326,12 @@ class User(Stock):
 
 
     def show_list(self):
-<<<<<<< HEAD
-        print(self.balances)
-user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_pw.txt"
-balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_balance.txt"
-fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
-fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
-filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
-=======
         print(self.users)
 # user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_pw.txt"
 # balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_balance.txt"
 # fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
 # fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
 # filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
->>>>>>> db1a5cb195e8618135cd7602cc4f76f4e5063557
 
 #     # view stock for users iphone
 # fileiphone11_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone11_user.txt"
@@ -1388,30 +1381,4 @@ user1 = User(user_file, balance_file, fileiphone_staff,fileairpod_staff,filemacb
 user1.user_menu()
 
 
-# def calculate(self):
-#     while True:
-#                         print("\n------------------------------Deposit Balance------------------------------")
-#                         amount = float(input("\nInput the amount you want to deposit: "))
-#                         if amount > 0:
-#                             secret_pin = getpass.getpass("Enter your secret pin:")
-#                             hashed_secret_pin = self.hash_secret_pin(secret_pin)
-                            
-#                             current_user_data = None
-#                             for user in self.users:
-#                                 if user["username"] == self.current_user:
-#                                     current_user_data = user
-#                                     break
-                            
-#                             if current_user_data and current_user_data["secret pin"] == hashed_secret_pin:
-#                                 self.balances[self.current_user] += amount
-#                                 print("Deposited successfully!")
-#                                 print(f"Your balance now is ${self.balances[self.current_user]}\n")
-#                                 with open(self.balance_filename, "w") as balance_file:
-#                                     for username, balance in self.balances.items():
-#                                         balance_file.write(f"username: {username}, balance: {balance}\n")
-#                                 break
-#                             else:
-#                                 print("Invalid pin please try again!") 
-#                                 continue
-#                         else:
-#                             print("Invalid amount. Please enter a valid amount.")
+
