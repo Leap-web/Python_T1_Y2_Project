@@ -1,10 +1,68 @@
 import ast
+import msvcrt
+from datetime import datetime
 
 class StockManager:
-    def __init__(self,fileiphone_staff,fileairpod_staff,filemacbook_staff):
+    def __init__(self,fileiphone_staff,fileairpod_staff,filemacbook_staff,employeefile,record_employee):
         self.fileiphone_staff = fileiphone_staff
         self.fileairpod_staff = fileairpod_staff
         self.filemacbook_staff = filemacbook_staff
+        self.employeefile = employeefile
+        self.record_employee = record_employee
+    def masked_input(self,prompt= ""):
+        print(prompt, end="", flush=True)
+        password = ""
+        while True:
+            char = msvcrt.getch()
+            if char in {b'\r',b'\n'}:
+                print()
+                break
+            elif char == b'\x80':
+                if len(password) > 0:
+                    password = password[:-1]
+                    print("\b \b", end='', flush=True)
+            else:
+                password += char.decode()
+                print('*', end='', flush=True)
+        return password
+
+    def check_employee_inf(self,username, email, ID, password):
+        try:
+            with open(self.employeefile, 'r') as file:
+                for line in file:
+                    stored_username, stored_email, stored_ID, stored_password = line.strip().split(',')
+                    if (stored_username.strip().lower() == username.strip().lower() and
+                        stored_email.strip().lower() == email.strip().lower() and
+                        stored_ID.strip() == ID.strip() and
+                        stored_password.strip() == password.strip()):
+                        return True
+                return False
+        except FileNotFoundError:
+            print("Employee information not found!")
+            return False
+        
+    def employee_login(self):
+        print("----------------------------------------------")
+        print("||              EMPLOYEE_LOGIN              ||")
+        print("----------------------------------------------")
+        for attempt in range(3):  # Allow 3 attempts
+            employee_username = input("Enter your username: ")
+            employee_email = input("Enter your email: ")
+            employee_id = input("Enter your ID: ")
+            employee_password = input("Enter your password: ")  # Use input() instead of masked_input
+            
+            if self.check_employee_inf(employee_username, employee_email, employee_id, employee_password):
+                print("\n<<<<<<<<<<<<<<<YOU ARE OUR EMPLOYEE>>>>>>>>>>>>>>>")
+                self.main_menu()
+                return
+            else:
+                if attempt == 2:
+                    print("\n############### LOGIN FAILED. NO MORE ATTEMPTS ALLOWED. ###############")
+                    print("======/Access denied./======")
+                    self.logged_in_username = employee_username
+                    return  # Exit the login function after the final failure
+                else:
+                    print("\n############### LOGIN FAILED. YOU HAVE {} MORE ATTEMPT{} ###############".format(2 - attempt, 'S' if 2 - attempt > 1 else ''))
 
     def main_menu(self):
         while True:
@@ -154,11 +212,16 @@ class StockManager:
                         return
                     else:
                         stock_data[model_key][storage_key] += quantity
+                        
                 else:
                     stock_data[model_key][storage_key] = quantity
             else:
                 stock_data[model_key] = {storage_key: quantity}
-
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            with open (self.record_employee, 'a') as file:
+            #   print(f"ADD | {timestamp} | {self.employee_username} | Model: {model_key} | Quantity: {quantity}\n")  
+                file.write(f"{timestamp} | {self.logged_in_username} | Model: {model_key} | Storage: {storage_key} | Quantity: {quantity}\n")
+            
             try:
                 with open(self.fileiphone_staff, "w") as file:
                     file.write(str(stock_data))
@@ -407,8 +470,11 @@ class StockManager:
 fileiphone_staff = r"C:\Python_T1_Y2_Project\Admin_work\iphone.txt"
 fileairpod_staff = r"C:\Python_T1_Y2_Project\Admin_work\airpod.txt"
 filemacbook_staff = r"C:\Python_T1_Y2_Project\Admin_work\macbook.txt"
+employeefile = r"C:\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
+record_employee = r"C:\Python_T1_Y2_Project\Admin_work\record_employee.txt"
 
 
 # stockmanager = StockManager(fileiphone_staff,fileairpod_staff,filemacbook_staff)
-stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staff)
-stockmanager.main_menu()
+stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staff,employeefile,record_employee)
+stockmanager.employee_login()
+# stockmanager.main_menu()
