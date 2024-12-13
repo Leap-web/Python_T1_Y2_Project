@@ -53,6 +53,7 @@ class StockManager:
             
             if self.check_employee_inf(employee_username, employee_email, employee_id, employee_password):
                 print("\n<<<<<<<<<<<<<<<YOU ARE OUR EMPLOYEE>>>>>>>>>>>>>>>")
+                self.logged_in_username = employee_username
                 self.main_menu()
                 return
             else:
