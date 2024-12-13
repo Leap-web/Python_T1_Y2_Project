@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 username: korng, balance: 3193.0
 username: neath, balance: 5093.0
+=======
+username: korng, balance: 1500.0
+username: neath, balance: 2993.0
+username: serey, balance: 10000.0
+>>>>>>> db1a5cb195e8618135cd7602cc4f76f4e5063557

@@ -385,7 +385,6 @@ import getpass
 import sys
 
 # Importing stock_menu and show_total from stock.py
-from stock import stock_menu, show_total
 
 class User:
     def __init__(self, user_filename, balance_filename):
