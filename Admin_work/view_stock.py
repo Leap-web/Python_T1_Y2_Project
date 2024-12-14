@@ -492,7 +492,6 @@ employeefile = r"C:\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
 recordstock = r"C:\Python_T1_Y2_Project\Admin_work\recordstock.txt"
 
 
-<<<<<<< HEAD
 fileiphone_staff = r"C:\Python_T1_Y2_Project\Employees\iphone.txt"
 fileairpod_staff = r"C:\Python_T1_Y2_Project\Employees\airpod.txt"
 filemacbook_staff = r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
@@ -502,7 +501,5 @@ filemacbook_staff = r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
 stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staff)
 stockmanager.main_menu()
 
-=======
 stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staff,employeefile,recordstock)
 stockmanager.employee_login()
->>>>>>> cc25080272e04c78950b14cefa483a67985b47aa
