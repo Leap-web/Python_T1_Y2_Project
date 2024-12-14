@@ -82,7 +82,7 @@ class Stock:
     #         dynamic_total += subtotal 
     #     print(f"Total amount of purchases: ${dynamic_total:.2f}")
         
-    def clear_screen():
+    def clear_screen(self):
         current_os = platform.system()
 
         if current_os == "Windows":
@@ -957,10 +957,12 @@ class Stock:
                 self.macbook_menu()
             elif option == "4":
                 self.clear_screen()
-                self.show_total()
+                user1.show_total()
             elif option == "5":
+                self.clear_screen()
                 user1.usage_menu()
             elif option == "6":
+                self.clear_screen()
                 print("Exit the stock!")
                 sys.exit()
             else:
@@ -1065,7 +1067,7 @@ class User(Stock):
             print("Error loading purchase history from file.")
 
     def show_total(self):
-        
+        self.clear_screen()
         print("="*80)
         print("\t\t\t\tYour Purchase:")
         print("="*80)
@@ -1284,6 +1286,7 @@ class User(Stock):
 
     def manage_balance(self):
         try:
+            self.clear_screen()
             while True:
                 print("\n==============================Manage Balance==============================")
                 print(f"\nYour current balance: ${self.balances[self.current_user]}")
@@ -1292,6 +1295,7 @@ class User(Stock):
                 option = input("Choose Option(1,2): ")
                 if option == "1":
                     while True:
+                        self.clear_screen()
                         print("\n------------------------------Deposit Balance------------------------------")
                         amount = float(input("\nInput the amount you want to deposit: "))
                         if amount > 0:
@@ -1318,6 +1322,7 @@ class User(Stock):
                         else:
                             print("Invalid amount. Please enter a valid amount.")
                 elif option == "2":
+                    self.clear_screen()
                     print("\n")
                     break
                 else:
@@ -1326,7 +1331,7 @@ class User(Stock):
             print(f"An error occur in your deposit process: {e}. Please try again!")
         
     def help_us(self):
-        os.system('cls')
+        self.clear_screen()
         while True:
             print("\n------------------------------Help Us------------------------------")
             print("1. Provide feedback.")
@@ -1335,15 +1340,19 @@ class User(Stock):
             print("4. Back to main menu.")
             option = input("Enter your choice (1-4): ")
             if option == "1":
+                self.clear_screen()
                 self.provide_feedback()
                 continue
             elif option == "2":
+                self.clear_screen()
                 self.user_question()
                 continue
             elif option == "3":
+                self.clear_screen()
                 self.contact_information()
                 continue
             elif option == "4":
+                self.clear_screen()
                 break
             else:
                 print("Invalid option. Please try again!")
@@ -1391,6 +1400,7 @@ class User(Stock):
                 option = input("Choose option(1-5): ")
                 if option == "1":
                     while True:
+                        self.clear_screen()
                         print("\n------------------------------Edit Name------------------------------")
                         new_name = input("Enter your new Name: ")
                         for user in self.users:
@@ -1415,6 +1425,7 @@ class User(Stock):
                         break
                 elif option == "2":
                     while True:
+                        self.clear_screen()
                         print("\n------------------------------Edit Email------------------------------")
                         new_email = input("Enter your new email: ")
                         if '@' in new_email and '.' in new_email: 
@@ -1437,6 +1448,7 @@ class User(Stock):
                                 
                 elif option == "3":
                     while True:
+                        self.clear_screen()
                         print("\n------------------------------Edit Secret Pin------------------------------")
                         old_secret_pin = getpass.getpass("Enter your old 4-digit secret pin: ")
                         hashed_old_secret_pin = self.hash_secret_pin(old_secret_pin)
@@ -1468,6 +1480,7 @@ class User(Stock):
                     
                 elif option == "4":
                     while True:
+                        self.clear_screen()
                         print("\n------------------------------Edit Password------------------------------")
                         old_password = getpass.getpass("Enter your old password: ")
                         hashed_old_password = self.hash_password(old_password)
@@ -1507,6 +1520,7 @@ class User(Stock):
                                         break
                         break
                 elif option == "5":
+                    self.clear_screen()
                     print("\n")
                     break
                 else:
@@ -1523,6 +1537,7 @@ class User(Stock):
                 print("3. Back")
                 option = input("Choose Option(1-3): ")
                 if option == "1":
+                    self.clear_screen()
                     print("\n------------------------------View Profile------------------------------")
                     for v in self.users:
                         if v['username'] == self.current_user:
@@ -1530,9 +1545,11 @@ class User(Stock):
                             print(f"Email: {v['email']}")
                         
                 elif option == "2":
+                    self.clear_screen()
                     self.edit_profile()
                     continue
                 elif option == "3":
+                    self.clear_screen()
                     break
                 else:
                     print("Invalid option. Please choose option(1-3)!\n")
@@ -1557,21 +1574,27 @@ class User(Stock):
                 print("6. Exit")
                 option = input("Choose an option (1-6): ")
                 if option == "1":
+                    self.clear_screen()
                     self.login()
                     continue
                 elif option == "2":
+                    self.clear_screen()
                     self.register()
                     continue
                 elif option == "3":
+                    self.clear_screen()
                     self.forgot() 
                     continue
                 elif option == "4":
+                    self.clear_screen()
                     print("Return back to Role.\n")
                     continue
                 elif option == "5":
+                    self.clear_screen()
                     self.help_us()
                     continue
                 elif option == "6":
+                    self.clear_screen()
                     print("Exiting the programs. Goodbye!\n")
                     sys.exit()
                 else:
@@ -1600,25 +1623,32 @@ class User(Stock):
                         print("7. Exit")
                 option = input("Choose an option (1-6): ")
                 if option == "1":
+                    self.clear_screen()
                     self.browse_item()
                     continue
                 elif option == "2":
+                    self.clear_screen()
                     self.show_total()
                     continue
                 elif option == "3":
+                    self.clear_screen()
                     self.manage_balance()
                     continue 
                 elif option == "4":
+                    self.clear_screen()
                     self.manage_profile()
                     continue
                 elif option == "5":
+                    self.clear_screen()
                     print("Return back to main menu.\n")
                     self.user_menu()
                     continue
                 elif option == "6":
+                    self.clear_screen()
                     self.help_us()
                     continue
                 elif option == "7":
+                    self.clear_screen()
                     print("Exiting the programs. Goodbye!\n")
                     sys.exit()
                 else:
@@ -1631,21 +1661,12 @@ class User(Stock):
     def show_list(self):
         print(self.balances)
         print(self.users)
-<<<<<<< HEAD
 user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_pw.txt"
 balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_balance.txt"
 history_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_history.txt"
 fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
 fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
 filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
-=======
-# user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_pw.txt"
-# balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_balance.txt"
-# history_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_history.txt"
-# fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
-# fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
-# filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
->>>>>>> 23d2b1de612c8c4c37300c399567d08dbf9b9192
 
 
 
@@ -1659,52 +1680,52 @@ filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Techn
 
 # user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_pw.txt"
 
-# fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
-# fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
-# filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
-# # balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_balance.txt"
+fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
+fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
+filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
+# balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_balance.txt"
 
-# # view stock for users iphone
-# fileiphone11_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone11_user.txt"
-# fileiphone12_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone12_user.txt"
-# fileiphone13_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone13_user.txt"
-# fileiphone14_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone14_user.txt"
-# fileiphone15_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone15_user.txt"
+# view stock for users iphone
+fileiphone11_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone11_user.txt"
+fileiphone12_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone12_user.txt"
+fileiphone13_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone13_user.txt"
+fileiphone14_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone14_user.txt"
+fileiphone15_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone15_user.txt"
 
-#     # view stock for users mac
-# mac_m1_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m1_user.txt"
-# mac_m2_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m2_user.txt"
-# mac_pro_14 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_14.txt"
-# mac_pro_16 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_16.txt"
+    # view stock for users mac
+mac_m1_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m1_user.txt"
+mac_m2_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m2_user.txt"
+mac_pro_14 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_14.txt"
+mac_pro_16 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_16.txt"
 
-#     # view stock for user airpod
-# airpod_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod_user.txt"
+    # view stock for user airpod
+airpod_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod_user.txt"
 
 # stock = Stock()
 # stock.stock_menu()
-user_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_pw.txt"
-balance_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_balance.txt"
-history_file = "/Users/savonchanserey/Desktop/my-repo/Admin_work/customer_history.txt"
+# user_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_pw.txt"
+# balance_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_balance.txt"
+# history_file = "/Users/savonchanserey/Desktop/my-repo/Admin_work/customer_history.txt"
 
-fileiphone_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone.txt" 
-fileairpod_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod.txt"
-filemacbook_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/macbook.txt"
+# fileiphone_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone.txt" 
+# fileairpod_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod.txt"
+# filemacbook_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/macbook.txt"
 
-#     # view stock for users iphone
-fileiphone11_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone11_user.txt"
-fileiphone12_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone12_user.txt"
-fileiphone13_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone13_user.txt"
-fileiphone14_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone14_user.txt"
-fileiphone15_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone15_user.txt"
+# #     # view stock for users iphone
+# fileiphone11_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone11_user.txt"
+# fileiphone12_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone12_user.txt"
+# fileiphone13_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone13_user.txt"
+# fileiphone14_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone14_user.txt"
+# fileiphone15_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone15_user.txt"
 
-#     # view stock for users mac
-mac_m1_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m1_user.txt"
-mac_m2_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m2_user.txt"
-mac_pro_14 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_14.txt"
-mac_pro_16 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_16.txt"
+# #     # view stock for users mac
+# mac_m1_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m1_user.txt"
+# mac_m2_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m2_user.txt"
+# mac_pro_14 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_14.txt"
+# mac_pro_16 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_16.txt"
 
-# #     # view stock for user airpod
-airpod_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod_user.txt"
+# # #     # view stock for user airpod
+# airpod_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod_user.txt"
 
 
 
