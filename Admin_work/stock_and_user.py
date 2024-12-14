@@ -1455,16 +1455,6 @@ filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Techn
 # stockmanager.main_menu()
 
 
-<<<<<<< HEAD
-=======
-# fileiphone_staff = r"C:\Python_T1_Y2_Project\Admin_work\iphone.txt"
-# fileairpod_staff = r"C:\Python_T1_Y2_Project\Admin_work\airpod.txt"
-# filemacbook_staff = r"C:\Python_T1_Y2_Project\Admin_work\macbook.txt"
-# employeefile = r"C:\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
-# record_employee = r"C:\Python_T1_Y2_Project\Admin_work\record_employee.txt"
-
-
->>>>>>> origin/main
 # stockmanager = StockManager(fileiphone_staff,fileairpod_staff,filemacbook_staff)
 # stockmanager.main_menu()
 
