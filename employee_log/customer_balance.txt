@@ -1,4 +1,9 @@
 <<<<<<< HEAD
+username: serey, balance: 10000.0
+username: korng, balance: 451.0
+username: neath, balance: 3193.0
+=======
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 username: neath, balance: 2993.0
@@ -28,3 +33,4 @@ username: serey, balance: 39401.0
 >>>>>>> origin/main
 >>>>>>> 63e39ac6dd70c7609dac13dd2d442dce671da1ab
 >>>>>>> origin/main
+>>>>>>> 7142325f19dd199a1b2d374a00ce7ad3c257da84
