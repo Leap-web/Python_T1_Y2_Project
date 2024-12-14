@@ -1,6 +1,1 @@
-<<<<<<< HEAD
-{'Airpods_2nd_Gen': 8, 'Airpods_Pro': 6, 'Airpods_Max': 3}
-=======
-{'Airpods_2nd_Gen': 6, 'Airpods_Pro': 11, 'Airpods_Max': 6}
-
->>>>>>> 7142325f19dd199a1b2d374a00ce7ad3c257da84
+{'Airpods_2nd_Gen': 6, 'Airpods_Pro': 11, 'Airpods_Max': 15}
