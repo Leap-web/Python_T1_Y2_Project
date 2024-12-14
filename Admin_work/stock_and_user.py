@@ -1013,7 +1013,7 @@ class Stock:
 
 
 class User(Stock):
-    def __init__(self, user_filename, balance_filename,history_filename, fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user):
+    def __init__(self, user_filename, balance_filename,history_filename, feedback_filename, fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user):
         #for stock
         super().__init__(fileiphone_staff, fileairpod_staff, filemacbook_staff, 
                         fileiphone11_user, fileiphone12_user, fileiphone13_user, 
@@ -1022,6 +1022,7 @@ class User(Stock):
         self.user_filename = user_filename
         self.balance_filename = balance_filename
         self.history_filename = history_filename
+        self.feedback_filename = feedback_filename
         self.users = []
         self.load_users()
         self.balance = 0.0
@@ -1664,6 +1665,7 @@ class User(Stock):
 user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_pw.txt"
 balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_balance.txt"
 history_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_history.txt"
+feedback_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/feedback.txt"
 fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
 fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
 filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
@@ -1729,7 +1731,7 @@ airpod_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/
 
 
 
-user1 = User(user_file, balance_file, history_file, fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user)
+user1 = User(user_file, balance_file, history_file, feedback_file, fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user)
 
 # user1.show_list()
 user1.user_menu()
