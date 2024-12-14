@@ -1,4 +1,4 @@
-from admin_page import AdminSystem
+from admin_p import AdminSystem
 from stock import Stock
 from view_stock import StockManager
 class Admin:
