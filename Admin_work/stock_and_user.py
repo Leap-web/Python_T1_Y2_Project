@@ -1312,62 +1312,73 @@ class User(Stock):
             print(f"An error occur in your deposit process: {e}. Please try again!")
         
     def help_us(self):
-        self.clear_screen()
         while True:
-            print("\n------------------------------Help Us------------------------------")
-            print("1. Provide feedback.")
-            print("2. Frequently ask questions.")
-            print("3. Contact information.")
-            print("4. Back to main menu.")
-            option = input("Enter your choice (1-4): ")
+            print("\n**********HELP US*********")
+            print("1. Store Policies.")
+            print("2. Product Repair.")
+            print("3. Shipping and Delivery.")
+            print("4. Privacy Policy.")
+            print("5. User also as questions.")
+            print("6. Contect information.")
+            print("7. Back to main menu.")
+            option = input("Enter your choice option: ")
+            self.clear_screen()
             if option == "1":
-                self.clear_screen()
-                self.provide_feedback()
-                continue
+                self.store_policies()
             elif option == "2":
-                self.clear_screen()
-                self.user_question()
-                continue
+                self.product_repair()
             elif option == "3":
-                self.clear_screen()
-                self.contact_information()
-                continue
+                self.shipping_delivery()
             elif option == "4":
+                self.privacy_policy()
+            elif option == "5":
+                self.user_question()
+            elif option == "6":
+                self.contect_information()
+            elif option == "7":
                 self.clear_screen()
                 break
             else:
                 print("Invalid option. Please try again!")
                 continue
+    def store_policies(self):
+        print("\n---------------Store_Policies---------------")
+        print("1. Return & Exchange: You can return or exchange items within 14 days of purchase.")
+        print("2. Warrabty: All Apple products come with a 1_year warranty.")
 
-    def provide_feedback(self):
-        print("\n------------------------------Provide Feedback------------------------------")
-        try:
-            username = input("Enter your username: ").strip()
-            if not username:
-                raise ValueError("User name cannot empty")
-            feedback = input("Enter your feedback: ").strip()
-            if not feedback:
-                raise ValueError("Feedback connot empty.")
-            with open('Customer/feedback.txt', 'a') as file:
-                file.write(f"Username: {username}, Feedback: {feedback}\n")
-            print("Thank you for your feedback!")
-        except Exception as e:
-            print(f"An error occurred: {e}. Please try again.")
+    def product_repair(self):
+        print("\n---------------Product Repair---------------")
+        print("You can request repair for your Apple products by visiting an Apple Store or contacting Apple Support online.")
+        print("Make sure your product in covered under warranty or AppleCare.")
+
+    def shipping_delivery(self):
+        print("\n---------------Shipping & Delivery---------------")
+        print("We offer free shipping for orders over 1500$.")
+        print("\nStandard delivery takes 1-2 days befor order.")
+        print("For expedited shipping, additional fees apply.")
+        print("You can select your preferred shipping method at checkout.")
+
+    def privacy_policy(self):
+        print("\n---------------Privacy Policy---------------")
+        print("Your privacy is important for us. We need only use your personal data for processing orders.")
+        print("Read our full privacy policy on our wenbsite for more detail.")
 
     def user_question(self):
-        print("\n------------------------------User FAQs------------------------------")
+        print("\n---------------User FAQs---------------")
         print("Q: How can I reset my password?")
         print("A: Use the 'Forgot Password' opption from the main menu.")
-        print("\nQ: Can I update my profile details?")
+        print("\nQ: How can I update my profile details?")
         print("A: YES, go to 'Manage Profile' in the menu.")
         print("\nQ: How do I contact customer service?")
         print("A: Check the 'Contact Information' section for detail.")
 
-    def contact_information(self):
-        print("\n------------------------------Contact Information------------------------------")
-        print("Customer Support Email: support@gmail.iec.com")
+    def contect_information(self):
+
+        print("\n---------------Contect Information---------------")
+        print("Customer Support Email: apple.store@gmail.iec.com")
         print("Contact Number: +855 123456789")
         print("Website: www.iec.com.kh")
+
 
     def edit_profile(self):
         try:
@@ -1631,7 +1642,6 @@ class User(Stock):
                     continue
         except Exception as e:
             print(f"An error occur : {e}")
-
 
     def show_list(self):
         print(self.balances)
