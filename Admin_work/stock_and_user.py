@@ -1392,13 +1392,6 @@ balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology
 fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
 fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
 filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
-<<<<<<< HEAD
-
-        
-        
-=======
-        
->>>>>>> 487faa59bddf95bb21dd2e3eae6a043dbe34b1f7
 
 class StockManager (Stock):
     def __init__(self,fileiphone_staff,fileairpod_staff,filemacbook_staff,employeefile,record_employee):
