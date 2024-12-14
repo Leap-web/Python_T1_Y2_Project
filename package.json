@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "python_t1_y2_project",
+=======
+  "name": "my-repo",
+>>>>>>> cc25080272e04c78950b14cefa483a67985b47aa
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -8,10 +12,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+<<<<<<< HEAD
   "description": "",
   "dependencies": {
     "ejs": "^3.1.10",
     "express": "^4.21.2",
     "mysql2": "^3.11.5"
   }
+=======
+  "description": ""
+>>>>>>> cc25080272e04c78950b14cefa483a67985b47aa
 }

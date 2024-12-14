@@ -1,1 +1,0 @@
-username: korng, email: korng@.com, password: 9cc3e5abdfaee198a6b74b97ea91e306e1744ddf49876d3dcf6cb936dfd5c9d7, secret pin: 03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4
