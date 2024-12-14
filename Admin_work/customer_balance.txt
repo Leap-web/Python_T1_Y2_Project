@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+username: korng, balance: 3193.0
+username: neath, balance: 2993.0
+username: serey, balance: 3.0
+=======
 username: serey, balance: 10000.0
 username: neath, balance: 3408.0
 username: ly, balance: 1007.0
@@ -6,3 +11,4 @@ username: o, balance: 0.0
 username: l, balance: 0.0
 username: n, balance: 0.0
 username: korng, balance: 11000.0
+>>>>>>> ba1948982b5cf930b9af9b0483aed82435d68800
