@@ -2,6 +2,7 @@ import ast, os, sys
 import hashlib
 import getpass
 import sys
+import platform
 
 class Stock:
     
@@ -81,6 +82,14 @@ class Stock:
     #         dynamic_total += subtotal 
     #     print(f"Total amount of purchases: ${dynamic_total:.2f}")
         
+    def clear_screen():
+        current_os = platform.system()
+
+        if current_os == "Windows":
+            os.system('cls')  # Windows command to clear the screen
+        else:
+            os.system('clear')
+        
     def iphone_menu(self):      
         # Menu bar for user
         while True:
@@ -94,152 +103,160 @@ class Stock:
             print("5.iPhone15")
             print("6.Back to menu")
             choice = input("Option:").strip()
-            if choice == "1" : 
-                # print("Model:iPhone_11")
+            if choice == "1":
                 try: 
-                    with open(self.fileiphone11_user,"r") as file:
+                    with open(self.fileiphone11_user, "r") as file:
                         content = file.read()
                         print(content)
-                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-                        
-                        if user_buy == "yes" or user_buy == "y":
-                            model_key = "iphone_11"
-                            while True:
-                                storage = input("Storage(64/128/256):")
-                                storage_key = f"{storage}GB"
-                                try:
-                                    with open(self.fileiphone_staff, "r") as file:
-                                        content = file.read()
-                                        stock_data = ast.literal_eval(content)
-                                    if model_key in stock_data:   
-                                        if storage_key in stock_data[model_key]:
-                                            if storage == "64" :
-                                                # print("$599")
-                                                value = "$599"
-                                                break
-                                                # print(value)
-                                            elif storage == "128" :
-                                                # print("$699")
-                                                value = "$699"
-                                                break
-                                                # print(value)
-                                            elif storage == "256" :
-                                                # print("$799")
-                                                value = "$799"
-                                                break
-                                                # print(value)
-                                            else:
-                                                print("Invalid storage option.")
-                                                return
-                                except FileNotFoundError:
-                                    print(f"The file {self.fileiphone_staff} was not found. Please ensure it exists in the correct directory.")
-                            while True:
-                                item = input("Items (enter a valid number): ")
-                                if item.isdigit():
-                                    item = int(item)
-                                    break
-                                else:
-                                    print("Invalid input. Please enter a valid number.")
-                            confirm = input("Confirm your buy(yes,no):").strip().lower()
-                            if confirm == "yes" or confirm == "y":
-                                price = float(value.replace("$", "").strip())
-                                total_cost = price * item
-                                if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
-                                    if  stock_data[model_key][storage_key] >= item:
-                                        stock_data[model_key][storage_key] -= item
-                                        # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
-                                        with open(self.fileiphone_staff, "w") as file: 
-                                            file.write(str(stock_data))
-                                        self.add_to_total(item, model_key, storage_key,total_cost)
-                                        user1.calculate()
+                        user_buy = input("Do you interesting in our product? If you want to buy(yes), if not(no): ").lower()
+                        while True:
+                            if user_buy == "yes" or user_buy == "y":
+                                model_key = "iphone_11"
+                                while True:
+                                    storage = input("Storage(64/128/256): ")
+                                    storage_key = f"{storage}GB"
+                                    try:
+                                        with open(self.fileiphone_staff, "r") as file:
+                                            content = file.read()
+                                            stock_data = ast.literal_eval(content)
+                                        if model_key in stock_data:   
+                                            if storage_key in stock_data[model_key]:
+                                                if storage == "64":
+                                                    value = "$599"
+                                                    break
+                                                elif storage == "128":
+                                                    value = "$699"
+                                                    break
+                                                elif storage == "256":
+                                                    value = "$799"
+                                                    break
+                                                else:
+                                                    print("Invalid storage option.")
+                                                    return
+                                    except FileNotFoundError:
+                                        print(f"The file {self.fileiphone_staff} was not found. Please ensure it exists in the correct directory.")
+                                while True:
+                                    item = input("Items (enter a valid number): ")
+                                    if item.isdigit():
+                                        item = int(item)
+                                        break
                                     else:
-                                        print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
-                                else:
-                                    print("Insufficient balance.")
-                            elif confirm == "no" or confirm == "n":
-                                print("Purchase canceled.")
+                                        print("Invalid input. Please enter a valid number.")
+                                while True:
+                                    confirm = input("Confirm your buy(yes,no): ").strip().lower()
+                                    if confirm == "yes" or confirm == "y":
+                                        price = float(value.replace("$", "").strip())
+                                        total_cost = price * item
+                                        if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
+                                            if stock_data[model_key][storage_key] >= item:
+                                                stock_data[model_key][storage_key] -= item
+                                                with open(self.fileiphone_staff, "w") as file: 
+                                                    file.write(str(stock_data))
+                                                self.add_to_total(item, model_key, storage_key, total_cost)
+                                                user1.calculate()
+                                                print("Purchase successful!")
+                                            else:
+                                                print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
+                                        else:
+                                            print("Insufficient balance.")
+                                        
+                                        return
+                                    elif confirm == "no" or confirm == "n":
+                                        print("Purchase canceled.")
+                                        self.iphone_menu()
+                                        return 
+                                    else:
+                                        print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                            elif user_buy == "no" or user_buy == "n":
+                                print("Thank for viewing our stock!")
                                 self.iphone_menu()
+                                return 
                             else:
-                                print("Invalid confirmation input.")
-                        elif user_buy == "no" or user_buy == "n":
-                            print("Thank for viewing our stock!")
-                            self.iphone_menu()
-                        else:
-                            print("Invalid output.")
+                                print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                                user_buy = input("Do you interesting in our product? If you want to buy(yes), if not(no): ").lower()
                 except FileNotFoundError:
                     print(f"The file {self.fileiphone11_user} was not found. Please ensure it exists in the correct directory.")
                     return
+
             elif choice == "2" :
                 # print("Model:iPhone_12")
                 try: 
                     with open(self.fileiphone12_user,"r") as file:
                         content = file.read()
                         print(content)
-                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-                        if user_buy == "yes" or user_buy == "y":
-                            model_key = "iphone_12"
-                            while True:
-                                storage = input("Storage(64/128/256):")
-                                storage_key = f"{storage}GB"
-                                try:
-                                    with open(self.fileiphone_staff, "r") as file:
-                                        content = file.read()
-                                        stock_data = ast.literal_eval(content)
-                                    if model_key in stock_data:
-                                        if storage_key in stock_data[model_key]:
-                                            if storage == "64" :
-                                                    # print("$599")
-                                                value = "$699"
-                                                break
-                                                    # print(value)
-                                            elif storage == "128" :
-                                                    # print("$699")
-                                                value = "$799"
-                                                break
-                                                    # print(value)
-                                            elif storage == "256" :
-                                                    # print("$799")
-                                                value = "$899"
-                                                break
-                                                    # print(value)
-                                            else:
-                                                print("Invalid storage option.")
-                                                return
-                                except FileNotFoundError:
-                                    print(f"The file {self.fileiphone_staff} was not found. Please ensure it exists in the correct directory.")
-                            while True:
-                                item = input("Items (enter a valid number): ")
-                                if item.isdigit():
-                                    item = int(item)
-                                    break
-                                else:
-                                    print("Invalid input. Please enter a valid number.")
-                            confirm = input("Confirm your buy(yes,no):").strip().lower()
-                            if confirm == "yes" or confirm == "y":
-                                price = float(value.replace("$", ""))
-                                total_cost = price * item
-                                if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
-                                    if  stock_data[model_key][storage_key] >= item:
-                                        stock_data[model_key][storage_key] -= item
-                                        # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
-                                        with open(self.fileiphone_staff, "w") as file: 
-                                            file.write(str(stock_data))
-                                        self.add_to_total(item, model_key, storage_key,total_cost)
-                                        user1.calculate()
+                        while True:
+                            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                            if user_buy == "yes" or user_buy == "y":
+                                model_key = "iphone_12"
+                                while True:
+                                    storage = input("Storage(64/128/256):")
+                                    storage_key = f"{storage}GB"
+                                    try:
+                                        with open(self.fileiphone_staff, "r") as file:
+                                            content = file.read()
+                                            stock_data = ast.literal_eval(content)
+                                        if model_key in stock_data:
+                                            if storage_key in stock_data[model_key]:
+                                                if storage == "64" :
+                                                        # print("$599")
+                                                    value = "$699"
+                                                    break
+                                                        # print(value)
+                                                elif storage == "128" :
+                                                        # print("$699")
+                                                    value = "$799"
+                                                    break
+                                                        # print(value)
+                                                elif storage == "256" :
+                                                        # print("$799")
+                                                    value = "$899"
+                                                    break
+                                                        # print(value)
+                                                else:
+                                                    print("Invalid storage option.")
+                                                    return
+                                    except FileNotFoundError:
+                                        print(f"The file {self.fileiphone_staff} was not found. Please ensure it exists in the correct directory.")
+                                while True:
+                                    item = input("Items (enter a valid number): ")
+                                    if item.isdigit():
+                                        item = int(item)
+                                        break
                                     else:
-                                        print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
-                                else:
-                                    print("Insufficient balance.")
-                            elif confirm == "no" or confirm == "n":
-                                print("Purchase canceled.")
+                                        print("Invalid input. Please enter a valid number.")
+                                while True:
+                                    confirm = input("Confirm your buy(yes,no):").strip().lower()
+                                    if confirm == "yes" or confirm == "y":
+                                        price = float(value.replace("$", ""))
+                                        total_cost = price * item
+                                        if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
+                                            if  stock_data[model_key][storage_key] >= item:
+                                                stock_data[model_key][storage_key] -= item
+                                                # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
+                                                with open(self.fileiphone_staff, "w") as file: 
+                                                    file.write(str(stock_data))
+                                                self.add_to_total(item, model_key, storage_key,total_cost)
+                                                user1.calculate()
+                                                print("Purchase successful!")
+                                            else:
+                                                print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
+                                        else:
+                                            print("Insufficient balance.")
+                                        return
+                                    elif confirm == "no" or confirm == "n":
+                                        print("Purchase canceled.")
+                                        self.iphone_menu()
+                                        return
+                                    else:
+                                        print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                            elif user_buy == "no" or user_buy == "n":
+                                print("Thank for viewing our stock!")
                                 self.iphone_menu()
+                                return
                             else:
-                                print("Invalid confirmation input.")
-                        elif user_buy == "no" or user_buy == "n":
-                            print("Thank for viewing our stock!")
-                            self.iphone_menu()
-                        else:
-                            print("Invalid output.")
+                                print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                                
                 except FileNotFoundError:
                     print(f"The file {self.fileiphone12_user} was not found. Please ensure it exists in the correct directory.")
                     return
@@ -249,71 +266,77 @@ class Stock:
                     with open(self.fileiphone13_user,"r") as file:
                         content = file.read()
                         print(content)
-                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-                        if user_buy == "yes" or user_buy == "y":
-                            model_key = "iphone_13"
-                            while True:
-                                storage = input("Storage(128/256/512):")
-                                storage_key = f"{storage}GB"
-                                try:
-                                    with open(self.fileiphone_staff, "r") as file:
-                                        content = file.read()
-                                        stock_data = ast.literal_eval(content)
-                                    if model_key in stock_data:
-                                        if storage_key in stock_data[model_key]:
-                                            if storage == "128" :
-                                                    # print("$599")
-                                                value = "$799"
-                                                break
-                                                    # print(value)
-                                            elif storage == "256" :
-                                                    # print("$699")
-                                                value = "$899"
-                                                break
-                                                    # print(value)
-                                            elif storage == "512" :
-                                                    # print("$799")
-                                                value = "$999"
-                                                break
-                                                    # print(value)
-                                            else:
-                                                print("Invalid storage option.")
-                                                return
-                                except FileNotFoundError:
-                                    print(f"The file {self.fileiphone_staff} was not found. Please ensure it exists in the correct directory.")
-                            while True:
-                                item = input("Items (enter a valid number): ")
-                                if item.isdigit():
-                                    item = int(item)
-                                    break
-                                else:
-                                    print("Invalid input. Please enter a valid number.")
-                            confirm = input("Confirm your buy(yes,no):").strip().lower()
-                            if confirm == "yes" or confirm == "y":
-                                price = float(value.replace("$", ""))
-                                total_cost = price * item
-                                if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
-                                    if  stock_data[model_key][storage_key] >= item:
-                                        stock_data[model_key][storage_key] -= item
-                                        # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
-                                        with open(self.fileiphone_staff, "w") as file: 
-                                            file.write(str(stock_data))
-                                        self.add_to_total(item, model_key, storage_key,total_cost)
-                                        user1.calculate()
+                        while True:
+                            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                            if user_buy == "yes" or user_buy == "y":
+                                model_key = "iphone_13"
+                                while True:
+                                    storage = input("Storage(128/256/512):")
+                                    storage_key = f"{storage}GB"
+                                    try:
+                                        with open(self.fileiphone_staff, "r") as file:
+                                            content = file.read()
+                                            stock_data = ast.literal_eval(content)
+                                        if model_key in stock_data:
+                                            if storage_key in stock_data[model_key]:
+                                                if storage == "128" :
+                                                        # print("$599")
+                                                    value = "$799"
+                                                    break
+                                                        # print(value)
+                                                elif storage == "256" :
+                                                        # print("$699")
+                                                    value = "$899"
+                                                    break
+                                                        # print(value)
+                                                elif storage == "512" :
+                                                        # print("$799")
+                                                    value = "$999"
+                                                    break
+                                                        # print(value)
+                                                else:
+                                                    print("Invalid storage option.")
+                                                    return
+                                    except FileNotFoundError:
+                                        print(f"The file {self.fileiphone_staff} was not found. Please ensure it exists in the correct directory.")
+                                while True:
+                                    item = input("Items (enter a valid number): ")
+                                    if item.isdigit():
+                                        item = int(item)
+                                        break
                                     else:
-                                        print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
-                                else:
-                                    print("Insufficient balance.")
-                            elif confirm == "no" or confirm == "n":
-                                print("Purchase canceled.")
+                                        print("Invalid input. Please enter a valid number.")
+                                while True:
+                                    confirm = input("Confirm your buy(yes,no):").strip().lower()
+                                    if confirm == "yes" or confirm == "y":
+                                        price = float(value.replace("$", ""))
+                                        total_cost = price * item
+                                        if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
+                                            if  stock_data[model_key][storage_key] >= item:
+                                                stock_data[model_key][storage_key] -= item
+                                                # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
+                                                with open(self.fileiphone_staff, "w") as file: 
+                                                    file.write(str(stock_data))
+                                                self.add_to_total(item, model_key, storage_key,total_cost)
+                                                user1.calculate()
+                                                print("Purchase successful!")
+                                            else:
+                                                print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
+                                        else:
+                                            print("Insufficient balance.")
+                                        return
+                                    elif confirm == "no" or confirm == "n":
+                                        print("Purchase canceled.")
+                                        self.iphone_menu()
+                                    else:
+                                        print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                            elif user_buy == "no" or user_buy == "n":
+                                print("Thank for viewing our stock!")
                                 self.iphone_menu()
+                                return
                             else:
-                                print("Invalid confirmation input.")
-                        elif user_buy == "no" or user_buy == "n":
-                            print("Thank for viewing our stock!")
-                            self.iphone_menu()
-                        else:
-                            print("Invalid output.")
+                                print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
                 except FileNotFoundError:
                     print(f"The file {self.fileiphone13_user} was not found. Please ensure it exists in the correct directory.")
                     return
@@ -323,74 +346,82 @@ class Stock:
                     with open(self.fileiphone14_user,"r") as file:
                         content = file.read()
                         print(content)
-                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-                        if user_buy == "yes" or user_buy == "y":
-                            model_key = "iphone_14"
-                            while True:
-                                storage = input("Storage(128/256/1):")
-                                if storage == "1":
-                                    storage_key = f"{storage}TB"
-                                else:
-                                    storage_key = f"{storage}GB"
-                                try:
-                                    with open(self.fileiphone_staff, "r") as file:
-                                        content = file.read()
-                                        stock_data = ast.literal_eval(content)
-                                    if model_key in stock_data:
-                                        if storage_key in stock_data[model_key]:
-                                            if storage == "128" :
-                                                    # print("$599")
-                                                value = "$899"
-                                                break
-                                                    # print(value)
-                                            elif storage == "256" :
-                                                    # print("$699")
-                                                value = "$999"
-                                                break
-                                                    # print(value)
-                                            elif storage == "1" :
-                                                    # print("$799")
-                                                value = "1099"
-                                                break
-                                                    # print(value)
-                                            else:
-                                                print("Invalid storage option.")
-                                                return
-                                except FileNotFoundError:
-                                        print(f"The file {self.fileiphone_staff} was not found. Please ensure it exists in the correct directory.")
-                            while True:
-                                item = input("Items (enter a valid number): ")
-                                if item.isdigit():
-                                    item = int(item)
-                                    break
-                                else:
-                                    print("Invalid input. Please enter a valid number.")
-                            confirm = input("Confirm your buy(yes,no):").strip().lower()
-                            if confirm == "yes" or confirm == "y":
-                                price = float(value.replace("$", ""))
-                                total_cost = price * item
-                                if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
-                                    if  stock_data[model_key][storage_key] >= item:
-                                        stock_data[model_key][storage_key] -= item
-                                        # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
-                                        with open(self.fileiphone_staff, "w") as file: 
-                                            file.write(str(stock_data))
-                                        self.add_to_total(item, model_key, storage_key,total_cost)
-                                        user1.calculate()
+                        while True:
+                            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                            if user_buy == "yes" or user_buy == "y":
+                                model_key = "iphone_14"
+                                while True:
+                                    storage = input("Storage(128/256/1):")
+                                    if storage == "1":
+                                        storage_key = f"{storage}TB"
                                     else:
-                                        print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
-                                else:
-                                    print("Insufficient balance.")
-                            elif confirm == "no" or confirm == "n":
-                                print("Purchase canceled.")
+                                        storage_key = f"{storage}GB"
+                                    try:
+                                        with open(self.fileiphone_staff, "r") as file:
+                                            content = file.read()
+                                            stock_data = ast.literal_eval(content)
+                                        if model_key in stock_data:
+                                            if storage_key in stock_data[model_key]:
+                                                if storage == "128" :
+                                                        # print("$599")
+                                                    value = "$899"
+                                                    break
+                                                        # print(value)
+                                                elif storage == "256" :
+                                                        # print("$699")
+                                                    value = "$999"
+                                                    break
+                                                        # print(value)
+                                                elif storage == "1" :
+                                                        # print("$799")
+                                                    value = "1099"
+                                                    break
+                                                        # print(value)
+                                                else:
+                                                    print("Invalid storage option.")
+                                                    return
+                                    except FileNotFoundError:
+                                            print(f"The file {self.fileiphone_staff} was not found. Please ensure it exists in the correct directory.")
+                                while True:
+                                    item = input("Items (enter a valid number): ")
+                                    if item.isdigit():
+                                        item = int(item)
+                                        break
+                                    else:
+                                        print("Invalid input. Please enter a valid number.")
+                                while True:
+                                    confirm = input("Confirm your buy(yes,no):").strip().lower()
+                                    if confirm == "yes" or confirm == "y":
+                                        price = float(value.replace("$", ""))
+                                        total_cost = price * item
+                                        if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
+                                            if  stock_data[model_key][storage_key] >= item:
+                                                stock_data[model_key][storage_key] -= item
+                                                # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
+                                                with open(self.fileiphone_staff, "w") as file: 
+                                                    file.write(str(stock_data))
+                                                self.add_to_total(item, model_key, storage_key,total_cost)
+                                                user1.calculate()
+                                                print("Purchase successful!")
+                                            else:
+                                                print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
+                                        else:
+                                            print("Insufficient balance.")
+                                            return
+                                    elif confirm == "no" or confirm == "n":
+                                        print("Purchase canceled.")
+                                        self.iphone_menu()
+                                        return
+                                    else:
+                                        print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                                    
+                            elif user_buy == "no":
+                                print("Thank for viewing our stock!")
                                 self.iphone_menu()
+                                return
                             else:
-                                print("Invalid confirmation input.")
-                        elif user_buy == "no":
-                            print("Thank for viewing our stock!")
-                            self.iphone_menu()
-                        else:
-                            print("Invalid output.")
+                                print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
                 except FileNotFoundError:
                     print(f"The file {self.fileiphone14_user} was not found. Please ensure it exists in the correct directory.")
                     return
@@ -400,74 +431,81 @@ class Stock:
                     with open(self.fileiphone15_user,"r") as file:
                         content = file.read()
                         print(content)
-                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-                        if user_buy == "yes" or user_buy == "y":
-                            model_key = "iphone_15"
-                            while True:
-                                storage = input("Storage(128/256/1):")
-                                if storage == "1":
-                                    storage_key = f"{storage}TB"
-                                else:
-                                    storage_key = f"{storage}GB"
-                                try:
-                                        with open(self.fileiphone_staff, "r") as file:
-                                            content = file.read()
-                                            stock_data = ast.literal_eval(content)
-                                        if model_key in stock_data:
-                                            if storage_key in stock_data[model_key]:
-                                                if storage == "128" :
-                                                    # print("$599")
-                                                    value = "$999"
-                                                    break
-                                                    # print(value)
-                                                elif storage == "256" :
-                                                    # print("$699")
-                                                    value = "$1199"
-                                                    break
-                                                    # print(value)
-                                                elif storage == "1" :
-                                                    # print("$799")
-                                                    value = "1299"
-                                                    break
-                                                    # print(value)
-                                                else:
-                                                    print("Invalid storage option.")
-                                                    return
-                                except FileNotFoundError:
-                                    print(f"The file {self.fileiphone_staff} was not found. Please ensure it exists in the correct directory.")
-                            while True:
-                                item = input("Items (enter a valid number): ")
-                                if item.isdigit():
-                                    item = int(item)
-                                    break
-                                else:
-                                    print("Invalid input. Please enter a valid number.")
-                            confirm = input("Confirm your buy(yes,no):").strip().lower()
-                            if confirm == "yes" or confirm == "y":
-                                price = float(value.replace("$", ""))
-                                total_cost = price * item
-                                if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
-                                    if  stock_data[model_key][storage_key] >= item:
-                                        stock_data[model_key][storage_key] -= item
-                                        # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
-                                        with open(self.fileiphone_staff, "w") as file: 
-                                            file.write(str(stock_data))
-                                        self.add_to_total(item, model_key, storage_key,total_cost)
-                                        user1.calculate()
+                        while True:
+                            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                            if user_buy == "yes" or user_buy == "y":
+                                model_key = "iphone_15"
+                                while True:
+                                    storage = input("Storage(128/256/1):")
+                                    if storage == "1":
+                                        storage_key = f"{storage}TB"
                                     else:
-                                        print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
-                                else:
-                                    print("Insufficient balance.")
-                            elif confirm == "no" or confirm == "n":
-                                print("Purchase canceled.")
+                                        storage_key = f"{storage}GB"
+                                    try:
+                                            with open(self.fileiphone_staff, "r") as file:
+                                                content = file.read()
+                                                stock_data = ast.literal_eval(content)
+                                            if model_key in stock_data:
+                                                if storage_key in stock_data[model_key]:
+                                                    if storage == "128" :
+                                                        # print("$599")
+                                                        value = "$999"
+                                                        break
+                                                        # print(value)
+                                                    elif storage == "256" :
+                                                        # print("$699")
+                                                        value = "$1199"
+                                                        break
+                                                        # print(value)
+                                                    elif storage == "1" :
+                                                        # print("$799")
+                                                        value = "1299"
+                                                        break
+                                                        # print(value)
+                                                    else:
+                                                        print("Invalid storage option.")
+                                                        return
+                                    except FileNotFoundError:
+                                        print(f"The file {self.fileiphone_staff} was not found. Please ensure it exists in the correct directory.")
+                                while True:
+                                    item = input("Items (enter a valid number): ")
+                                    if item.isdigit():
+                                        item = int(item)
+                                        break
+                                    else:
+                                        print("Invalid input. Please enter a valid number.")
+                                while True:
+                                    confirm = input("Confirm your buy(yes,no):").strip().lower()
+                                    if confirm == "yes" or confirm == "y":
+                                        price = float(value.replace("$", ""))
+                                        total_cost = price * item
+                                        if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
+                                            if  stock_data[model_key][storage_key] >= item:
+                                                stock_data[model_key][storage_key] -= item
+                                                # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
+                                                with open(self.fileiphone_staff, "w") as file: 
+                                                    file.write(str(stock_data))
+                                                self.add_to_total(item, model_key, storage_key,total_cost)
+                                                user1.calculate()
+                                                print("Purchase successful!")
+                                            else:
+                                                print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
+                                        else:
+                                            print("Insufficient balance.")
+                                        return
+                                    elif confirm == "no" or confirm == "n":
+                                        print("Purchase canceled.")
+                                        self.iphone_menu()
+                                        return
+                                    else:
+                                        print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                            elif user_buy == "no" or user_buy == "n":
+                                print("Thank for viewing our stock!")
                                 self.iphone_menu()
+                                return
                             else:
-                                print("Invalid confirmation input.")
-                        elif user_buy == "no" or user_buy == "n":
-                            print("Thank for viewing our stock!")
-                            self.iphone_menu()
-                        else:
-                            print("Invalid output.")
+                                print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
                 except FileNotFoundError:
                     print(f"The file {self.fileiphone15_user} was not found. Please ensure it exists in the correct directory.")
                     return
@@ -489,69 +527,77 @@ class Stock:
         except FileNotFoundError:
             print(f"The file {self.airpod_user} was not found. Please ensure it exists in the correct directory.")
             return
-        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-        if user_buy == "yes" or user_buy == "y":
-            choice = input("Option:(Gen,Pro,Max):")
-            if choice == "Gen":
-                # print("Price:$159")
-                value = "$159"
-                # print(value)
-                choice_key = "Airpods_2nd_Gen"
-            elif choice == "Pro":
-                # print("Price:$249")
-                value = "$249"
-                # print(value)
-                choice_key = "Airpods_Pro"
-            elif choice == "Max":
-                # print("Price:$549")
-                value = "$549"
-                # print(value)
-                choice_key = "Airpods_Max"
-            else:
-                print(f"{choice} doesn't has in our stock.")
-                os.system("cls")
-                return
-            while True:
-                item = input("Items (enter a valid number): ")
-                if item.isdigit():
-                    item = int(item)
-                    break
+        while True:
+            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+            if user_buy == "yes" or user_buy == "y":
+                choice = input("Option:(Gen,Pro,Max):")
+                if choice == "Gen":
+                    # print("Price:$159")
+                    value = "$159"
+                    # print(value)
+                    choice_key = "Airpods_2nd_Gen"
+                elif choice == "Pro":
+                    # print("Price:$249")
+                    value = "$249"
+                    # print(value)
+                    choice_key = "Airpods_Pro"
+                elif choice == "Max":
+                    # print("Price:$549")
+                    value = "$549"
+                    # print(value)
+                    choice_key = "Airpods_Max"
                 else:
-                    print("Invalid input. Please enter a valid number.")
-            confirm = input("Confirm your buy(yes,no):").strip().lower()
-            if confirm == "yes" or confirm == "y":
-                try:
-                    with open(self.fileairpod_staff, "r") as file:
-                        stock_data = ast.literal_eval(file.read())
-                                # stock_data = ast.literal_eval(content)
-                        if choice_key in stock_data:
-                                #check if there are enough stock and balance
-                            price = float(value.replace("$", ""))
-                            total_cost = price * item
-                                #check if theuser has enough balance
-                            if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
-                                if stock_data[choice_key] >= item:
-                                    stock_data[choice_key] -=item
-                                        # print(f"Purchase successful! Remaining stock for {choice_key} : {stock_data[choice_key]}")
-                                    with open(self.fileairpod_staff, "w") as file: 
-                                        file.write(str(stock_data))
-                                    self.add_to_total(item, choice_key, None,total_cost)
-                                    user1.calculate()
-                                else:
-                                    print(f"Sorry, {choice_key} is out of stock.")
-                            else:
-                                print("Insufficient balance.")
-                except FileNotFoundError:
-                    print(f"The file {self.fileairpod_staff} was not found. Please ensure it exists in the correct directory.")
-            elif confirm == "no" or confirm == "n":
-                print("Purchase canceled.")
-                    # self.airpod_menu()
+                    print(f"{choice} doesn't has in our stock.")
+                    os.system("cls")
+                    return
+                while True:
+                    item = input("Items (enter a valid number): ")
+                    if item.isdigit():
+                        item = int(item)
+                        break
+                    else:
+                        print("Invalid input. Please enter a valid number.")
+                while True:
+                    confirm = input("Confirm your buy(yes,no):").strip().lower()
+                    if confirm == "yes" or confirm == "y":
+                        try:
+                            with open(self.fileairpod_staff, "r") as file:
+                                stock_data = ast.literal_eval(file.read())
+                                        # stock_data = ast.literal_eval(content)
+                                if choice_key in stock_data:
+                                        #check if there are enough stock and balance
+                                    price = float(value.replace("$", ""))
+                                    total_cost = price * item
+                                        #check if theuser has enough balance
+                                    if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
+                                        if stock_data[choice_key] >= item:
+                                            stock_data[choice_key] -=item
+                                                # print(f"Purchase successful! Remaining stock for {choice_key} : {stock_data[choice_key]}")
+                                            with open(self.fileairpod_staff, "w") as file: 
+                                                file.write(str(stock_data))
+                                            self.add_to_total(item, choice_key, None,total_cost)
+                                            user1.calculate()
+                                            print("Purchase successful!")
+                                        else:
+                                            print(f"Sorry, {choice_key} is out of stock.")
+                                    else:
+                                        print("Insufficient balance.")
+                                    return
+                        except FileNotFoundError:
+                            print(f"The file {self.fileairpod_staff} was not found. Please ensure it exists in the correct directory.")
+                    elif confirm == "no" or confirm == "n":
+                        print("Purchase canceled.")
+                        self.airpod_menu()
+                        return
+                    else:
+                        print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")    
+            elif user_buy == "no" or user_buy == "n":
+                print("Thank for viewing our stock!")
+                self.stock_menu()
                 return
             else:
-                print("Invalid confirmation input.")            
-        elif user_buy == "no" or user_buy == "n":
-            print("Thank for viewing our stock!")
-            self.stock_menu()
+                print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
     # for user to view the stock of macbook
     def macbook_menu(self):
         while True:
@@ -571,66 +617,73 @@ class Stock:
                         content = file.read()
                         # print("Stock:")
                         print(content)
-                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-                        if user_buy == "yes" or user_buy == "y":
-                            model_key = "MacBook_Air_M1"
-                            while True:
-                                storage = input("Storage(256/512):")
-                                storage_key = f"{storage}GB"
-                                try:
-                                    with open(self.filemacbook_staff, "r") as file:
-                                        content = file.read()
-                                        stock_data = ast.literal_eval(content)
-                                    if model_key in stock_data:
-                                        if storage_key in stock_data[model_key]:
-                                            if storage == "256" :
-                                                # print("$999")
-                                                value = "$999"
-                                                break
-                                                # print(value)
-                                            elif storage == "512" :
-                                                # print("$1249")
-                                                value = "$1249"
-                                                break
-                                                # print(value)
-                                            else:
-                                                print("Invalid storage option.")
-                                                return
-                                except FileNotFoundError:
-                                    print(f"The file {self.filemacbook_staff} was not found. Please ensure it exists in the correct directory.")     
-                            while True:
-                                item = input("Items (enter a valid number): ")
-                                if item.isdigit():
-                                    item = int(item)
-                                    break
-                                else:
-                                    print("Invalid input. Please enter a valid number.")
-                            confirm = input("Confirm your buy(yes,no):").strip().lower()
-                            if confirm == "yes" or confirm == "y":
-                                price = float(value.replace("$", ""))
-                                total_cost = price * item
-                                if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
-                                    if  stock_data[model_key][storage_key] >= item:
-                                        stock_data[model_key][storage_key] -= item
-                                        # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
-                                        with open(self.filemacbook_staff, "w") as file: 
-                                            file.write(str(stock_data))
-                                        self.add_to_total(item, model_key, storage_key,total_cost)
-                                        user1.calculate()
+                        while True:
+                            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                            if user_buy == "yes" or user_buy == "y":
+                                model_key = "MacBook_Air_M1"
+                                while True:
+                                    storage = input("Storage(256/512):")
+                                    storage_key = f"{storage}GB"
+                                    try:
+                                        with open(self.filemacbook_staff, "r") as file:
+                                            content = file.read()
+                                            stock_data = ast.literal_eval(content)
+                                        if model_key in stock_data:
+                                            if storage_key in stock_data[model_key]:
+                                                if storage == "256" :
+                                                    # print("$999")
+                                                    value = "$999"
+                                                    break
+                                                    # print(value)
+                                                elif storage == "512" :
+                                                    # print("$1249")
+                                                    value = "$1249"
+                                                    break
+                                                    # print(value)
+                                                else:
+                                                    print("Invalid storage option.")
+                                                    return
+                                    except FileNotFoundError:
+                                        print(f"The file {self.filemacbook_staff} was not found. Please ensure it exists in the correct directory.")     
+                                while True:
+                                    item = input("Items (enter a valid number): ")
+                                    if item.isdigit():
+                                        item = int(item)
+                                        break
                                     else:
-                                        print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
-                                else:
-                                    print("Insufficient balance.")
-                            elif confirm == "no" or confirm == "n":
-                                print("Purchase canceled.")
+                                        print("Invalid input. Please enter a valid number.")
+                                while True:
+                                    confirm = input("Confirm your buy(yes,no):").strip().lower()
+                                    if confirm == "yes" or confirm == "y":
+                                        price = float(value.replace("$", ""))
+                                        total_cost = price * item
+                                        if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
+                                            if  stock_data[model_key][storage_key] >= item:
+                                                stock_data[model_key][storage_key] -= item
+                                                # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
+                                                with open(self.filemacbook_staff, "w") as file: 
+                                                    file.write(str(stock_data))
+                                                self.add_to_total(item, model_key, storage_key,total_cost)
+                                                user1.calculate()
+                                                print("Purchase successful!")
+                                            else:
+                                                print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
+                                        else:
+                                            print("Insufficient balance.")
+                                        return
+                                    elif confirm == "no" or confirm == "n":
+                                        print("Purchase canceled.")
+                                        self.macbook_menu()
+                                        return
+                                    else:
+                                        print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                            elif user_buy == "no" or user_buy == "n":
+                                print("Thank for viewing our stock!")
                                 self.macbook_menu()
+                                return
                             else:
-                                print("Invalid confirmation input.")
-                        elif user_buy == "no" or user_buy == "n":
-                            print("Thank for viewing our stock!")
-                            self.macbook_menu()
-                        else:
-                            print("Invalid output.")
+                                print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
                 except FileNotFoundError:
                     print(f"The file {self.mac_m1_user} was not found. Please ensure it exists in the correct directory.")
                     return
@@ -641,66 +694,73 @@ class Stock:
                         content = file.read()
                         # print("Stock:")
                         print(content)
-                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-                        if user_buy == "yes":
-                            model_key = "MacBook_Air_M2"
-                            storage = input("Storage(256/512):")
-                            storage_key = f"{storage}GB"
-                            while True:
-                                try:
-                                    with open(self.filemacbook_staff, "r") as file:
-                                        content = file.read()
-                                        stock_data = ast.literal_eval(content)
-                                    if model_key in stock_data:
-                                        if storage_key in stock_data[model_key]:
-                                            if storage == "256" :
-                                                # print("$999")
-                                                value = "$999"
-                                                break
-                                                # print(value)
-                                            elif storage == "512" :
-                                                # print("$1249")
-                                                value = "$1249"
-                                                break
-                                                # print(value)
-                                            else:
-                                                print("Invalid storage option.")
-                                                return
-                                except FileNotFoundError:
-                                    print(f"The file {self.filemacbook_staff} was not found. Please ensure it exists in the correct directory.")
-                            while True:
-                                item = input("Items (enter a valid number): ")
-                                if item.isdigit():
-                                    item = int(item)
-                                    break
-                                else:
-                                    print("Invalid input. Please enter a valid number.")
-                            confirm = input("Confirm your buy(yes,no):").strip().lower()
-                            if confirm == "yes":
-                                price = float(value.replace("$", ""))
-                                total_cost = price * item
-                                if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
-                                    if  stock_data[model_key][storage_key] >= item:
-                                        stock_data[model_key][storage_key] -= item
-                                        # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
-                                        with open(self.filemacbook_staff, "w") as file: 
-                                            file.write(str(stock_data))
-                                        self.add_to_total(item, model_key, storage_key,total_cost)
-                                        user1.calculate()
+                        while True:
+                            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                            if user_buy == "yes":
+                                model_key = "MacBook_Air_M2"
+                                storage = input("Storage(256/512):")
+                                storage_key = f"{storage}GB"
+                                while True:
+                                    try:
+                                        with open(self.filemacbook_staff, "r") as file:
+                                            content = file.read()
+                                            stock_data = ast.literal_eval(content)
+                                        if model_key in stock_data:
+                                            if storage_key in stock_data[model_key]:
+                                                if storage == "256" :
+                                                    # print("$999")
+                                                    value = "$999"
+                                                    break
+                                                    # print(value)
+                                                elif storage == "512" :
+                                                    # print("$1249")
+                                                    value = "$1249"
+                                                    break
+                                                    # print(value)
+                                                else:
+                                                    print("Invalid storage option.")
+                                                    return
+                                    except FileNotFoundError:
+                                        print(f"The file {self.filemacbook_staff} was not found. Please ensure it exists in the correct directory.")
+                                while True:
+                                    item = input("Items (enter a valid number): ")
+                                    if item.isdigit():
+                                        item = int(item)
+                                        break
                                     else:
-                                        print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
-                                else:
-                                    print("Insufficient balance.")
-                            elif confirm == "no" or confirm == "n":
-                                print("Purchase canceled.")
+                                        print("Invalid input. Please enter a valid number.")
+                                while True:
+                                    confirm = input("Confirm your buy(yes,no):").strip().lower()
+                                    if confirm == "yes":
+                                        price = float(value.replace("$", ""))
+                                        total_cost = price * item
+                                        if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
+                                            if  stock_data[model_key][storage_key] >= item:
+                                                stock_data[model_key][storage_key] -= item
+                                                # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
+                                                with open(self.filemacbook_staff, "w") as file: 
+                                                    file.write(str(stock_data))
+                                                self.add_to_total(item, model_key, storage_key,total_cost)
+                                                user1.calculate()
+                                                print("Purchase successful!")
+                                            else:
+                                                print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
+                                        else:
+                                            print("Insufficient balance.")
+                                        return
+                                    elif confirm == "no" or confirm == "n":
+                                        print("Purchase canceled.")
+                                        self.macbook_menu()
+                                        return
+                                    else:
+                                        print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                            elif user_buy == "no" or user_buy == "n":
+                                print("Thank for viewing our stock!")
                                 self.macbook_menu()
+                                return
                             else:
-                                print("Invalid confirmation input.")
-                        elif user_buy == "no" or user_buy == "n":
-                            print("Thank for viewing our stock!")
-                            self.macbook_menu()
-                        else:
-                            print("Invalid output.")
+                                print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
                 except FileNotFoundError:
                     print(f"The file {self.mac_m2_user} was not found. Please ensure it exists in the correct directory.")
                     return
@@ -711,69 +771,76 @@ class Stock:
                         content = file.read()
                         # print("Stock:")
                         print(content)
-                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-                        if user_buy == "yes":
-                            model_key = "MacBook_Pro_14inch"
-                            storage = input("Storage(1(TB)/512):")
-                            if storage == "1":
-                                storage_key = f"{storage}TB" 
-                            else:
-                                storage_key = f"{storage}GB"
-                            while True:
-                                try:
-                                    with open(self.filemacbook_staff, "r") as file:
-                                        content = file.read()
-                                        stock_data = ast.literal_eval(content)
-                                    if model_key in stock_data:
-                                        if storage_key in stock_data[model_key]:
-                                            if storage == "512" :
-                                                # print("$999")
-                                                value = "$1249"
-                                                break
-                                                # print(value)
-                                            elif storage == "1" :
-                                                # print("$1249")
-                                                value = "$2499"
-                                                break
-                                                # print(value)
-                                            else:
-                                                print("Invalid storage option.")
-                                                return
-                                except FileNotFoundError:
-                                    print(f"The file {self.filemacbook_staff} was not found. Please ensure it exists in the correct directory.")
-                            while True:
-                                item = input("Items (enter a valid number): ")
-                                if item.isdigit():
-                                    item = int(item)
-                                    break
+                        while True:
+                            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                            if user_buy == "yes":
+                                model_key = "MacBook_Pro_14inch"
+                                storage = input("Storage(1(TB)/512):")
+                                if storage == "1":
+                                    storage_key = f"{storage}TB" 
                                 else:
-                                    print("Invalid input. Please enter a valid number.")
-                            confirm = input("Confirm your buy(yes,no):").strip().lower()
-                            if confirm == "yes" or confirm == "y":
-                                price = float(value.replace("$", ""))
-                                total_cost = price * item
-                                if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
-                                    if  stock_data[model_key][storage_key] >= item:
-                                        stock_data[model_key][storage_key] -= item
-                                        # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
-                                        with open(self.filemacbook_staff, "w") as file: 
-                                            file.write(str(stock_data))
-                                        self.add_to_total(item, model_key, storage_key,total_cost)
-                                        user1.calculate()
+                                    storage_key = f"{storage}GB"
+                                while True:
+                                    try:
+                                        with open(self.filemacbook_staff, "r") as file:
+                                            content = file.read()
+                                            stock_data = ast.literal_eval(content)
+                                        if model_key in stock_data:
+                                            if storage_key in stock_data[model_key]:
+                                                if storage == "512" :
+                                                    # print("$999")
+                                                    value = "$1249"
+                                                    break
+                                                    # print(value)
+                                                elif storage == "1" :
+                                                    # print("$1249")
+                                                    value = "$2499"
+                                                    break
+                                                    # print(value)
+                                                else:
+                                                    print("Invalid storage option.")
+                                                    return
+                                    except FileNotFoundError:
+                                        print(f"The file {self.filemacbook_staff} was not found. Please ensure it exists in the correct directory.")
+                                while True:
+                                    item = input("Items (enter a valid number): ")
+                                    if item.isdigit():
+                                        item = int(item)
+                                        break
                                     else:
-                                        print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
-                                else:
-                                    print("Insufficient balance.")
-                            elif confirm == "no" or confirm == "n":
-                                print("Purchase canceled.")
+                                        print("Invalid input. Please enter a valid number.")
+                                while True:
+                                    confirm = input("Confirm your buy(yes,no):").strip().lower()
+                                    if confirm == "yes" or confirm == "y":
+                                        price = float(value.replace("$", ""))
+                                        total_cost = price * item
+                                        if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
+                                            if  stock_data[model_key][storage_key] >= item:
+                                                stock_data[model_key][storage_key] -= item
+                                                # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
+                                                with open(self.filemacbook_staff, "w") as file: 
+                                                    file.write(str(stock_data))
+                                                self.add_to_total(item, model_key, storage_key,total_cost)
+                                                user1.calculate()
+                                                print("Purchase successful!")
+                                            else:
+                                                print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
+                                        else:
+                                            print("Insufficient balance.")
+                                        return
+                                    elif confirm == "no" or confirm == "n":
+                                        print("Purchase canceled.")
+                                        self.macbook_menu()
+                                        return
+                                    else:
+                                        print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                            elif user_buy == "no" or user_buy == "n":
+                                print("Thank for viewing our stock!")
                                 self.macbook_menu()
+                                return
                             else:
-                                print("Invalid confirmation input.")
-                        elif user_buy == "no" or user_buy == "n":
-                            print("Thank for viewing our stock!")
-                            self.macbook_menu()
-                        else:
-                            print("Invalid output.")
+                                print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
                 except FileNotFoundError:
                     print(f"The file {self.mac_pro_14} was not found. Please ensure it exists in the correct directory.")
                     return
@@ -784,70 +851,77 @@ class Stock:
                         content = file.read()
                         # print("Stock:")
                         print(content)
-                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-                        if user_buy == "yes":
-                            model_key = "MacBook_Pro_16inch"
-                            storage = input("Storage(1(TB)/512):")
-                            if storage == "1":
-                                storage_key = f"{storage}TB" 
-                            else:
-                                storage_key = f"{storage}GB"
-                            while True:
-                                try:
-                                    with open(self.filemacbook_staff, "r") as file:
-                                        content = file.read()
-                                        stock_data = ast.literal_eval(content)
-                                    if model_key in stock_data:
-                                        if storage_key in stock_data[model_key]:
-                                            if storage == "512" :
-                                                # print("$999")
-                                                value = "$2499"
-                                                break
-                                                # print(value)
-                                            elif storage == "1" :
-                                                # print("$1249")
-                                                value = "$2999"
-                                                break
-                                                # print(value)
-                                            else:
-                                                print("Invalid storage option.")
-                                                return
-                                except FileNotFoundError:
-                                    print(f"The file {self.filemacbook_staff} was not found. Please ensure it exists in the correct directory.")       
-                            while True:
-                                item = input("Items (enter a valid number): ")
-                                if item.isdigit():
-                                    item = int(item)
-                                    break
+                        while True:
+                            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                            if user_buy == "yes":
+                                model_key = "MacBook_Pro_16inch"
+                                storage = input("Storage(1(TB)/512):")
+                                if storage == "1":
+                                    storage_key = f"{storage}TB" 
                                 else:
-                                    print("Invalid input. Please enter a valid number.")
-                            confirm = input("Confirm your buy(yes,no):").strip().lower()
-                            if confirm == "yes" or confirm == "y":
-                                # user1.calculate()
-                                price = float(value.replace("$", ""))
-                                total_cost = price * item
-                                if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
-                                    if  stock_data[model_key][storage_key] >= item:
-                                        stock_data[model_key][storage_key] -= item
-                                        # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
-                                        with open(self.filemacbook_staff, "w") as file: 
-                                            file.write(str(stock_data))
-                                        self.add_to_total(item, model_key, storage_key,total_cost)
-                                        user1.calculate()
+                                    storage_key = f"{storage}GB"
+                                while True:
+                                    try:
+                                        with open(self.filemacbook_staff, "r") as file:
+                                            content = file.read()
+                                            stock_data = ast.literal_eval(content)
+                                        if model_key in stock_data:
+                                            if storage_key in stock_data[model_key]:
+                                                if storage == "512" :
+                                                    # print("$999")
+                                                    value = "$2499"
+                                                    break
+                                                    # print(value)
+                                                elif storage == "1" :
+                                                    # print("$1249")
+                                                    value = "$2999"
+                                                    break
+                                                    # print(value)
+                                                else:
+                                                    print("Invalid storage option.")
+                                                    return
+                                    except FileNotFoundError:
+                                        print(f"The file {self.filemacbook_staff} was not found. Please ensure it exists in the correct directory.")       
+                                while True:
+                                    item = input("Items (enter a valid number): ")
+                                    if item.isdigit():
+                                        item = int(item)
+                                        break
                                     else:
-                                        print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
-                                else:
-                                    print("Insufficient balance.")
-                            elif confirm == "no" or confirm == "n":
-                                print("Purchase canceled.")
+                                        print("Invalid input. Please enter a valid number.")
+                                while True:
+                                    confirm = input("Confirm your buy(yes,no):").strip().lower()
+                                    if confirm == "yes" or confirm == "y":
+                                        # user1.calculate()
+                                        price = float(value.replace("$", ""))
+                                        total_cost = price * item
+                                        if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
+                                            if  stock_data[model_key][storage_key] >= item:
+                                                stock_data[model_key][storage_key] -= item
+                                                # print(f"Purchase successful! Remaining stock for {model_key} ({storage_key}): {stock_data[model_key][storage_key]}")
+                                                with open(self.filemacbook_staff, "w") as file: 
+                                                    file.write(str(stock_data))
+                                                self.add_to_total(item, model_key, storage_key,total_cost)
+                                                user1.calculate()
+                                                print("Purchase successful!")
+                                            else:
+                                                print(f"Sorry, {model_key} for storage:{storage_key} is out of stock.")
+                                        else:
+                                            print("Insufficient balance.")
+                                        return
+                                    elif confirm == "no" or confirm == "n":
+                                        print("Purchase canceled.")
+                                        self.macbook_menu()
+                                        return
+                                    else:
+                                        print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                            elif user_buy == "no" or user_buy == "n":
+                                print("Thank for viewing our stock!")
                                 self.macbook_menu()
+                                return
                             else:
-                                print("Invalid confirmation input.")
-                        elif user_buy == "no" or user_buy == "n":
-                            print("Thank for viewing our stock!")
-                            self.macbook_menu()
-                        else:
-                            print("Invalid output.")
+                                print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
+                                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
                 except FileNotFoundError:
                     print(f"The file {self.mac_pro_16} was not found. Please ensure it exists in the correct directory.")
                     return
@@ -873,16 +947,16 @@ class Stock:
             print("6.Exit")
             option = input("Option:")
             if option == "1":
-                os.system("cls")
+                self.clear_screen()
                 self.iphone_menu()
             elif option == "2":
-                os.system("cls")
+                self.clear_screen()
                 self.airpod_menu()
             elif option == "3":
-                os.system("cls")
+                self.clear_screen()
                 self.macbook_menu()
             elif option == "4":
-                os.system("cls")
+                self.clear_screen()
                 self.show_total()
             elif option == "5":
                 user1.usage_menu()
@@ -1557,12 +1631,21 @@ class User(Stock):
     def show_list(self):
         print(self.balances)
         print(self.users)
+<<<<<<< HEAD
 user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_pw.txt"
 balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_balance.txt"
 history_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_history.txt"
 fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
 fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
 filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
+=======
+# user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_pw.txt"
+# balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_balance.txt"
+# history_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_history.txt"
+# fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
+# fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
+# filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
+>>>>>>> 23d2b1de612c8c4c37300c399567d08dbf9b9192
 
 
 
@@ -1576,51 +1659,53 @@ filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Techn
 
 # user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_pw.txt"
 
-fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
-fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
-filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
-# balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_balance.txt"
+# fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
+# fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
+# filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
+# # balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_balance.txt"
 
-# view stock for users iphone
-fileiphone11_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone11_user.txt"
-fileiphone12_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone12_user.txt"
-fileiphone13_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone13_user.txt"
-fileiphone14_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone14_user.txt"
-fileiphone15_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone15_user.txt"
+# # view stock for users iphone
+# fileiphone11_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone11_user.txt"
+# fileiphone12_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone12_user.txt"
+# fileiphone13_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone13_user.txt"
+# fileiphone14_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone14_user.txt"
+# fileiphone15_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone15_user.txt"
 
-    # view stock for users mac
-mac_m1_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m1_user.txt"
-mac_m2_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m2_user.txt"
-mac_pro_14 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_14.txt"
-mac_pro_16 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_16.txt"
+#     # view stock for users mac
+# mac_m1_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m1_user.txt"
+# mac_m2_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m2_user.txt"
+# mac_pro_14 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_14.txt"
+# mac_pro_16 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_16.txt"
 
-    # view stock for user airpod
-airpod_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod_user.txt"
+#     # view stock for user airpod
+# airpod_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod_user.txt"
 
 # stock = Stock()
 # stock.stock_menu()
-# user_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_pw.txt"
-# balance_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_balance.txt"
+user_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_pw.txt"
+balance_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_balance.txt"
+history_file = "/Users/savonchanserey/Desktop/my-repo/Admin_work/customer_history.txt"
 
-# fileiphone_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone.txt" 
-# fileairpod_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod.txt"
-# filemacbook_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/macbook.txt"
+fileiphone_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone.txt" 
+fileairpod_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod.txt"
+filemacbook_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/macbook.txt"
 
 #     # view stock for users iphone
-# fileiphone11_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone11_user.txt"
-# fileiphone12_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone12_user.txt"
-# fileiphone13_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone13_user.txt"
-# fileiphone14_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone14_user.txt"
-# fileiphone15_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone15_user.txt"
+fileiphone11_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone11_user.txt"
+fileiphone12_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone12_user.txt"
+fileiphone13_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone13_user.txt"
+fileiphone14_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone14_user.txt"
+fileiphone15_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone15_user.txt"
 
 #     # view stock for users mac
-# mac_m1_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m1_user.txt"
-# mac_m2_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m2_user.txt"
-# mac_pro_14 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_14.txt"
-# mac_pro_16 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_16.txt"
+mac_m1_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m1_user.txt"
+mac_m2_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m2_user.txt"
+mac_pro_14 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_14.txt"
+mac_pro_16 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_16.txt"
 
 # #     # view stock for user airpod
-# airpod_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod_user.txt"
+airpod_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod_user.txt"
+
 
 
 user1 = User(user_file, balance_file, history_file, fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user)
