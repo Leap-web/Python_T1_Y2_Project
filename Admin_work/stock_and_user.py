@@ -82,7 +82,7 @@ class Stock:
     #         dynamic_total += subtotal 
     #     print(f"Total amount of purchases: ${dynamic_total:.2f}")
         
-    def clear_screen():
+    def clear_screen(self):
         current_os = platform.system()
 
         if current_os == "Windows":
