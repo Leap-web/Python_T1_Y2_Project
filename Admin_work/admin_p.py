@@ -42,7 +42,7 @@ class FirstInterface:
 class AdminSystem(FirstInterface):
     # File paths
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    admin_manage = r'C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\admin_manage.txt'
+    admin_manage = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/admin_manage.txt'
     manage_employ = r'C:/Users/USER/Documents/GitHubLeapp/Python_T1_Y2_Project/Admin_work/manage_employee.txt'
     system_log = r'C:/Users/USER/Documents/GitHubLeapp/Python_T1_Y2_Project/Admin_work/system_log.txt'
 
@@ -108,6 +108,36 @@ class AdminSystem(FirstInterface):
             except ValueError as e:
                 print(e)
 
+    def get_existing_ids(self):
+        existing_ids = set()  # Use a set for faster lookups
+        try:
+            with open(self.admin_manage, 'r') as file:
+                for line in file:
+                    parts = line.strip().split(', ')
+                    if len(parts) > 1 and parts[1].startswith("IDTB"):
+                        existing_ids.add(parts[1].strip())
+            return existing_ids  # Return the set of existing IDs
+        except FileNotFoundError:
+            return set()  # Return an empty set if the file is missing
+
+    def suggest_available_id(self):
+        existing_ids = self.get_existing_ids()  # Fetch the existing IDs
+        base_id_prefix = "IDTB"
+        available_ids = []
+
+        for i in range(1, 100000):  # Loop through possible ID numbers
+            candidate_id = f"{base_id_prefix}{i:04}"  # Generate IDs like IDTB0001, IDTB0002, etc.
+            if candidate_id not in existing_ids:
+                available_ids.append(candidate_id)  # Add unused IDs to the list
+            if len(available_ids) == 5:  # Stop once 5 IDs are generated
+                break
+        return available_ids  # Return the list of 5 available IDs
+
+    def is_valid_admin_id(self, admin_id):
+        # Check if ID starts with 'IDTB' and is not already used
+        return admin_id.startswith("IDTB") and admin_id not in self.get_existing_ids()
+
+
     def hash_password(self, password):
         salt = bcrypt.gensalt(rounds=12)
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
@@ -115,7 +145,7 @@ class AdminSystem(FirstInterface):
 
     def save_admin_to_file(self, admin_account_username, admin_account_id, admin_account_email, hashed_password):
         with open(self.admin_manage, "a") as file:
-            file.write(f"ADMIN_NAME: {admin_account_username}, ADMIN_ID: {admin_account_id}, ADMIN_GMAIL: {admin_account_email}, ADMIN_PW: {hashed_password}\n")
+            file.write(f"{admin_account_username}, {admin_account_id}, {admin_account_email}, {hashed_password}\n")
         print("Admin account created successfully.")
 
     def create_admin_account(self):
@@ -133,29 +163,53 @@ class AdminSystem(FirstInterface):
                 while True:
                     print("Eg: Email: john.doe@admin.iec.com")
                     admin_account_email = input("Enter admin_account email: ")
-                    if "@admin.iec.com" in admin_account_email and not any(c.isupper() for c in admin_account_email) and not any(c.isspace() for c in admin_account_email):
+                    if (
+                    "@admin.iec.com" in admin_account_email 
+                    and not any(c.isupper() for c in admin_account_email) 
+                    and not any(c.isspace() for c in admin_account_email)
+                    ):
                         while True:
-                            admin_account_id = input("Create admin_account ID (Eg: IDTB1234): ")
-                            if admin_account_id.startswith("IDTB"):
-                                while True:
-                                    admin_account_passwords = input("Create password: ")
-                                    if (
-                                        len(admin_account_passwords) >= 8
-                                        and any(c.isupper() for c in admin_account_passwords)
-                                        and any(c.islower() for c in admin_account_passwords)
-                                        and any(c.isdigit() for c in admin_account_passwords)
-                                        and any(c in "!@#$%^&*()_+-=" for c in admin_account_passwords)
-                                    ):
-                                        self.log_action("Added new admin_account", "admin_account")
-                                        hashed_password = self.hash_password(admin_account_passwords)
+                            available_ids = self.suggest_available_id()
+                            print("Available IDs: ", ", ".join(available_ids))
 
-                                        # Save admin_account details to file
-                                        self.save_admin_to_file(admin_account_name, admin_account_id, admin_account_email, hashed_password)
-                                        return
-                                    else:
-                                        print("Password must contain at least 8 characters, including uppercase, lowercase, a number, and a special character.")
+                            # Prompt the user to select or enter a custom admin ID
+                            admin_account_id = input("Enter Admin ID: ").strip()
+
+                            # Validate the entered Admin ID
+                            while not self.is_valid_admin_id(admin_account_id):
+                                print(f"Error: The Admin ID '{admin_account_id}' is either invalid or already in use.")
+                                admin_account_id = input("Please enter a valid Admin ID: ").strip()
+                            if self.is_valid_admin_id(admin_account_id):
+                                if admin_account_id.startswith("IDTB") and admin_account_id not in self.get_existing_ids():
+                                    if self.is_valid_admin_id(admin_account_id):
+                                        while True:
+                                            admin_account_passwords = input("Create password: ")
+                                            if (
+                                            len(admin_account_passwords) >= 8
+                                            and any(c.isupper() for c in admin_account_passwords)
+                                            and any(c.islower() for c in admin_account_passwords)
+                                            and any(c.isdigit() for c in admin_account_passwords)
+                                            and any(c in "!@#$%^&*()_+-=" for c in admin_account_passwords)
+                                            ):
+                                                self.log_action("Added new admin_account", "admin_account")
+                                                hashed_password = self.hash_password(admin_account_passwords)
+
+                                                # Save admin_account details to file
+                                                self.save_admin_to_file(
+                                                admin_account_name, 
+                                                admin_account_id, 
+                                                admin_account_email, 
+                                                hashed_password
+                                            )
+                                                print("Admin account created successfully.")
+                                                return
+                                        else:
+                                            print(
+                                                "Password must contain at least 8 characters, including uppercase, "
+                                                "lowercase, a number, and a special character."
+                                                )
                             else:
-                                print("admin_account ID must start with 'IDTB'")
+                                print("admin_account ID must start with 'IDTB' or ID already exits")
                     else:
                         print("Invalid email format. Ensure it ends with '@admin_account.iec.com' and contains no spaces or uppercase letters.")
             else:
@@ -252,6 +306,8 @@ class AdminSystem(FirstInterface):
         try:
             with open(self.admin_manage, 'r') as file:
                 for line in file:
+                    parts = line.strip().split(', ')
+                if len(parts) == 4:
                     stored_username, _, _, _ = line.strip().split(', ')
                     if username == stored_username:
                         return True
@@ -264,6 +320,8 @@ class AdminSystem(FirstInterface):
         try:
             with open(self.admin_manage, 'r') as file:
                 for line in file:
+                    parts = line.strip().split(', ')
+                if len(parts) == 4:
                     stored_username, stored_id, _, _ = line.strip().split(', ')
                     if username == stored_username and admin_id == stored_id:
                         return True
@@ -276,6 +334,8 @@ class AdminSystem(FirstInterface):
         try:
             with open(self.admin_manage, 'r') as file:
                 for line in file:
+                    parts = line.strip().split(', ')
+                if len(parts) == 4:
                     stored_username, _, stored_email, _ = line.strip().split(', ')
                     if username == stored_username and email == stored_email:
                         return True
@@ -312,6 +372,7 @@ class AdminSystem(FirstInterface):
         except FileNotFoundError:
             print("Admin data file is missing.")
             sys.exit(1)
+    
 
     ######  ADMIN PART ######
 

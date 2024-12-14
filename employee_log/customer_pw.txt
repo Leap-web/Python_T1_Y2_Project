@@ -1,1 +1,0 @@
-username: serey, email: serey@.com, password: cdafa6ffe42244f897d43bf17285ac703f0f14a2813d7c1d0eafd316857800b7, secret pin: 03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4

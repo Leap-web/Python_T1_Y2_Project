@@ -1,3 +1,0 @@
-username: korng, balance: 3193.0
-username: neath, balance: 2993.0
-username: serey, balance: 3.0
