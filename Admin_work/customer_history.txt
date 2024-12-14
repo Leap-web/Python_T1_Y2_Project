@@ -1,0 +1,9 @@
+{'username': 'korng', 'model': 'iphone_11', 'storage': '64GB', 'item': 1, 'subtotal': 599.0}
+{'username': 'korng', 'model': 'iphone_12', 'storage': '64GB', 'item': 1, 'subtotal': 699.0}
+{'username': 'neath', 'model': 'iphone_13', 'storage': '128GB', 'item': 1, 'subtotal': 799.0}
+{'username': 'neath', 'model': 'iphone_15', 'storage': '256GB', 'item': 2, 'subtotal': 2398.0}
+{'username': 'ly', 'model': 'MacBook_Pro_16inch', 'storage': '512GB', 'item': 2, 'subtotal': 4998.0}
+{'username': 'korng', 'model': 'iphone_15', 'storage': '1TB', 'item': 5, 'subtotal': 6495.0}
+{'username': 'korng', 'model': 'iphone_11', 'storage': '64GB', 'item': 2, 'subtotal': 1198.0}
+{'username': 'korng', 'model': 'iphone_11', 'storage': '256GB', 'item': 5, 'subtotal': 3995.0}
+{'username': 'korng', 'model': 'iphone_11', 'storage': '128GB', 'item': 1, 'subtotal': 699.0}
