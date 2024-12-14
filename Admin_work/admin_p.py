@@ -6,7 +6,6 @@ import bcrypt
 from getpass import getpass
 import hashlib
 
-
 class FirstInterface:
     def display(self):
         while True:
@@ -27,7 +26,8 @@ class FirstInterface:
                 admin_system = AdminSystem()
                 admin_system.display_admin_account()
             elif choose_role == '2':
-                pass
+                employee_system = EmployeeInterface()
+                employee_system.display_employee_account()
             elif choose_role == '3':
                 pass
             elif choose_role == '4':
@@ -115,14 +115,21 @@ class AdminSystem(FirstInterface):
 
     def save_admin_to_file(self, admin_account_username, admin_account_id, admin_account_email, hashed_password):
         with open(self.admin_manage, "a") as file:
-            file.write(f"{admin_account_username}, {admin_account_id}, {admin_account_email}, {hashed_password}\n")
+            file.write(f"ADMIN_NAME: {admin_account_username}, ADMIN_ID: {admin_account_id}, ADMIN_GMAIL: {admin_account_email}, ADMIN_PW: {hashed_password}\n")
         print("Admin account created successfully.")
 
     def create_admin_account(self):
         while True:
             print("Eg: Name: John_Doe")
             admin_account_name = input("Enter admin_account name: ")
-            if admin_account_name and "_" in admin_account_name and not any(c.isspace() for c in admin_account_name) and any(c.isupper() for c in admin_account_name) and any (c.islower() for c in admin_account_name) and any(c.islower() for c in admin_account_name):
+            if (
+                admin_account_name and "_" in admin_account_name 
+                and not any(c.isspace() for c in admin_account_name) 
+                and any(c.isupper() for c in admin_account_name) 
+                and any (c.islower() for c in admin_account_name) 
+                and any(c.islower() for c in admin_account_name) 
+                and not any(c in '!@#$%^&*()+=-{}[]'';:,.' for c in admin_account_name)
+            ):
                 while True:
                     print("Eg: Email: john.doe@admin.iec.com")
                     admin_account_email = input("Enter admin_account email: ")
@@ -154,8 +161,6 @@ class AdminSystem(FirstInterface):
             else:
                 print("Invalid name format. Ensure it contains an underscore (_) and no spaces.")
 
-            # Hash the password
-        
 
     def admin_log(self):
         max_attempts = 3  # Maximum attempts per input
@@ -309,6 +314,8 @@ class AdminSystem(FirstInterface):
             sys.exit(1)
 
     ######  ADMIN PART ######
+
+
 
     ##### MANAGE EMPLOYEE PART ######
 
@@ -535,6 +542,57 @@ class AdminSystem(FirstInterface):
         pass
 
     #### CRUD FUNCTION #####
+
+    ##### EMPLOYEE PART ########
+class EmployeeInterface(FirstInterface):
+
+    def __init__(self):
+        self.display_employee_account()
+
+    def display_employee_account(self):
+        while True:
+            try:
+                os.system('cls')
+                print("\nWelcome Employee")
+                print("1. Log in as Employee")
+                print("2. Back To Main Menu")
+
+                choose = int(input("Enter ur function to do: "))
+                if choose == 1:
+                    self.employee_login()
+                elif choose == 2:
+                    return
+                else:
+                    print("Invalid option")
+            except ValueError as v:
+                print(v)
+
+    def display_employee_task(self):
+        while True:
+            try:
+                os.system('cls')
+                print("Welcome our employee")
+                print("1. Manage Stock (Add or Update): ")
+                print("2. View Stock")
+                print("3. Make Report")
+                print("4. Exit")
+
+                choose = int(input("Enter a task to do: "))
+                if choose == 1:
+                    self.add_update_stock()
+                elif choose == 2:
+                    self.view_stock()
+                elif choose == 3:
+                    self.make_report()
+                elif choose == 4:
+                    sys.exit()
+                else:
+                    print("Invalid option")
+            except ValueError as ve:
+                print(ve)
+
+    ##### EMPLOYEE PART ########
+    
 
 interface = FirstInterface()
 interface.display()
