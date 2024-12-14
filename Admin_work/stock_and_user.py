@@ -511,30 +511,28 @@ class Stock:
                 print(f"{choice} doesn't has in our stock.")
                 os.system("cls")
                 return
+            while True:
+                item = input("Items (enter a valid number): ")
+                if item.isdigit():
+                    item = int(item)
+                    break
+                else:
+                    print("Invalid input. Please enter a valid number.")
             confirm = input("Confirm your buy(yes,no):").strip().lower()
             if confirm == "yes" or confirm == "y":
-                while True:
-                    item = input("Items (enter a valid number): ")
-                    if item.isdigit():
-                        items = int(item)
-                        break
-                    else:
-                        print("Invalid input. Please enter a valid number.")
-                confirm = input("Confirm your buy(yes,no):").strip().lower()
-                if confirm == "yes" or confirm == "y":
-                    try:
-                        with open(self.fileairpod_staff, "r") as file:
-                            stock_data = ast.literal_eval(file.read())
+                try:
+                    with open(self.fileairpod_staff, "r") as file:
+                        stock_data = ast.literal_eval(file.read())
                                 # stock_data = ast.literal_eval(content)
                         if choice_key in stock_data:
-                            #check if there are enough stock and balance
+                                #check if there are enough stock and balance
                             price = float(value.replace("$", ""))
                             total_cost = price * item
-                            #check if theuser has enough balance
+                                #check if theuser has enough balance
                             if user1.current_user in user1.balances and user1.balances[user1.current_user] >= total_cost:
                                 if stock_data[choice_key] >= item:
                                     stock_data[choice_key] -=item
-                                    # print(f"Purchase successful! Remaining stock for {choice_key} : {stock_data[choice_key]}")
+                                        # print(f"Purchase successful! Remaining stock for {choice_key} : {stock_data[choice_key]}")
                                     with open(self.fileairpod_staff, "w") as file: 
                                         file.write(str(stock_data))
                                     self.add_to_total(item, choice_key, None,total_cost)
@@ -543,20 +541,14 @@ class Stock:
                                     print(f"Sorry, {choice_key} is out of stock.")
                             else:
                                 print("Insufficient balance.")
-                    except FileNotFoundError:
-                        print(f"The file {self.fileairpod_staff} was not found. Please ensure it exists in the correct directory.")
-                elif confirm == "no" or confirm == "n":
-                    print("Purchase canceled.")
-                    # self.airpod_menu()
-                    return
-                else:
-                    print("Invalid confirmation input.")            
+                except FileNotFoundError:
+                    print(f"The file {self.fileairpod_staff} was not found. Please ensure it exists in the correct directory.")
             elif confirm == "no" or confirm == "n":
                 print("Purchase canceled.")
-                # self.airpod_menu()
+                    # self.airpod_menu()
                 return
             else:
-                print("Invalid confirmation input.")
+                print("Invalid confirmation input.")            
         elif user_buy == "no" or user_buy == "n":
             print("Thank for viewing our stock!")
             self.stock_menu()
@@ -1511,6 +1503,7 @@ class User(Stock):
     def show_list(self):
         print(self.balances)
         print(self.users)
+<<<<<<< HEAD
 user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_pw.txt"
 balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_balance.txt"
 history_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_history.txt"
@@ -1519,6 +1512,13 @@ fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Techno
 filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
 
 
+=======
+# user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_pw.txt"
+# balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_balance.txt"
+# fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
+# fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
+# filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
+>>>>>>> b6aad4970f33b232062f23e6235cc448a191cd22
 
 # stockmanager = StockManager(fileiphone_staff,fileairpod_staff,filemacbook_staff)
 
