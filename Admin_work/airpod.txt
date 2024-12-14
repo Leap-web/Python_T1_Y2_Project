@@ -1,1 +1,1 @@
-{'Airpods_2nd_Gen': 8, 'Airpods_Pro': 7, 'Airpods_Max': 6}
+{'Airpods_2nd_Gen': 8, 'Airpods_Pro': 6, 'Airpods_Max': 3}
