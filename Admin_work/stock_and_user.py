@@ -822,6 +822,11 @@ class Stock:
 
 class User(Stock):
     def __init__(self, user_filename, balance_filename,fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user):
+        #for stock
+        super().__init__(fileiphone_staff, fileairpod_staff, filemacbook_staff, 
+                         fileiphone11_user, fileiphone12_user, fileiphone13_user, 
+                         fileiphone14_user, fileiphone15_user, mac_m1_user, 
+                         mac_m2_user, mac_pro_14, mac_pro_16, airpod_user)
         self.user_filename = user_filename
         self.balance_filename = balance_filename
         self.users = []
@@ -829,26 +834,12 @@ class User(Stock):
         self.balance = 0.0
         self.balances = {}
         self.load_balance()
-        #for stock
-        self.fileiphone_staff = fileiphone_staff
-        self.fileairpod_staff = fileairpod_staff
-        self.filemacbook_staff = filemacbook_staff
-        self.fileiphone11_user = fileiphone11_user
-        self.fileiphone12_user = fileiphone12_user
-        self.fileiphone13_user = fileiphone13_user
-        self.fileiphone14_user = fileiphone14_user
-        self.fileiphone15_user = fileiphone15_user
-        self.mac_m1_user = mac_m1_user
-        self.mac_m2_user = mac_m2_user
-        self.mac_pro_14 = mac_pro_14
-        self.mac_pro_16 = mac_pro_16
-        self.airpod_user = airpod_user
+        #also for stock
         self.total_amount = 0
         self.purchases = []
 
 
     def calculate(self):
-<<<<<<< HEAD
         if self.total_amount > 0:
             if self.current_user in self.balances:  # Ensure the user exists in balances
                 if self.balances[self.current_user] >= self.total_amount:  # Check sufficient balance
@@ -861,15 +852,6 @@ class User(Stock):
 
                 else:
                     print("Insufficient balance.")
-=======
-        if self.current_user in self.balances:  # Ensure the user exists in balances
-            if self.balances[self.current_user] >= self.total_amount:  # Check sufficient balance
-                self.balances[self.current_user] -= self.total_amount  # Deduct total amount
-                print(f"New balance: {self.balances[self.current_user]}")
-                with open(self.balance_filename, "w") as balance_file:
-                    for username, balance in self.balances.items():
-                        balance_file.write(f"username: {username}, balance: {balance}\n")
->>>>>>> 7142325f19dd199a1b2d374a00ce7ad3c257da84
             else:
                 print("User not found.")
         else:
@@ -1361,21 +1343,16 @@ class User(Stock):
 
 
     def show_list(self):
-<<<<<<< HEAD
         print(self.balances)
         print(self.users)
-user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_pw.txt"
-balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_balance.txt"
+user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_pw.txt"
+balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_balance.txt"
 fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
 fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
 filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
-=======
-        print(self.users)
+
         
         
-    import ast
-import msvcrt
-from datetime import datetime
 
 class StockManager (Stock):
     def __init__(self,fileiphone_staff,fileairpod_staff,filemacbook_staff,employeefile,record_employee):
@@ -2323,11 +2300,11 @@ record_employee = r"C:\Python_T1_Y2_Project\Admin_work\record_employee.txt"
 # stockmanager.main_menu()
 
 
-fileiphone_staff = r"C:\Python_T1_Y2_Project\Admin_work\iphone.txt"
-fileairpod_staff = r"C:\Python_T1_Y2_Project\Admin_work\airpod.txt"
-filemacbook_staff = r"C:\Python_T1_Y2_Project\Admin_work\macbook.txt"
-employeefile = r"C:\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
-record_employee = r"C:\Python_T1_Y2_Project\Admin_work\record_employee.txt"
+# fileiphone_staff = r"C:\Python_T1_Y2_Project\Admin_work\iphone.txt"
+# fileairpod_staff = r"C:\Python_T1_Y2_Project\Admin_work\airpod.txt"
+# filemacbook_staff = r"C:\Python_T1_Y2_Project\Admin_work\macbook.txt"
+# employeefile = r"C:\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
+# record_employee = r"C:\Python_T1_Y2_Project\Admin_work\record_employee.txt"
 
 
 # stockmanager = StockManager(fileiphone_staff,fileairpod_staff,filemacbook_staff)
@@ -2335,52 +2312,51 @@ record_employee = r"C:\Python_T1_Y2_Project\Admin_work\record_employee.txt"
 
 # user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_pw.txt"
 
-# fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
-# fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
-# filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
+fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
+fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
+filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
 # balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_balance.txt"
->>>>>>> 7142325f19dd199a1b2d374a00ce7ad3c257da84
 
-    # view stock for users iphone
-# fileiphone11_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone11_user.txt"
-# fileiphone12_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone12_user.txt"
-# fileiphone13_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone13_user.txt"
-# fileiphone14_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone14_user.txt"
-# fileiphone15_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone15_user.txt"
+   # view stock for users iphone
+fileiphone11_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone11_user.txt"
+fileiphone12_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone12_user.txt"
+fileiphone13_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone13_user.txt"
+fileiphone14_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone14_user.txt"
+fileiphone15_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone15_user.txt"
 
-#     # view stock for users mac
-# mac_m1_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m1_user.txt"
-# mac_m2_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m2_user.txt"
-# mac_pro_14 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_14.txt"
-# mac_pro_16 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_16.txt"
+    # view stock for users mac
+mac_m1_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m1_user.txt"
+mac_m2_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m2_user.txt"
+mac_pro_14 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_14.txt"
+mac_pro_16 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_16.txt"
 
-#     # view stock for user airpod
-# airpod_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod_user.txt"
+    # view stock for user airpod
+airpod_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod_user.txt"
 
 # stock = Stock()
 # stock.stock_menu()
-user_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_pw.txt"
-balance_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_balance.txt"
+# user_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_pw.txt"
+# balance_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_balance.txt"
 
-fileiphone_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone.txt" 
-fileairpod_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod.txt"
-filemacbook_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/macbook.txt"
+# fileiphone_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone.txt" 
+# fileairpod_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod.txt"
+# filemacbook_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/macbook.txt"
 
-    # view stock for users iphone
-fileiphone11_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone11_user.txt"
-fileiphone12_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone12_user.txt"
-fileiphone13_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone13_user.txt"
-fileiphone14_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone14_user.txt"
-fileiphone15_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone15_user.txt"
+#     # view stock for users iphone
+# fileiphone11_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone11_user.txt"
+# fileiphone12_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone12_user.txt"
+# fileiphone13_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone13_user.txt"
+# fileiphone14_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone14_user.txt"
+# fileiphone15_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone15_user.txt"
 
-    # view stock for users mac
-mac_m1_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m1_user.txt"
-mac_m2_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m2_user.txt"
-mac_pro_14 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_14.txt"
-mac_pro_16 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_16.txt"
+#     # view stock for users mac
+# mac_m1_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m1_user.txt"
+# mac_m2_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m2_user.txt"
+# mac_pro_14 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_14.txt"
+# mac_pro_16 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_16.txt"
 
-    # view stock for user airpod
-airpod_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod_user.txt"
+#     # view stock for user airpod
+# airpod_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod_user.txt"
 
 
 user1 = User(user_file, balance_file, fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user)
@@ -2388,6 +2364,6 @@ stockmanager = StockManager(fileiphone_staff, fileairpod_staff, filemacbook_staf
 
 # user1.show_list()
 user1.user_menu()
-stockmanager.employee_login()
+# stockmanager.employee_login()
 
 
