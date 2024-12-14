@@ -2,26 +2,48 @@ import hashlib
 import os
 import msvcrt
 
-class EmployeeSystem:
-    def __init__(self):
-        self.employee = []
-        self.load_employee()
-    
+class Employeesystem:
+    def __init__(self, employee_filename):
+        self.employee_filename = employee_filename
+        self.employees = []
+        self.load_employees()
+
     def choose_option(self): 
-        
         while True:
             print("\n**********EmployeeSystem*********")
             print("1. Create account employee.")
             print("2. Employee login.")
+            print("3. Exit")
             option = input("Enter your choice: ")
             os.system('cls')
             if option == "1":
                 self.create_employee_account()
             elif option == "2":
                 self.employee_login()
+            elif option ==  "3":
+                print("Exiting the program. Goodbye!")
                 break
             else:
                 print("Invalid option. Please try again!")
+
+    def load_employees(self):
+        try:
+            with open(self.employee_filename, 'r') as file:
+                for line in file:
+                    line = line.strip() 
+                    if not line:  
+                        continue
+                    if ": " in line:
+                        parts = line.split(", ")
+                        employee_data = {}
+                        for part in parts:
+                            if ": " in part:
+                                key, value = part.split(": ")
+                                employee_data[key] = value
+                        self.employees.append(employee_data)
+
+        except FileNotFoundError:
+            print(f"{self.epmployee_filename} not found.")
 
     def masked_input(self, prompt=""):
         print(prompt, end="", flush=True)
@@ -40,7 +62,7 @@ class EmployeeSystem:
                 print('*', end='', flush=True)
         return password
 
-    def encrypt_password(self, password):
+    def hash_password(self,password):
         salt = os.urandom(16)
         hashed_password = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100000)
         return salt + hashed_password
@@ -49,91 +71,89 @@ class EmployeeSystem:
         salt = stored_password[:16]
         stored_hash = stored_password[16:]
         input_hash = hashlib.pbkdf2_hmac('sha256', input_password.encode(), salt, 100000)
-        return input_hash == stored_hash
-
-    def save_employee_to_file(self, username, email, id, hashed_password):
-        os.makedirs("employee_log", exist_ok=True)
-        with open("employee_log/employee_inf.txt", "a") as file:
-            file.write(f"Username: {username}, Email: {email}, ID: {id},Password: {hashed_password.hex()}\n")
-
-    def load_employee(self):
-        try:
-            with open("employee_log/employee_inf.txt", "r") as file:
-                for line in file:
-                    fields = dict(field.split(": ", 1) for field in line.strip().split(", "))
-                    self.employee.append({
-                        "username": fields["Username"],
-                        "email": fields["Email"],
-                        "id": fields["ID"],
-                        "password": fields["Password"]
-                    })
-        except FileNotFoundError:
-            pass
-        except KeyError as e:
-            print(f"KeyError: Missing key {e} in the file.")
+        return stored_hash == input_hash
+        
 
     def create_employee_account(self):
-        while True:
-            print("Eg: Name: John_Doe")
-            username = input("Enter employee account name: ")
-            if username and "_" in username and not any(c.isspace() for c in username) and any(c.isupper() for c in username) and any(c.islower() for c in username):
+        try:  
+            with open(self.employee_filename, 'a') as file:   
                 while True:
-                    print("Eg: Email: john.doe@employee.iec.com")
-                    email = input("Enter employee account email: ")
-                    if "@employee.iec.com" in email and not any(c.isupper() for c in email) and not any(c.isspace() for c in email):
-                        while True:
-                            id = input("Create employee account ID (Eg: IDTB1234): ")
-                            if id.startswith("IDTB"):
-                                while True:
-                                    passwords = self.masked_input("Create password: ")
-                                    if (
-                                        len(passwords) >= 8
-                                        and any(c.isupper() for c in passwords)
-                                        and any(c.islower() for c in passwords)
-                                        and any(c.isdigit() for c in passwords)
-                                        and any(c in "!@#$%^&*()_+-=" for c in passwords)
-                                    ):
-                                        hashed_password = self.encrypt_password(passwords)
-                                        self.save_employee_to_file(username, email, id, hashed_password)
-                                        self.employees.append({"username": username, "email": email, "id": id, "password": hashed_password.hex()})
-                                        print("Employee account created successfully!")
-                                        return
-                                    else:
-                                        print("Password must contain at least 8 characters, including uppercase, lowercase, a number, and a special character.")
-                            else:
-                                print("Employee account ID must start with 'IDTB'")
+                    print("\n==============================Create Account==============================")
+                    username = input("\nEnter a username to create account: ")
+                    for i in self.employees:
+                        if username == i["username"]:
+                            print("This user has already been existed. Please try again!\n")
+                            break
                     else:
-                        print("Invalid email format. Ensure it ends with '@employee.iec.com' and contains no spaces or uppercase letters.")
-            else:
-                print("Invalid name format. Ensure it contains an underscore (_) and no spaces.")
+                        break
 
-    
+                while True:
+                    email = input("Enter your email address (e.g:john.doe@employee.iec.com): ")
+                    if "@employee.iec.com" in email and not any(c.isupper() for c in email) and not any(c.isspace() for c in email):
+                        break
+                    else:
+                        print("Invalid email format. Please enter a valid email address.\n")
+                        continue
 
+                while True:
+                    id = input("Create employee account ID (Eg: IDTB1234): ")
+                    if id.startswith("IDTB"):
+                        break
+                    else:
+                        print("Invalid ID format. Please enter a valid ID.\n")
+
+                while True:
+                    password = self.masked_input("Enter a Password: ")
+                    if len(password) < 8:
+                        print("Password too short. Must be at least 8 Characters.\n")
+                        continue
+                    if not any(c.isupper()for c in password):
+                        print("Password must contain at least one uppercase letter.\n")
+                        continue
+                    if not any(c.islower()for c in password):
+                        print("password must contain at least one lowercase letter.\n")
+                        continue
+                    if not any(c.isdigit()for c in password):
+                        print("Password must contain at least one digit.\n")
+                        continue
+                    if not any(c in '!@#$%^&*'for c in password):
+                        print("Password must contain at least one special character.\n")
+                        continue
+                    confirm_password = self.masked_input("Confirm your Password: ")
+                    if confirm_password != password:
+                        print("Password do not match. Please try again.\n")
+                        continue
+                    break
+
+                hashed_password = self.hash_password(password)
+                employee_data = {"username": username, "email": email, "id": id, "password": hashed_password.hex()}
+                self.employees.append(employee_data)
+                file.write(f"username: {username}, email: {email}, ID: {id}, password: {hashed_password.hex()}\n")
+                print("Create account employee successful!\n")
+                    
+        except Exception as e:
+            print(f"Error while creating account: {e}. please try again!.")
+        
     def employee_login(self):
-        print("----------------------------------------------")
-        print("||              EMPLOYEE_LOGIN              ||")
-        print("----------------------------------------------")
-        for attempt in range(2):
-            employee_username = input("Enter your username: ")
-            employee_email = input("Enter your email: ")
-            employee_id = input("Enter your ID: ")
-            employee_password = self.masked_input("Enter your password: ")
-            for employee in self.employee:
-                if (
-                    employee["username"] == employee_username and
-                    employee["email"] == employee_email and
-                    employee["id"] == employee_id and
-                    self.verify_password(bytes.fromhex(employee["password"]), employee_password)
-                ):
-                    print(f"\nLogin successful! Welcome, {employee_username}.")
-                    return
-            else:
-                if attempt == 0:
-                    print("\n############### LOGIN FAILED. YOU HAVE 1 MORE ATTEMPT###############")
-                else:
-                    print("\n############### LOGIN FAILED. NO MORE ATTEMPTS ALLOWED. ###############")
-        print("======/Access denied./======")
+    
+        try:
+            for attempts_left in range(3, 0, -1):
+                print("\n================ Login =================")
+                username = input("Enter your username: ")
+                email = input("Enter your email: ")
+                password = self.masked_input("Enter your password: ")
 
+                for employee in self.employees:
+                    if employee["username"] == username and employee["email"] == email and self.verify_password(bytes.fromhex(employee["password"]), password):
+                        print(f"Welcome, {username}! Login successful.")
+                        return
+                print(f"Invalid username, email or password. You have {attempts_left - 1} attempts left.")
+            print("Too many failed attempts. Access denied.")
+        except Exception as e:
+            print(f"Error during login: {e}")
 
-employee = EmployeeSystem()
-employee.choose_option()
+if __name__ == "__main__":
+    system = Employeesystem("employee_log/employee_inf.txt")
+    system.choose_option()
+
+      
