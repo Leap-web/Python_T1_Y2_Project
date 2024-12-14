@@ -1251,6 +1251,60 @@ class User(Stock):
         except Exception as e:
             print(f"An error occur in your deposit process: {e}. Please try again!")
         
+    def help_us(self):
+        os.system('cls')
+        while True:
+            print("\n------------------------------Help Us------------------------------")
+            print("1. Provide feedback.")
+            print("2. Frequently ask questions.")
+            print("3. Contact information.")
+            print("4. Back to main menu.")
+            option = input("Enter your choice (1-4): ")
+            if option == "1":
+                self.provide_feedback()
+                continue
+            elif option == "2":
+                self.user_question()
+                continue
+            elif option == "3":
+                self.contact_information()
+                continue
+            elif option == "4":
+                break
+            else:
+                print("Invalid option. Please try again!")
+                continue
+
+    def provide_feedback(self):
+        print("\n------------------------------Provide Feedback------------------------------")
+        try:
+            username = input("Enter your username: ").strip()
+            if not username:
+                raise ValueError("User name cannot empty")
+            feedback = input("Enter your feedback: ").strip()
+            if not feedback:
+                raise ValueError("Feedback connot empty.")
+            with open('Customer/feedback.txt', 'a') as file:
+                file.write(f"Username: {username}, Feedback: {feedback}\n")
+            print("Thank you for your feedback!")
+        except Exception as e:
+            print(f"An error occurred: {e}. Please try again.")
+
+    def user_question(self):
+        print("\n------------------------------User FAQs------------------------------")
+        print("Q: How can I reset my password?")
+        print("A: Use the 'Forgot Password' opption from the main menu.")
+        print("\nQ: Can I update my profile details?")
+        print("A: YES, go to 'Manage Profile' in the menu.")
+        print("\nQ: How do I contact customer service?")
+        print("A: Check the 'Contact Information' section for detail.")
+
+    def contact_information(self):
+        print("\n------------------------------Contact Information------------------------------")
+        print("Customer Support Email: support@gmail.iec.com")
+        print("Contact Number: +855 123456789")
+        print("Website: www.iec.com.kh")
+
     def edit_profile(self):
         try:
             while True:
@@ -1425,7 +1479,7 @@ class User(Stock):
                 print("2. Register")
                 print("3. Forgot Password")
                 print("4. Back")
-                print("4. Help Us")
+                print("5. Help Us")
                 print("6. Exit")
                 option = input("Choose an option (1-6): ")
                 if option == "1":
@@ -1440,8 +1494,8 @@ class User(Stock):
                 elif option == "4":
                     print("Return back to Role.\n")
                     continue
-                # elif option == "5":
-                #     self.help_us()
+                elif option == "5":
+                    self.help_us()
                     continue
                 elif option == "6":
                     print("Exiting the programs. Goodbye!\n")
@@ -1487,8 +1541,8 @@ class User(Stock):
                     print("Return back to main menu.\n")
                     self.user_menu()
                     continue
-                # elif option == "6":
-                #     self.help_us()
+                elif option == "6":
+                    self.help_us()
                     continue
                 elif option == "7":
                     print("Exiting the programs. Goodbye!\n")
@@ -1503,7 +1557,6 @@ class User(Stock):
     def show_list(self):
         print(self.balances)
         print(self.users)
-<<<<<<< HEAD
 user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_pw.txt"
 balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_balance.txt"
 history_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_history.txt"
@@ -1512,13 +1565,6 @@ fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Techno
 filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
 
 
-=======
-# user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_pw.txt"
-# balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_balance.txt"
-# fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
-# fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
-# filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
->>>>>>> b6aad4970f33b232062f23e6235cc448a191cd22
 
 # stockmanager = StockManager(fileiphone_staff,fileairpod_staff,filemacbook_staff)
 

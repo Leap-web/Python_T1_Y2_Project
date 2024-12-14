@@ -2,3 +2,4 @@ username: serey, balance: 10000.0
 username: neath, balance: 3408.0
 username: korng, balance: 10000.0
 username: ly, balance: 1007.0
+username: leap, balance: 0.0
