@@ -155,18 +155,3 @@ class Employeesystem:
 if __name__ == "__main__":
     system = Employeesystem("employee_log/employee_inf.txt")
     system.choose_option()
-
-      
-
-
-
-
-
-
-
-
-
-
-
-
-      
