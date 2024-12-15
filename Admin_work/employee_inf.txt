@@ -1,3 +1,4 @@
 
 username: Serey_Bi, email: serey.bi@employee.iec.com, ID: IDTB1234, password: 450af9d7c7617dd8afc6a21bf10f86a1f2db4b660d6bc0aaf0b2fbffbce81af38b63188f5c40cd5a7bd3624df23bc0a2
 username: Korng_Bi, email: korng@employee.iec.com, ID: IDTB123, password: f6c62fbdfc42def9907fbda7d7848a6d765aeb5af1c2de60eecf12da50a229b9d4a02fae74d21cd37fdfa46f7bdd6d98
+username: korng, email: sou.korng@employee.iec.com, ID: IDTB1111, password: 525eed5cf9718f2cf7cc1cd85563a90e8779020ceef2d85f76bbc5f74ef05347a7c812313daab9ff22cee100a44390c7
