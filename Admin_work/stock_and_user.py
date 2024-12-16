@@ -1346,7 +1346,7 @@ class User(Stock):
         
     def help_us(self):
         while True:
-            print("\n**********HELP US*********")
+            print("\n********** HELP US *********")
             print("1. Store Policies.")
             print("2. Product Repair.")
             print("3. Shipping and Delivery.")

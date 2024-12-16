@@ -1,1 +1,1 @@
-{'username': 'korng', 'model': 'iphone_11', 'storage': '64GB', 'item': 3, 'subtotal': 1797.0}
+username: tear; model: iphone_11; storage: 64GB; item: 1; subtotal: 599.00
