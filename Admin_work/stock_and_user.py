@@ -47,6 +47,8 @@ class Stock:
     #         print(f"[ERROR] Failed to add to total_amount: {e}")
 
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
     # def save_purchase(self, purchase):
     #     try:
     #         with open(user1.history_filename, "a") as file:
@@ -69,6 +71,7 @@ class Stock:
 
 =======
 >>>>>>> a77d3dd78fa219ad12d6c459f732de9d8ae44cab
+>>>>>>> origin/main
     # def show_total(self):
         
     #     print("="*80)
@@ -77,7 +80,11 @@ class Stock:
 <<<<<<< HEAD
     #     dynamic_total = 0
 =======
+<<<<<<< HEAD
+    #     dynamic_total = 0
+=======
 >>>>>>> a77d3dd78fa219ad12d6c459f732de9d8ae44cab
+>>>>>>> origin/main
     #     for purchase in self.purchases:
     #         model = purchase["model"]
     #         storage = purchase["storage"]
@@ -86,8 +93,11 @@ class Stock:
     #         print(f"{item}x {model} ({storage}): ${subtotal:.2f}")  
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
     #     print(f"Total amount of purchases: ${self.total_amount:.2f}")
 >>>>>>> a77d3dd78fa219ad12d6c459f732de9d8ae44cab
+>>>>>>> origin/main
     #         dynamic_total += subtotal 
     #     print(f"Total amount of purchases: ${dynamic_total:.2f}")
         
@@ -600,13 +610,15 @@ class Stock:
                         return
                     else:
                         print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")    
+                        return
             elif user_buy == "no" or user_buy == "n":
                 print("Thank for viewing our stock!")
-                self.stock_menu()
+                self.airpod_menu()
                 return
             else:
                 print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
-                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                # user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                continue
     # for user to view the stock of macbook
     def macbook_menu(self):
         while True:
@@ -1057,24 +1069,58 @@ class User(Stock):
         except ValueError as e:
             print(f"[ERROR] Failed to add to total_amount: {e}")
 
+    # def save_purchase(self, purchase):
+    #     try:
+    #         with open(user1.history_filename, "a") as file:
+    #             file.write(str(purchase) + "\n")
+    #     except Exception as e:
+    #         print(f"Error saving purchase to file {e}.")
+
     def save_purchase(self, purchase):
         try:
-            with open(user1.history_filename, "a") as file:
-                file.write(str(purchase) + "\n")
+            with open(self.history_filename, "a") as file:
+                # Format the purchase data in the new format
+                purchase_data = f"username: {purchase['username']}; model: {purchase['model']}; storage: {purchase['storage']}; item: {purchase['item']}; subtotal: {float(purchase['subtotal']):.2f}\n"
+                file.write(purchase_data)
         except Exception as e:
             print(f"Error saving purchase to file {e}.")
-            
+
     def load_purchase(self):
-        try:
-            with open(self.history_filename, "r") as file:
+        try:    
+            with open(self.history_filename, 'r') as file:
                 for line in file:
-                    record = eval(line.strip())
-                    self.purchases.append(record)
-                    self.total_amount += record["subtotal"]
-        except FileNotFoundError:
-            pass
-        except IOError:
-            print("Error loading purchase history from file.")
+                    line = line.strip()
+                    if not line:  # Skip empty lines
+                        continue
+
+                    # Split the line by '; ' to separate each field
+                    if "; " in line:
+                        parts = line.split("; ")
+                        purchase_data = {}
+                        for part in parts:
+                            if ":" in part:  # Ensure the part contains a key-value pair
+                                key, value = part.split(": ")
+                                purchase_data[key.strip()] = value.strip()  # Remove extra spaces if any
+
+                        # Add the purchase to the list and update the total_amount
+                        self.purchases.append(purchase_data)
+                        self.total_amount += float(purchase_data["subtotal"])  
+        except Exception as e:
+            print(f"Error occur {e}")
+    # def load_purchase(self):
+    #     try:
+    #         with open(self.history_filename, "r") as file:
+    #             for line in file:
+    #                 line = line.strip
+    #                 if not line:
+    #                     continue
+    #                 record = eval(line)
+    #                 self.purchases.append(record)
+    #                 self.total_amount += record["subtotal"]
+    #     except FileNotFoundError:
+    #         pass
+    #     except IOError:
+    #         print("Error loading purchase history from file.")
 
     def show_total(self):
         self.clear_screen()
@@ -1091,8 +1137,12 @@ class User(Stock):
                 print(f"{item}x {model} ({storage}): ${subtotal:.2f}")  
                 dynamic_total += subtotal 
         print(f"Total amount of purchases: ${dynamic_total:.2f}\n")
+<<<<<<< HEAD
+        
+=======
 
 
+>>>>>>> origin/main
     def calculate(self):
         if self.total_amount > 0:
             if self.current_user in self.balances:  # Ensure the user exists in balances
@@ -1110,6 +1160,22 @@ class User(Stock):
         else:
             print("User not found.")
 <<<<<<< HEAD
+
+    # def show_total(self):
+        
+    #     print("="*80)
+    #     print("\t\t\t\tYour Purchase:")
+    #     print("="*80)
+    #     for purchase in self.purchases:
+    #         model = purchase["model"]
+    #         storage = purchase["storage"]
+    #         item = purchase["item"]
+    #         subtotal = purchase["subtotal"]
+    #         print(f"{item}x {model} ({storage}): ${subtotal:.2f}")  
+    #     print(f"Total amount of purchases: ${self.total_amount:.2f}")
+=======
+<<<<<<< HEAD
+>>>>>>> origin/main
         
 =======
 
@@ -1127,7 +1193,7 @@ class User(Stock):
                         user_data = {}
                         for part in parts:
                             if ": " in part:
-                                key, value = part .split(": ")
+                                key, value = part.split(": ")
                                 user_data[key] = value
                         self.users.append(user_data)
         except FileNotFoundError:
@@ -1412,7 +1478,6 @@ class User(Stock):
         print("Contact Number: +855 123456789")
         print("Website: www.iec.com.kh")
 
-
     def edit_profile(self):
         try:
             while True:
@@ -1435,11 +1500,26 @@ class User(Stock):
                         else:
                             for user in self.users:
                                 if user["username"] == self.current_user:
+                                    if self.current_user in self.balances:
+                                        self.balances[new_name] = self.balances.pop(self.current_user)
+                                    
+                                    for purchase in self.purchases:
+                                        if purchase["username"] == self.current_user:
+                                            purchase["username"] = new_name
+
                                     self.current_user = new_name
                                     user["username"] = self.current_user
                                     print(f"Successfully change Name into {self.current_user}")
                                         
                                     self.save_user()
+                                    
+                                    with open(self.history_filename, "w") as history_file:
+                                        for purchase in self.purchases:
+                                            history_file.write(f"username: {purchase['username']}; model: {purchase['model']}; storage: {purchase['storage']}; item: {purchase['item']}; subtotal: {float(purchase['subtotal']):.2f}\n")
+                                    
+                                    with open(self.balance_filename, "w") as balance_file:
+                                        for username, balance in self.balances.items():
+                                            balance_file.write((f"username: {username}, balance: {balance}\n"))
                                     break
                         break
                 elif option == "2":
@@ -1680,6 +1760,9 @@ class User(Stock):
         print(self.balances)
         print(self.users)
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/main
 # user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_pw.txt"
 # balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_balance.txt"
 # history_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_history.txt"
@@ -1687,6 +1770,8 @@ class User(Stock):
 # fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
 # fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
 # filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
+<<<<<<< HEAD
+=======
 =======
 user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_pw.txt"
 balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/customer_balance.txt"
@@ -1696,6 +1781,7 @@ fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Techno
 fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
 filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
 >>>>>>> a77d3dd78fa219ad12d6c459f732de9d8ae44cab
+>>>>>>> origin/main
 
 
 
@@ -1709,6 +1795,28 @@ filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Techn
 
 # user_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_pw.txt"
 
+<<<<<<< HEAD
+# fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone.txt" 
+# fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
+# filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
+# # balance_file = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/employee_log/customer_balance.txt"
+
+# # view stock for users iphone
+# fileiphone11_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone11_user.txt"
+# fileiphone12_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone12_user.txt"
+# fileiphone13_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone13_user.txt"
+# fileiphone14_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone14_user.txt"
+# fileiphone15_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/iphone15_user.txt"
+
+#     # view stock for users mac
+# mac_m1_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m1_user.txt"
+# mac_m2_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_m2_user.txt"
+# mac_pro_14 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_14.txt"
+# mac_pro_16 = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/mac_pro_16.txt"
+
+#     # view stock for user airpod
+# airpod_user = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod_user.txt"
+=======
 # fileiphone_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_worktxt/iphone." 
 # fileairpod_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/airpod.txt"
 # filemacbook_staff = "C:/Users/KORNG/OneDrive - Cambodia Academy of Digital Technology/Documents/GitHub/Python_T1_Y2_Project/Admin_work/macbook.txt"
@@ -1759,33 +1867,35 @@ history_file = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_
 feedback_file = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\feedback.txt"
 
 ###################################### Leap ####################################################
+>>>>>>> origin/main
 
 # stock = Stock()
 # stock.stock_menu()
-# user_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_pw.txt"
-# balance_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_balance.txt"
-# history_file = "/Users/savonchanserey/Desktop/my-repo/Admin_work/customer_history.txt"
+user_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_pw.txt"
+balance_file = "/Users/savonchanserey/Desktop/my-repo/employee_log/customer_balance.txt"
+history_file = "/Users/savonchanserey/Desktop/my-repo/Admin_work/customer_history.txt"
 
-# fileiphone_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone.txt" 
-# fileairpod_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod.txt"
-# filemacbook_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/macbook.txt"
+fileiphone_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone.txt" 
+fileairpod_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod.txt"
+filemacbook_staff = "/Users/savonchanserey/Desktop/my-repo/Admin_work/macbook.txt"
 
-# #     # view stock for users iphone
-# fileiphone11_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone11_user.txt"
-# fileiphone12_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone12_user.txt"
-# fileiphone13_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone13_user.txt"
-# fileiphone14_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone14_user.txt"
-# fileiphone15_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone15_user.txt"
+#     # view stock for users iphone
+fileiphone11_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone11_user.txt"
+fileiphone12_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone12_user.txt"
+fileiphone13_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone13_user.txt"
+fileiphone14_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone14_user.txt"
+fileiphone15_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/iphone15_user.txt"
 
-# #     # view stock for users mac
-# mac_m1_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m1_user.txt"
-# mac_m2_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m2_user.txt"
-# mac_pro_14 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_14.txt"
-# mac_pro_16 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_16.txt"
+#     # view stock for users mac
+mac_m1_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m1_user.txt"
+mac_m2_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_m2_user.txt"
+mac_pro_14 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_14.txt"
+mac_pro_16 = "/Users/savonchanserey/Desktop/my-repo/Admin_work/mac_pro_16.txt"
 
-# # #     # view stock for user airpod
-# airpod_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod_user.txt"
+# #     # view stock for user airpod
+airpod_user = "/Users/savonchanserey/Desktop/my-repo/Admin_work/airpod_user.txt"
 
+feedback_file = "/Users/savonchanserey/Desktop/my-repo/Customer/airpod_user.txt"
 
 user1 = User(user_file, balance_file, history_file, feedback_file, fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user)
 
@@ -1793,8 +1903,14 @@ user1 = User(user_file, balance_file, history_file, feedback_file, fileiphone_st
 user1.user_menu()
 <<<<<<< HEAD
 # stockmanager.employee_login()
+
+
+=======
+<<<<<<< HEAD
+# stockmanager.employee_login()
 =======
 # stockmanager.employee_login()
 
 
 >>>>>>> a77d3dd78fa219ad12d6c459f732de9d8ae44cab
+>>>>>>> origin/main

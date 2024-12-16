@@ -1,1 +1,8 @@
+<<<<<<< HEAD
 username: tear; model: iphone_11; storage: 64GB; item: 1; subtotal: 599.00
+=======
+username: kk; model: iphone_11; storage: 256GB; item: 2; subtotal: 1598.00
+username: kk; model: Airpods_Pro; storage: None; item: 1; subtotal: 249.00
+username: neath; model: Airpods_2nd_Gen; storage: None; item: 1; subtotal: 159.00
+username: neath; model: Airpods_2nd_Gen; storage: None; item: 1; subtotal: 159.00
+>>>>>>> d1438fbbba1696ec116fd144a7ccbca46301a7a0

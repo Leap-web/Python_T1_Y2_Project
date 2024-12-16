@@ -12,6 +12,7 @@ class Employeesystem:
         self.load_employees()
 
     def choose_option(self): 
+        
         while True:
             print("\n********** Employee System *********")
             print("1. Create employee account.")
@@ -30,6 +31,7 @@ class Employeesystem:
                 print("Invalid option. Please try again!")
 
     def load_employees(self):
+        
         try:
             with open(self.employee_filename, 'r') as file:
                 for line in file:
@@ -156,3 +158,20 @@ class Employeesystem:
 if __name__ == "__main__":
     system = Employeesystem()
     system.choose_option()
+<<<<<<< HEAD
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+=======
+>>>>>>> origin/main
