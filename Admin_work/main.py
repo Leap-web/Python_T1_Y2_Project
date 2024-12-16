@@ -1,6 +1,7 @@
 from admin_p import AdminSystem
-from stock import Stock
+from stock_and_user import Stock
 from view_stock import StockManager
+
 class Admin:
     def AdminSystem():
         pass
@@ -14,6 +15,6 @@ class StockManager:
         pass
 
 if __name__ == "__main__":
+    Stock()
     AdminSystem()
     StockManager()
-    Stock()

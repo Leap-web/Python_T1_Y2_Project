@@ -1,3 +1,4 @@
+<<<<<<< HEAD
     def save_purchase(self, purchase):
         try:
             with open(self.history_filename, "a") as file:
@@ -29,3 +30,6 @@
                         self.total_amount += float(purchase_data["subtotal"])  
         except Exception as e:
             print(f"Error occur {e}")
+=======
+# self.load_users()
+>>>>>>> 1ed95e557068fa42e92e33673312a2f9d13632ff
