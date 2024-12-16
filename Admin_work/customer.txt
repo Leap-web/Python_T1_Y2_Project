@@ -1,2 +1,0 @@
-{'username': 'serey', 'model': 'iphone_11', 'storage': '64GB', 'item': 2, 'subtotal': 1198.0}
-{'username': 'serey', 'model': 'iphone_15', 'storage': '1TB', 'item': 1, 'subtotal': 1299.0}
