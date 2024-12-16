@@ -577,7 +577,8 @@ class Stock:
                 return
             else:
                 print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
-                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                # user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
+                continue
     # for user to view the stock of macbook
     def macbook_menu(self):
         while True:
@@ -1028,24 +1029,58 @@ class User(Stock):
         except ValueError as e:
             print(f"[ERROR] Failed to add to total_amount: {e}")
 
+    # def save_purchase(self, purchase):
+    #     try:
+    #         with open(user1.history_filename, "a") as file:
+    #             file.write(str(purchase) + "\n")
+    #     except Exception as e:
+    #         print(f"Error saving purchase to file {e}.")
+
     def save_purchase(self, purchase):
         try:
-            with open(user1.history_filename, "a") as file:
-                file.write(str(purchase) + "\n")
+            with open(self.history_filename, "a") as file:
+                # Format the purchase data in the new format
+                purchase_data = f"username: {purchase['username']}; model: {purchase['model']}; storage: {purchase['storage']}; item: {purchase['item']}; subtotal: {float(purchase['subtotal']):.2f}\n"
+                file.write(purchase_data)
         except Exception as e:
             print(f"Error saving purchase to file {e}.")
-            
+
     def load_purchase(self):
-        try:
-            with open(self.history_filename, "r") as file:
+        try:    
+            with open(self.history_filename, 'r') as file:
                 for line in file:
-                    record = eval(line.strip())
-                    self.purchases.append(record)
-                    self.total_amount += record["subtotal"]
-        except FileNotFoundError:
-            pass
-        except IOError:
-            print("Error loading purchase history from file.")
+                    line = line.strip()
+                    if not line:  # Skip empty lines
+                        continue
+
+                    # Split the line by '; ' to separate each field
+                    if "; " in line:
+                        parts = line.split("; ")
+                        purchase_data = {}
+                        for part in parts:
+                            if ":" in part:  # Ensure the part contains a key-value pair
+                                key, value = part.split(": ")
+                                purchase_data[key.strip()] = value.strip()  # Remove extra spaces if any
+
+                        # Add the purchase to the list and update the total_amount
+                        self.purchases.append(purchase_data)
+                        self.total_amount += float(purchase_data["subtotal"])  
+        except Exception as e:
+            print(f"Error occur {e}")
+    # def load_purchase(self):
+    #     try:
+    #         with open(self.history_filename, "r") as file:
+    #             for line in file:
+    #                 line = line.strip
+    #                 if not line:
+    #                     continue
+    #                 record = eval(line)
+    #                 self.purchases.append(record)
+    #                 self.total_amount += record["subtotal"]
+    #     except FileNotFoundError:
+    #         pass
+    #     except IOError:
+    #         print("Error loading purchase history from file.")
 
     def show_total(self):
         self.clear_screen()
@@ -1094,7 +1129,7 @@ class User(Stock):
                         user_data = {}
                         for part in parts:
                             if ": " in part:
-                                key, value = part .split(": ")
+                                key, value = part.split(": ")
                                 user_data[key] = value
                         self.users.append(user_data)
         except FileNotFoundError:
@@ -1379,7 +1414,6 @@ class User(Stock):
         print("Contact Number: +855 123456789")
         print("Website: www.iec.com.kh")
 
-
     def edit_profile(self):
         try:
             while True:
@@ -1402,11 +1436,26 @@ class User(Stock):
                         else:
                             for user in self.users:
                                 if user["username"] == self.current_user:
+                                    if self.current_user in self.balances:
+                                        self.balances[new_name] = self.balances.pop(self.current_user)
+                                    
+                                    for purchase in self.purchases:
+                                        if purchase["username"] == self.current_user:
+                                            purchase["username"] = new_name
+
                                     self.current_user = new_name
                                     user["username"] = self.current_user
                                     print(f"Successfully change Name into {self.current_user}")
                                         
                                     self.save_user()
+                                    
+                                    with open(self.history_filename, "w") as history_file:
+                                        for purchase in self.purchases:
+                                            history_file.write(f"username: {purchase['username']}; model: {purchase['model']}; storage: {purchase['storage']}; item: {purchase['item']}; subtotal: {float(purchase['subtotal']):.2f}\n")
+                                    
+                                    with open(self.balance_filename, "w") as balance_file:
+                                        for username, balance in self.balances.items():
+                                            balance_file.write((f"username: {username}, balance: {balance}\n"))
                                     break
                         break
                 elif option == "2":
