@@ -9,6 +9,7 @@ class StockManager:
         self.filemacbook_staff = filemacbook_staff
         self.employeefile = employeefile
         self.recordstock = recordstock
+        
     def masked_input(self,prompt= ""):
         print(prompt, end="", flush=True)
         password = ""
@@ -483,18 +484,25 @@ class StockManager:
             print(f"Successfully removed {quantity} of {model_key}.")
         except IOError:
             print("Error writing to the stock file.")
+
+
+            
     
-
-fileiphone_staff = r"C:\Python_T1_Y2_Project\Admin_work\iphone.txt"
-fileairpod_staff = r"C:\Python_T1_Y2_Project\Admin_work\airpod.txt"
-filemacbook_staff = r"C:\Python_T1_Y2_Project\Admin_work\macbook.txt"
-employeefile = r"C:\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
-recordstock = r"C:\Python_T1_Y2_Project\Admin_work\recordstock.txt"
+employeefile = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
+recordstock = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\recordstock.txt"
 
 
-fileiphone_staff = r"C:\Python_T1_Y2_Project\Employees\iphone.txt"
-fileairpod_staff = r"C:\Python_T1_Y2_Project\Employees\airpod.txt"
-filemacbook_staff = r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
+
+# fileiphone_staff = r"C:\Python_T1_Y2_Project\Admin_work\iphone.txt"
+# fileairpod_staff = r"C:\Python_T1_Y2_Project\Admin_work\airpod.txt"
+# filemacbook_staff = r"C:\Python_T1_Y2_Project\Admin_work\macbook.txt"
+# employeefile = r"C:\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
+# recordstock = r"C:\Python_T1_Y2_Project\Admin_work\recordstock.txt"
+
+
+# fileiphone_staff = r"C:\Python_T1_Y2_Project\Employees\iphone.txt"
+# fileairpod_staff = r"C:\Python_T1_Y2_Project\Employees\airpod.txt"
+# filemacbook_staff = r"C:\Python_T1_Y2_Project\Employees\macbook.txt"
 
 
 # stockmanager = StockManager(fileiphone_staff,fileairpod_staff,filemacbook_staff)
