@@ -1,0 +1,1 @@
+username: hello, balance: 2500.0
