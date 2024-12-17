@@ -1,1 +1,13 @@
+<<<<<<< HEAD
 {'Airpods_2nd_Gen': 6, 'Airpods_Pro': 9, 'Airpods_Max': 14}
+=======
+<<<<<<< HEAD
+{'Airpods_2nd_Gen': 6, 'Airpods_Pro': 9, 'Airpods_Max': 14}
+=======
+<<<<<<< HEAD
+{'Airpods_2nd_Gen': 0, 'Airpods_Pro': 8, 'Airpods_Max': 13}
+=======
+{'Airpods_2nd_Gen': 6, 'Airpods_Pro': 11, 'Airpods_Max': 14}
+>>>>>>> 1ed95e557068fa42e92e33673312a2f9d13632ff
+>>>>>>> d1438fbbba1696ec116fd144a7ccbca46301a7a0
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272

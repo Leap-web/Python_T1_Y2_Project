@@ -1,10 +1,18 @@
-username: korng, balance: 9203.0
-username: neath, balance: 3408.0
 username: serey, balance: 10000.0
 username: ly, balance: 1007.0
 username: leap, balance: 0.0
 username: o, balance: 0.0
 username: l, balance: 0.0
 username: n, balance: 0.0
+<<<<<<< HEAD
 username: Bunleap, balance: 0.0
 username: tear, balance: 401.0
+=======
+<<<<<<< HEAD
+username: Bunleap, balance: 0.0
+username: tear, balance: 401.0
+=======
+username: kk, balance: 6951.0
+username: neath, balance: 444.0
+>>>>>>> d1438fbbba1696ec116fd144a7ccbca46301a7a0
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272

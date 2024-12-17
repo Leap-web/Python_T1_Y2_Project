@@ -10,6 +10,7 @@ import getpass
 
 class FirstInterface:
     def display(self):
+        # Main interface for the e-commerce system, allowing users to choose their role
         while True:
             os.system('cls')
             print("=" * 60)
@@ -41,12 +42,17 @@ class FirstInterface:
                 input("Press Enter to continue...")
 
 class AdminEmployee(FirstInterface):
+<<<<<<< HEAD
 
+=======
+    # File paths for employee and stock management
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
     employeefile = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
     recordstock = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\recordstock.txt"
     user_file = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\customer_pw.txt"
     system_log = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/system_log.txt'
     
+    # File paths for stock management
     fileiphone_staff = r"C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/iphone.txt" 
     fileairpod_staff = r"C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/airpod.txt"
     filemacbook_staff = r"C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/macbook.txt"
@@ -65,13 +71,14 @@ class AdminEmployee(FirstInterface):
     mac_pro_14 = r"C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/mac_pro_14.txt"
     mac_pro_16 = r"C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/mac_pro_16.txt"
 
-        # view stock for user airpod
+    # view stock for user airpod
     airpod_user =r"C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/airpod_user.txt"
 
     def __init__(self):
         self.logged_in_username = None
 
     def load_employees(self):
+        # File paths for stock management
         employees = []
         try:
             with open(self.manage_employ, 'r') as file:
@@ -91,6 +98,7 @@ class AdminEmployee(FirstInterface):
         return employees  # Ensure employees are returned correctly
 
     def log_action(self, action, username="Admin"):
+        # Log actions performed by the admin to a log file with a timestamp
         try:
             with open(self.system_log, 'a') as log_file:
                 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -98,9 +106,13 @@ class AdminEmployee(FirstInterface):
         except Exception as ex:
             print(f"Error logging action : {ex}")
 
-    #### MANAGE CUSTOMER PART ####
+#### MANAGE CUSTOMER PART ####
 
     def manage_customer_acc(self):
+<<<<<<< HEAD
+=======
+        # Menu for managing customer accounts
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
         os.system('cls')
         while True:
             print("\n" + "=" * 50)
@@ -127,6 +139,7 @@ class AdminEmployee(FirstInterface):
                 print("⚠️ Please enter a valid number.")
 
     def view_customers(self):
+        # View the list of customers from the user file
         try:
             with open(self.user_file, 'r') as file:
                 users = [line.strip() for line in file]
@@ -145,6 +158,7 @@ class AdminEmployee(FirstInterface):
             print(f"An error occurred: {e}")
 
     def delete_customer(self):
+        # Delete a customer from the user file
         try:
             file_path = self.user_file
             with open(file_path, 'r') as file:
@@ -176,11 +190,12 @@ class AdminEmployee(FirstInterface):
             print(f"An error occurred: {e}")
 
     
-    #### MANAGE CUSTOMER PART ####
+#### MANAGE CUSTOMER PART ####
 
-    #### CRUD FUNCTION #####
+#### CRUD FUNCTION #####
 
-    def view_stock(self): # menu view stock
+    def view_stock(self):
+        # Menu to view stock of different products
         while True:
             print("\n" + "=" * 50)
             print("📦  View Stock Menu  📦".center(50))
@@ -203,7 +218,8 @@ class AdminEmployee(FirstInterface):
                 print("Invalid choice. Please try again.")
 
             
-    def view_iphone(self): #view iphone
+    def view_iphone(self):
+        # View stock details for iPhones
         try:
             with open(self.fileiphone_staff, "r") as file:
                 stock_data = ast.literal_eval(file.read())
@@ -211,7 +227,8 @@ class AdminEmployee(FirstInterface):
         except FileNotFoundError:
             print("Stock file not found. Creating a new one.")
         
-    def view_macbook(self): #view_mac
+    def view_macbook(self): 
+        # View stock details for MacBooks
         try:
             with open(self.filemacbook_staff, "r") as file:
                 stock_data = ast.literal_eval(file.read())
@@ -219,7 +236,8 @@ class AdminEmployee(FirstInterface):
         except FileNotFoundError:
             print("Stock file not found. Creating a new one.")
             
-    def view_airpod(self): #view airpod
+    def view_airpod(self):
+        # View stock details for AirPods
         try:
             with open(self.fileairpod_staff, "r") as file:
                 stock_data = ast.literal_eval(file.read())
@@ -228,8 +246,8 @@ class AdminEmployee(FirstInterface):
             print("Stock file not found. Creating a new one.")
 
 
-    def add_stock(self): # add stock
-        # file_path = self.get_file_path()
+    def add_stock(self): 
+        # Menu to add stock for different products
         while True:
             print("\n" + "=" * 50)
             print("📈  Add Stock Menu  📈".center(50))
@@ -251,7 +269,8 @@ class AdminEmployee(FirstInterface):
             else:
                 print("Invalid choice. Please try again.")
 
-    def delete_stock(self): #delete stock
+    def delete_stock(self): 
+        # Menu to delete stock for different products
         while True:
             print("\n" + "=" * 50)
             print("🗑️  Delete Stock Menu  🗑️".center(50))
@@ -274,7 +293,8 @@ class AdminEmployee(FirstInterface):
             else:
                 print("Invalid choice. Please try again.")
             
-    def add_iphone(self): # add iphone
+    def add_iphone(self):
+        # Add stock for iPhones
             try:
                 with open(self.fileiphone_staff, "r") as file:
                     stock_data = ast.literal_eval(file.read())
@@ -327,7 +347,8 @@ class AdminEmployee(FirstInterface):
             except IOError:
                 print("Error writing to the stock file.")
 
-    def remove_iphone(self): #remove iphone
+    def remove_iphone(self): 
+        # Remove stock for iPhones
             try:
                 with open(self.fileiphone_staff, "r") as file:
                     stock_data = ast.literal_eval(file.read())
@@ -369,7 +390,8 @@ class AdminEmployee(FirstInterface):
             except IOError:
                 print("Error writing to the stock file.")
 
-    def add_macbook(self): #add macbook
+    def add_macbook(self):
+        # Add stock for MacBooks
         try:
             # Load stock data from file
             with open(self.filemacbook_staff, "r") as file:
@@ -434,7 +456,8 @@ class AdminEmployee(FirstInterface):
         except IOError:
             print("Error writing to the stock file.")
             
-    def remove_macbook(self): #remove mac
+    def remove_macbook(self): 
+        # Remove stock for MacBooks
         try:
             with open(self.filemacbook_staff, "r") as file:
                 stock_data = ast.literal_eval(file.read())
@@ -484,7 +507,8 @@ class AdminEmployee(FirstInterface):
         except IOError:
             print("Error writing to the stock file.")
 
-    def add_airpod(self): #add airpod
+    def add_airpod(self):
+        # Add stock for AirPods
         try:
             # Load stock data from file
             with open(self.fileairpod_staff, "r") as file:
@@ -535,7 +559,8 @@ class AdminEmployee(FirstInterface):
         except IOError:
             print("Error writing to the stock file.")
 
-    def remove_airpod(self): #remove airpod
+    def remove_airpod(self): 
+        # Remove stock for AirPods
         try:
             with open(self.fileairpod_staff, "r") as file:
                 stock_data = ast.literal_eval(file.read())
@@ -581,9 +606,10 @@ class AdminEmployee(FirstInterface):
         except IOError:
             print("Error writing to the stock file.")
 
-    #### CRUD FUNCTION #####
+#### CRUD FUNCTION #####
 
     def masked_input(self, prompt=""):
+        # Function to securely input a password without displaying it
         print(prompt, end="", flush=True)
         password = ""
         while True:
@@ -601,26 +627,30 @@ class AdminEmployee(FirstInterface):
         return password
 
     def hash_password(self, password):
+        # Hash the password using PBKDF2 with a random salt
         salt = os.urandom(16)
         hashed_password = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100000)
         return salt.hex() + hashed_password.hex()  # Convert both salt and hash to hex
 
     def verify_password(self, stored_password, input_password):
+        # Verify the input password against the stored hashed password
         salt = stored_password[:16]
         stored_hash = stored_password[16:]
         input_hash = hashlib.pbkdf2_hmac('sha256', input_password.encode(), salt, 100000)
         return stored_hash == input_hash
 
 class EmployeeInterface(AdminEmployee):
-
+    # File path for managing employees
     manage_employ = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/manage_employee.txt'
 
     def __init__(self):
+        # Load employees and display the employee account interface
         self.employees = self.load_employees()
         self.display_employee_account()
         super().__init__(self.masked_input, self.hash_password, self.verify_password, self.system_log, self.logged_in_username)
 
     def display_employee_account(self):
+        # Display the employee account interface
         os.system('cls')
         while True:
             try:
@@ -643,6 +673,7 @@ class EmployeeInterface(AdminEmployee):
                 print(v)
     
     def employee_login(self):
+        # Handle employee login with credential verification
         os.system('cls')
         for attempts_left in range(3, 0, -1):
             print("\n" + "=" * 50)
@@ -672,6 +703,7 @@ class EmployeeInterface(AdminEmployee):
 
 
     def display_employee_task(self):
+        # Display the employee task dashboard
         os.system('cls')
         while True:
             try:
@@ -699,9 +731,10 @@ class EmployeeInterface(AdminEmployee):
                 print(ve)
 
 
-    ##### EMPLOYEE PART ########
+##### EMPLOYEE PART ########
 class Stock(EmployeeInterface):
-    def __init__(self,fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user,):
+    def __init__(self,fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user):
+        # Initialize stock management with file paths
         self.fileiphone_staff = fileiphone_staff
         self.fileairpod_staff = fileairpod_staff
         self.filemacbook_staff = filemacbook_staff
@@ -719,6 +752,7 @@ class Stock(EmployeeInterface):
         self.purchases = []
 
     def clear_screen(self):
+        # Clear the console screen based on the operating system
         current_os = platform.system()
 
         if current_os == "Windows":
@@ -727,7 +761,7 @@ class Stock(EmployeeInterface):
             os.system('clear')
         
     def iphone_menu(self):      
-        # Menu bar for user
+        # Menu for displaying iPhone models and handling purchases
         while True:
             print("=" * 80)
             print("\t📱 iPhone Models Menu 📱".center(80))  # Title centered
@@ -1155,6 +1189,7 @@ class Stock(EmployeeInterface):
                 return   
             
     def airpod_menu(self):
+        # Display the menu for AirPods
         try:
             with open(self.airpod_user,"r") as file:
                 content = file.read()
@@ -1235,6 +1270,7 @@ class Stock(EmployeeInterface):
                 user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
     # for user to view the stock of macbook
     def macbook_menu(self):
+        # display the stock of macbook
         while True:
             print("=" * 80)
             print("\t🍏 Mac Models Menu 🍏".center(80))  # Title centered with emoji
@@ -1572,6 +1608,10 @@ class Stock(EmployeeInterface):
                 return   
     # let user input
     def stock_menu(self):
+<<<<<<< HEAD
+=======
+        # display all stock option
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
         os.system('cls')
         while True:
             print("=" * 80)
@@ -1629,6 +1669,7 @@ class User(Stock):
         self.load_purchase()
 
     def add_to_total(self, item, model, storage, total_cost):
+        # display the total amount of stock
         try:
             self.total_amount += float(total_cost)
             purchase = {
@@ -1644,6 +1685,7 @@ class User(Stock):
             print(f"[ERROR] Failed to add to total_amount: {e}")
 
     def save_purchase(self, purchase):
+        # for saving purchase history
         try:
             with open(self.history_filename, "a") as file:
                 # Format the purchase data in the new format
@@ -1653,6 +1695,7 @@ class User(Stock):
             print(f"Error saving purchase to file {e}.")
 
     def load_purchase(self):
+        # for loading purchase history
         try:    
             with open(self.history_filename, 'r') as file:
                 for line in file:
@@ -1676,6 +1719,7 @@ class User(Stock):
             print(f"Error occur {e}")
 
     def show_total(self):
+        # for showing total amount
         self.clear_screen()
         print("="*80)
         print("\t\t\t\tYour Purchase:")
@@ -1692,6 +1736,7 @@ class User(Stock):
         print(f"Total amount of purchases: ${dynamic_total:.2f}\n")
 
     def calculate(self):
+        # for calculating total amount
         if self.total_amount > 0:
             if self.current_user in self.balances:  # Ensure the user exists in balances
                 if self.balances[self.current_user] >= self.total_amount:  # Check sufficient balance
@@ -1709,6 +1754,7 @@ class User(Stock):
             print("User not found.")
         
     def load_users(self):
+        # for loading users from file
         try:
             with open(self.user_filename, 'r') as file:
                 for line in file:
@@ -1727,17 +1773,21 @@ class User(Stock):
             print(f"{self.user_filename} not found.")
             
     def save_user(self):
+        # for saving user to file
         with open(self.user_filename, "w") as file:
             for user in self.users: 
                 file.write(f"username: {user['username']}, email: {user['email']}, password: {user['password']}, secret pin: {user['secret pin']}\n")
     
     def hash_password(self,password):
+        # for hashing password
         return hashlib.sha256(password.encode()).hexdigest()
     
     def hash_secret_pin(self,pin):
+        # for hashing secret pin
         return hashlib.sha256(pin.encode()).hexdigest()  
 
     def register(self):
+        # for registering user
         try:  
             with open(self.user_filename, 'a') as file:   
                 while True:
@@ -1807,6 +1857,7 @@ class User(Stock):
             print(f"There's an error with your registration: {e}. please try again!.")
         
     def login(self):
+        # Login function for user
         try:
             for i in range(3, 0, -1):
                 print("\n============================== Login ==============================")
@@ -1832,6 +1883,7 @@ class User(Stock):
             
 
     def forgot(self):
+        # Forgot password function for user
         try:
             print("\n============================== Forgot Password ==============================")
             username = input("\nEnter your username: ")
@@ -1878,6 +1930,7 @@ class User(Stock):
             print(f"There is an error occur in your forgot proceess: {e} Please try again!.")
             
     def load_balance(self):
+        # for load balance function
         try:
             with open(self.balance_filename, 'r') as file:
                 for line in file:
@@ -1893,6 +1946,7 @@ class User(Stock):
             print(f"{self.balance_filename} not found.")
 
     def manage_balance(self):
+        # for manage balance function
         try:
             self.clear_screen()
             while True:
@@ -1939,6 +1993,10 @@ class User(Stock):
             print(f"An error occur in your deposit process: {e}. Please try again!")
         
     def help_us(self):
+<<<<<<< HEAD
+=======
+        # for help user with their problem function
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
         os.system('cls')
         while True:
             print("\n********** HELP US *********")
@@ -2009,6 +2067,7 @@ class User(Stock):
         print("Website: www.iec.com.kh")
 
     def edit_profile(self):
+        # for user edit their profile such as name email or password whatever
         try:
             while True:
                 print("\n------------------------------ Edit Profile ------------------------------")
@@ -2159,6 +2218,7 @@ class User(Stock):
             print(f"An error occur in your editing process: {e}. Please try again!")
 
     def manage_profile(self):
+        # Manage user profile
         try:
             while True:
                 print("\n============================== Manage Profile ==============================")
@@ -2329,13 +2389,17 @@ user1 = User(user_file, balance_file, history_file, feedback_file, fileiphone_st
  ######  ADMIN PART ######
 
 class AdminSystem(AdminEmployee):
-
+    # File paths for managing admin accounts, employee accounts, system logs, and employee information
     admin_manage = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/admin_manage.txt'
     manage_employ = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/manage_employee.txt'
     system_log = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/system_log.txt'
     employeefile = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
 
     def __init__(self):
+<<<<<<< HEAD
+=======
+        # Initialize the admin system and display the admin account options
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
         self.logged_in_username = None
         self.display_admin_account()
         super().__init__(self.add_macbook, self.add_employee, self.add_airpod, 
@@ -2344,6 +2408,7 @@ class AdminSystem(AdminEmployee):
                         self.recordstock, self.logged_in_username)
 
     def display_admin_account(self):
+        # Display options for admin account management
         while True:
             try:
                 os.system('cls')
@@ -2367,6 +2432,7 @@ class AdminSystem(AdminEmployee):
                 print(v)
 
     def admin_dashboard(self):
+        # Display the admin dashboard with various management options
         os.system('cls')
         print("\n" + "=" * 40 + " Admin Dashboard " + "=" * 40)
         print("1. 🛠️  Add or Update Stock")
@@ -2397,13 +2463,18 @@ class AdminSystem(AdminEmployee):
                 elif choose == 7:
                     self.history_log()
                 elif choose == 8:
+<<<<<<< HEAD
                     self.display()
+=======
+                    sys.exit(1)
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
                 else:
                     print("Choose a correct option")
             except ValueError as e:
                 print(e)
 
     def get_existing_ids(self):
+        # Retrieve existing admin IDs from the admin management file
         existing_ids = set()  # Use a set for faster lookups
         try:
             with open(self.admin_manage, 'r') as file:
@@ -2416,6 +2487,7 @@ class AdminSystem(AdminEmployee):
             return set()  # Return an empty set if the file is missing
 
     def suggest_available_id(self):
+        # Suggest an available admin ID based on the existing IDs
         existing_ids = self.get_existing_ids()  # Fetch the existing IDs
         base_id_prefix = "IDTB"
         available_ids = []
@@ -2434,16 +2506,19 @@ class AdminSystem(AdminEmployee):
 
 
     def hash_password(self, password):
+        # Hash the password using SHA-256
         salt = bcrypt.gensalt(rounds=12)
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
         return hashed_password.decode('utf-8')
 
     def save_admin_to_file(self, admin_account_username, admin_account_id, admin_account_email, hashed_password):
+        # Save admin account details to the admin management file
         with open(self.admin_manage, "a") as file:
             file.write(f"{admin_account_username}, {admin_account_id}, {admin_account_email}, {hashed_password}\n")
         print("Admin account created successfully.")
 
     def create_admin_account(self):
+        # Create a new admin account
         while True:
             print("Eg: Name: John_Doe")
             admin_account_name = input("Enter admin_account name: ")
@@ -2512,6 +2587,8 @@ class AdminSystem(AdminEmployee):
 
 
     def admin_log(self):
+        # Handle the admin login proccess with muliple validation steps
+
         max_attempts = 3  # Maximum attempts per input
         attempts_remaining = max_attempts  # Remaining attempts for each step
 
@@ -2598,6 +2675,7 @@ class AdminSystem(AdminEmployee):
         sys.exit()
 
     def validate_username(self, username):
+        # Check if the provided username exists in the admin management file
         try:
             with open(self.admin_manage, 'r') as file:
                 for line in file:
@@ -2612,6 +2690,7 @@ class AdminSystem(AdminEmployee):
             sys.exit(1)
 
     def validate_admin_id(self, admin_id, username):
+        # Validate the provided admin ID against the stored data
         try:
             with open(self.admin_manage, 'r') as file:
                 for line in file:
@@ -2626,6 +2705,7 @@ class AdminSystem(AdminEmployee):
             sys.exit(1)
 
     def validate_email(self, email, username):
+        # Validate the provided email against the stored data
         try:
             with open(self.admin_manage, 'r') as file:
                 for line in file:
@@ -2640,6 +2720,7 @@ class AdminSystem(AdminEmployee):
             sys.exit(1)
 
     def take_password(self):
+        # Securely input the password without displaying it
         password = ""
         print("Enter password: ", end="", flush=True)
         while True:
@@ -2657,6 +2738,7 @@ class AdminSystem(AdminEmployee):
         return password
     
     def validate_password(self, username, password):
+        # Validate the provided password against the stored data
         try:
             with open(self.admin_manage, 'r') as file:
                 for line in file:
@@ -2671,6 +2753,7 @@ class AdminSystem(AdminEmployee):
     ##### MANAGE EMPLOYEE PART ######
 
     def manage_employee_acc(self):
+        # Manage employee account functionality
         os.system('cls')
         while True:
             print("\n" + "=" * 30 + " Manage Employee Accounts " + "=" * 30)
@@ -2696,6 +2779,7 @@ class AdminSystem(AdminEmployee):
                 print("Enter a valid number.")
 
     def get_existing_id(self):
+        # Get the existing employee ID from the file
         existing_id = set()  # Use a set for faster lookups
         try:
             if os.path.exists(self.manage_employ):  # Check if file exists before opening
@@ -2709,6 +2793,7 @@ class AdminSystem(AdminEmployee):
             return set()  # Return an empty set if the file is missing
 
     def suggest_available_id(self):
+        # Suggest an available ID for the new employee
         existing_id = self.get_existing_id()  # Fetch the existing IDs
         base_id_prefix = "IDTB"
         available_id = []
@@ -2726,6 +2811,7 @@ class AdminSystem(AdminEmployee):
         return employee_account_id.startswith("IDTB") and employee_account_id not in self.get_existing_id()
 
     def save_employee_to_file(self, employee_account_username, employee_account_id, employee_account_email, hashed_password):
+        # Save the employee to the file
         try:
             with open(self.manage_employ, "a") as file:
                 file.write(f"{employee_account_username}, {employee_account_id}, {employee_account_email}, {hashed_password}\n")
@@ -2734,6 +2820,7 @@ class AdminSystem(AdminEmployee):
             print(f"Error saving employee to file: {e}")
 
     def add_employee(self):
+        # Add a new employee to the system
         while True:
             print("Eg: Name: John_Doe")
             employee_account_name = input("Enter employee account name: ")
@@ -2791,6 +2878,7 @@ class AdminSystem(AdminEmployee):
                 print("Invalid name format. Ensure it contains an underscore (_) and no spaces.")
 
     def view_employees(self):
+        # Read employee details from file
         try:
             with open(self.manage_employ, 'r') as file:
                 print("\nEmployee Accounts:")
@@ -2800,6 +2888,7 @@ class AdminSystem(AdminEmployee):
             print("No employee data found.")
 
     def delete_employee(self):
+        # Read employee details from file and Delete by IDTB as ID 
         employee_id = input("Enter the Employee ID to delete: ").strip()
 
         # Check if the employee ID exists in the file
@@ -2828,6 +2917,10 @@ class AdminSystem(AdminEmployee):
     ##### LOG HISTORY ########
 
     def history_log(self):
+<<<<<<< HEAD
+=======
+        # Read log history from file
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
         os.system('cls')
         while True:
             print("\n" + "=" * 30 + " System Log " + "=" * 30)
@@ -2869,6 +2962,10 @@ class AdminSystem(AdminEmployee):
     ######  ADMIN PART ######
 
     def view_stocks(self):
+<<<<<<< HEAD
+=======
+        # Read stock data from file
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
         os.system('cls')
         while True:
             print("\n" + "=" * 50)
