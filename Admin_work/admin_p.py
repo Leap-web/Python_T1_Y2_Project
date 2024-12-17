@@ -42,6 +42,8 @@ class FirstInterface:
 
 class AdminEmployee(FirstInterface):
 
+    employeefile = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
+    recordstock = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\recordstock.txt"
     user_file = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\customer_pw.txt"
     system_log = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/system_log.txt'
     
@@ -66,6 +68,8 @@ class AdminEmployee(FirstInterface):
         # view stock for user airpod
     airpod_user =r"C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/airpod_user.txt"
 
+    def __init__(self):
+        self.logged_in_username = None
 
     def load_employees(self):
         employees = []
@@ -97,6 +101,7 @@ class AdminEmployee(FirstInterface):
     #### MANAGE CUSTOMER PART ####
 
     def manage_customer_acc(self):
+        os.system('cls')
         while True:
             print("\n" + "=" * 50)
             print("📂  Manage Customer Account Menu  📂")
@@ -354,8 +359,7 @@ class AdminEmployee(FirstInterface):
             else:
                 stock_data[model_key] = {storage_key: quantity}
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            with open (self.recordstock, 'a') as file:
-            #   print(f"ADD | {timestamp} | {self.employee_username} | Model: {model_key} | Quantity: {quantity}\n")  
+            with open (self.recordstock, 'a') as file: 
                 file.write(f"{timestamp} | {self.logged_in_username} |remove | Model: {model_key} | Storage: {storage_key} | Quantity: {quantity}\n")
 
             try:
@@ -614,7 +618,7 @@ class EmployeeInterface(AdminEmployee):
     def __init__(self):
         self.employees = self.load_employees()
         self.display_employee_account()
-        super().__init__(self.masked_input, self.hash_password, self.verify_password, self.system_log)
+        super().__init__(self.masked_input, self.hash_password, self.verify_password, self.system_log, self.logged_in_username)
 
     def display_employee_account(self):
         os.system('cls')
@@ -726,7 +730,7 @@ class Stock(EmployeeInterface):
         # Menu bar for user
         while True:
             print("=" * 80)
-            print("\t\t\t📱 iPhone Models Menu 📱".center(80))  # Title centered
+            print("\t📱 iPhone Models Menu 📱".center(80))  # Title centered
             print("=" * 80)
             print("1. iPhone 11")
             print("2. iPhone 12")
@@ -1228,12 +1232,12 @@ class Stock(EmployeeInterface):
                 return
             else:
                 print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
-                continue
+                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
     # for user to view the stock of macbook
     def macbook_menu(self):
         while True:
             print("=" * 80)
-            print("\t\t\t🍏 Mac Models Menu 🍏".center(80))  # Title centered with emoji
+            print("\t🍏 Mac Models Menu 🍏".center(80))  # Title centered with emoji
             print("=" * 80)
             print("1. MacBook M1")
             print("2. MacBook M2")
@@ -1250,8 +1254,8 @@ class Stock(EmployeeInterface):
                         content = file.read()
                         # print("Stock:")
                         print(content)
+                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
                         while True:
-                            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
                             if user_buy == "yes" or user_buy == "y":
                                 model_key = "MacBook_Air_M1"
                                 while True:
@@ -1327,9 +1331,9 @@ class Stock(EmployeeInterface):
                         content = file.read()
                         # print("Stock:")
                         print(content)
+                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
                         while True:
-                            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-                            if user_buy == "yes":
+                            if user_buy == "yes" or user_buy == "y":
                                 model_key = "MacBook_Air_M2"
                                 storage = input("Storage(256/512):")
                                 storage_key = f"{storage}GB"
@@ -1404,9 +1408,9 @@ class Stock(EmployeeInterface):
                         content = file.read()
                         # print("Stock:")
                         print(content)
+                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
                         while True:
-                            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-                            if user_buy == "yes":
+                            if user_buy == "yes" or user_buy == "y":
                                 model_key = "MacBook_Pro_14inch"
                                 storage = input("Storage(1(TB)/512):")
                                 if storage == "1":
@@ -1484,9 +1488,9 @@ class Stock(EmployeeInterface):
                         content = file.read()
                         # print("Stock:")
                         print(content)
+                        user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
                         while True:
-                            user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
-                            if user_buy == "yes":
+                            if user_buy == "yes" or user_buy == "y":
                                 model_key = "MacBook_Pro_16inch"
                                 storage = input("Storage(1(TB)/512):")
                                 if storage == "1":
@@ -1568,16 +1572,18 @@ class Stock(EmployeeInterface):
                 return   
     # let user input
     def stock_menu(self):
+        os.system('cls')
         while True:
-            print("="*80)
-            print("\t\t\t\tStock Display:")
-            print("="*80)
-            print("1.iPhone")
-            print("2.Airpod")
-            print("3.Macbook")
-            print("4.View Total")
-            print("5.Back to usage menu")
-            print("6.Exit")
+            print("=" * 80)
+            print("\t📦 Stock Display 📦".center(80))  # Title centered with a box emoji
+            print("=" * 80)
+            print("1. 📱 iPhone")
+            print("2. 🎧 Airpods")
+            print("3. 💻 MacBook")
+            print("4. 📊 View Total Stock")
+            print("5. 🔙 Back to Usage Menu")
+            print("6. ❌ Exit")
+            print("=" * 80)
             option = input("Option:")
             if option == "1":
                 self.clear_screen()
@@ -1640,11 +1646,11 @@ class User(Stock):
     def save_purchase(self, purchase):
         try:
             with open(self.history_filename, "a") as file:
-                    # Format the purchase data in the new format
-                    purchase_data = f"username: {purchase['username']}; model: {purchase['model']}; storage: {purchase['storage']}; item: {purchase['item']}; subtotal: {purchase['subtotal']}\n"
-                    file.write(purchase_data)
+                # Format the purchase data in the new format
+                purchase_data = f"username: {purchase['username']}; model: {purchase['model']}; storage: {purchase['storage']}; item: {purchase['item']}; subtotal: {float(purchase['subtotal']):.2f}\n"
+                file.write(purchase_data)
         except Exception as e:
-                print(f"Error saving purchase to file {e}.")
+            print(f"Error saving purchase to file {e}.")
 
     def load_purchase(self):
         try:    
@@ -1669,7 +1675,6 @@ class User(Stock):
         except Exception as e:
             print(f"Error occur {e}")
 
-
     def show_total(self):
         self.clear_screen()
         print("="*80)
@@ -1685,7 +1690,6 @@ class User(Stock):
                 print(f"{item}x {model} ({storage}): ${subtotal:.2f}")  
                 dynamic_total += subtotal 
         print(f"Total amount of purchases: ${dynamic_total:.2f}\n")
-
 
     def calculate(self):
         if self.total_amount > 0:
@@ -1737,7 +1741,7 @@ class User(Stock):
         try:  
             with open(self.user_filename, 'a') as file:   
                 while True:
-                    print("\n==============================Register==============================")
+                    print("\n============================== Register ==============================")
                     username = input("\nEnter a username to register: ")
                     for i in self.users:
                         if username == i["username"]:
@@ -1805,7 +1809,7 @@ class User(Stock):
     def login(self):
         try:
             for i in range(3, 0, -1):
-                print("\n==============================Login==============================")
+                print("\n============================== Login ==============================")
                 username = input("\nEnter your username: ")
                 email = input("Enter your email: ")
                 pw = getpass.getpass("Enter your password: ")
@@ -1829,7 +1833,7 @@ class User(Stock):
 
     def forgot(self):
         try:
-            print("\n==============================Forgot==============================")
+            print("\n============================== Forgot Password ==============================")
             username = input("\nEnter your username: ")
             email = input("Enter your email: ")
             secret_pin = getpass.getpass("Enter your secret pin:")
@@ -1892,7 +1896,7 @@ class User(Stock):
         try:
             self.clear_screen()
             while True:
-                print("\n==============================Manage Balance==============================")
+                print("\n============================== Manage Balance ==============================")
                 print(f"\nYour current balance: ${self.balances[self.current_user]}")
                 print("1. Deposit Balance")
                 print("2. Back")
@@ -1900,7 +1904,7 @@ class User(Stock):
                 if option == "1":
                     while True:
                         self.clear_screen()
-                        print("\n------------------------------Deposit Balance------------------------------")
+                        print("\n------------------------------ Deposit Balance ------------------------------")
                         amount = float(input("\nInput the amount you want to deposit: "))
                         if amount > 0:
                             secret_pin = getpass.getpass("Enter your secret pin:")
@@ -1935,67 +1939,79 @@ class User(Stock):
             print(f"An error occur in your deposit process: {e}. Please try again!")
         
     def help_us(self):
-        self.clear_screen()
+        os.system('cls')
         while True:
-            print("\n------------------------------Help Us------------------------------")
-            print("1. Provide feedback.")
-            print("2. Frequently ask questions.")
-            print("3. Contact information.")
-            print("4. Back to main menu.")
-            option = input("Enter your choice (1-4): ")
+            print("\n********** HELP US *********")
+            print("1. Store Policies.")
+            print("2. Product Repair.")
+            print("3. Shipping and Delivery.")
+            print("4. Privacy Policy.")
+            print("5. Frequently Question.")
+            print("6. Contact information.")
+            print("7. Back to main menu.")
+            option = input("Enter your choice option: ")
+            self.clear_screen()
             if option == "1":
-                self.clear_screen()
-                self.provide_feedback()
-                continue
+                self.store_policies()
             elif option == "2":
-                self.clear_screen()
-                self.user_question()
-                continue
+                self.product_repair()
             elif option == "3":
-                self.clear_screen()
-                self.contact_information()
-                continue
+                self.shipping_delivery()
             elif option == "4":
+                self.privacy_policy()
+            elif option == "5":
+                self.user_question()
+            elif option == "6":
+                self.contact_information()
+            elif option == "7":
                 self.clear_screen()
                 break
             else:
                 print("Invalid option. Please try again!")
                 continue
 
-    def provide_feedback(self):
-        print("\n------------------------------Provide Feedback------------------------------")
-        try:
-            username = input("Enter your username: ").strip()
-            if not username:
-                raise ValueError("User name cannot empty")
-            feedback = input("Enter your feedback: ").strip()
-            if not feedback:
-                raise ValueError("Feedback connot empty.")
-            with open('Customer/feedback.txt', 'a') as file:
-                file.write(f"Username: {username}, Feedback: {feedback}\n")
-            print("Thank you for your feedback!")
-        except Exception as e:
-            print(f"An error occurred: {e}. Please try again.")
+    def store_policies(self):
+        print("\n---------------Store_Policies---------------")
+        print("1. Return & Exchange: You can return or exchange items within 14 days of purchase.")
+        print("2. Warranty: All Apple products come with a 1_year warranty.")
+
+    def product_repair(self):
+        print("\n---------------Product Repair---------------")
+        print("You can request repair for your Apple products by visiting an Apple Store or contacting Apple Support online.")
+        print("Make sure your product in covered under warranty or AppleCare.")
+
+    def shipping_delivery(self):
+        print("\n---------------Shipping & Delivery---------------")
+        print("We offer free shipping for orders over 1500$.")
+        print("\nStandard delivery takes 1-2 days before order.")
+        print("For expedited shipping, additional fees apply.")
+        print("You can select your preferred shipping method at checkout.")
+
+    def privacy_policy(self):
+        print("\n---------------Privacy Policy---------------")
+        print("Your privacy is important for us. We need only use your personal data for processing orders.")
+        print("Read our full privacy policy on our website for more detail.")
 
     def user_question(self):
-        print("\n------------------------------User FAQs------------------------------")
+        print("\n---------------User FAQs---------------")
         print("Q: How can I reset my password?")
-        print("A: Use the 'Forgot Password' opption from the main menu.")
-        print("\nQ: Can I update my profile details?")
+        print("A: Use the 'Forgot Password' option from the main menu.")
+        print("\nQ: How can I update my profile details?")
         print("A: YES, go to 'Manage Profile' in the menu.")
         print("\nQ: How do I contact customer service?")
         print("A: Check the 'Contact Information' section for detail.")
 
     def contact_information(self):
-        print("\n------------------------------Contact Information------------------------------")
-        print("Customer Support Email: support@gmail.iec.com")
+
+        print("\n---------------Contact Information---------------")
+        print("Customer Support Email: apple.store@gmail.iec.com")
         print("Contact Number: +855 123456789")
         print("Website: www.iec.com.kh")
 
     def edit_profile(self):
         try:
             while True:
-                print("\n------------------------------Edit Profile------------------------------")
+                print("\n------------------------------ Edit Profile ------------------------------")
                 print("1. Edit Name")
                 print("2. Edit Email")
                 print("3. Edit Secret Pin")
@@ -2029,17 +2045,18 @@ class User(Stock):
                                     
                                     with open(self.history_filename, "w") as history_file:
                                         for purchase in self.purchases:
-                                            history_file.write(f"username: {purchase['username']}; model: {purchase['model']}; storage: {purchase['storage']}; item: {purchase['item']}; subtotal: {purchase['subtotal']}\n")
+                                            history_file.write(f"username: {purchase['username']}; model: {purchase['model']}; storage: {purchase['storage']}; item: {purchase['item']}; subtotal: {float(purchase['subtotal']):.2f}\n")
                                     
                                     with open(self.balance_filename, "w") as balance_file:
                                         for username, balance in self.balances.items():
                                             balance_file.write((f"username: {username}, balance: {balance}\n"))
                                     break
                         break
+
                 elif option == "2":
                     while True:
                         self.clear_screen()
-                        print("\n------------------------------Edit Email------------------------------")
+                        print("\n------------------------------ Edit Email ------------------------------")
                         new_email = input("Enter your new email: ")
                         if '@' in new_email and '.' in new_email: 
                             for user in self.users:
@@ -2062,7 +2079,7 @@ class User(Stock):
                 elif option == "3":
                     while True:
                         self.clear_screen()
-                        print("\n------------------------------Edit Secret Pin------------------------------")
+                        print("\n------------------------------ Edit Secret Pin ------------------------------")
                         old_secret_pin = getpass.getpass("Enter your old 4-digit secret pin: ")
                         hashed_old_secret_pin = self.hash_secret_pin(old_secret_pin)
                         for user in self.users:
@@ -2094,7 +2111,7 @@ class User(Stock):
                 elif option == "4":
                     while True:
                         self.clear_screen()
-                        print("\n------------------------------Edit Password------------------------------")
+                        print("\n------------------------------ Edit Password ------------------------------")
                         old_password = getpass.getpass("Enter your old password: ")
                         hashed_old_password = self.hash_password(old_password)
                         for user in self.users:
@@ -2144,14 +2161,14 @@ class User(Stock):
     def manage_profile(self):
         try:
             while True:
-                print("\n==============================Manage Profile==============================")
+                print("\n============================== Manage Profile ==============================")
                 print("\n1. View Profile")
                 print("2. Edit Profile")
                 print("3. Back")
                 option = input("Choose Option(1-3): ")
                 if option == "1":
                     self.clear_screen()
-                    print("\n------------------------------View Profile------------------------------")
+                    print("\n------------------------------ View Profile ------------------------------")
                     for v in self.users:
                         if v['username'] == self.current_user:
                             print(f"\nName: {v['username']}")
@@ -2173,6 +2190,7 @@ class User(Stock):
         self.stock_menu()
         
     def user_menu(self):
+        os.system('cls')
         try:
             while True:
                 print("============================================================")
@@ -2183,7 +2201,8 @@ class User(Stock):
                 print("2. Register")
                 print("3. Forgot Password")
                 print("4. Help Us")
-                print("5. Exit")
+                print("5. Return Menu")
+                print("6. Exit")
                 option = input("Choose an option (1-6): ")
                 if option == "1":
                     self.clear_screen()
@@ -2203,6 +2222,10 @@ class User(Stock):
                     continue
                 elif option == "5":
                     self.clear_screen()
+                    self.display()
+                    continue
+                elif option == "6":
+                    self.clear_screen()
                     print("Exiting the programs. Goodbye!\n")
                     sys.exit()
                 else:
@@ -2213,6 +2236,7 @@ class User(Stock):
             print(f"an error occur {e}")
 
     def usage_menu(self):
+        os.system('cls')
         try:
             while True:
                 print("============================================================")
@@ -2270,7 +2294,7 @@ class User(Stock):
         print(self.balances)
         print(self.users)
 
-###################################### Leap ####################################################
+###################################### Leap Path ####################################################
 
 fileiphone_staff = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\iphone.txt" 
 fileairpod_staff = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\airpod.txt"
@@ -2298,11 +2322,9 @@ balance_file = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_
 history_file = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\customer_history.txt"
 feedback_file = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\feedback.txt"
 
-###################################### Leap ####################################################
-
+###################################### Leap Path ####################################################
 
 user1 = User(user_file, balance_file, history_file, feedback_file, fileiphone_staff,fileairpod_staff,filemacbook_staff,fileiphone11_user,fileiphone12_user,fileiphone13_user,fileiphone14_user,fileiphone15_user,mac_m1_user,mac_m2_user,mac_pro_14,mac_pro_16,airpod_user)
-
 
  ######  ADMIN PART ######
 
@@ -2311,19 +2333,22 @@ class AdminSystem(AdminEmployee):
     admin_manage = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/admin_manage.txt'
     manage_employ = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/manage_employee.txt'
     system_log = r'C:\/Users\/USER\/Documents\/GitHubLeapp\/Python_T1_Y2_Project\/Admin_work\/system_log.txt'
+    employeefile = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
 
     def __init__(self):
+        self.logged_in_username = None
         self.display_admin_account()
-        super.__init__(self.add_macbook, self.add_employee, self.add_airpod, 
+        super().__init__(self.add_macbook, self.add_employee, self.add_airpod, 
                         self.add_iphone, self.add_stock, self.log_action, self.admin_log, self.masked_input,
-                        self.hash_password, self.verify_password, self.manage_customer_acc, self.delete_customer, self.view_customers)
+                        self.hash_password, self.verify_password, self.manage_customer_acc, self.delete_customer, self.view_customers,
+                        self.recordstock, self.logged_in_username)
 
     def display_admin_account(self):
         while True:
             try:
                 os.system('cls')
-                print("\nWelcome Admin")
-                print("1. Create Account For Admin")
+                print("\n" + "=" * 30 + " Welcome Admin " + "=" * 30)
+                print("\n1. Create Account For Admin")
                 print("2. Log in as Admin")
                 print("3. Back To Main Menu")
 
@@ -2333,7 +2358,8 @@ class AdminSystem(AdminEmployee):
                 elif choose == 2:
                     self.admin_log()
                 elif choose == 3:
-                    return
+                    first = FirstInterface()
+                    first.display()
                     # main_menu()
                 else:
                     print("Invalid option")
@@ -2342,19 +2368,20 @@ class AdminSystem(AdminEmployee):
 
     def admin_dashboard(self):
         os.system('cls')
-        print("\nAdmin Dashboard")
-        print("1. Add or update stock")
-        print("2. View stock")
-        print("3. Delete stock")
-        print("4. Manage Employee accounts")
-        print("5. Manage Customer accounts")
-        print("6. Sales Report")
-        print("7. History system log")
-        print("8. Exit")
+        print("\n" + "=" * 40 + " Admin Dashboard " + "=" * 40)
+        print("1. 🛠️  Add or Update Stock")
+        print("2. 📦  View Stock")
+        print("3. ❌  Delete Stock")
+        print("4. 👨  Manage Employee Accounts")
+        print("5. 🧑‍🤝‍🧑  Manage Customer Accounts")
+        print("6. 📊  Sales Report")
+        print("7. 📜  History System Log")
+        print("8. 🚪  Exit")
+        print("=" * 80)
 
         while True:
             try:
-                choose = int(input("Choose your task to do: "))
+                choose = int(input("\nChoose your task to do: "))
                 if choose == 1:
                     self.add_stocks()
                 elif choose == 2:
@@ -2370,7 +2397,7 @@ class AdminSystem(AdminEmployee):
                 elif choose == 7:
                     self.history_log()
                 elif choose == 8:
-                    exit()
+                    self.display()
                 else:
                     print("Choose a correct option")
             except ValueError as e:
@@ -2646,11 +2673,12 @@ class AdminSystem(AdminEmployee):
     def manage_employee_acc(self):
         os.system('cls')
         while True:
-            print("\nManage Employee Accounts")
-            print("1. Add new employee")
-            print("2. View employee accounts")
-            print("3. Delete employee account")
-            print("4. Back to main menu")
+            print("\n" + "=" * 30 + " Manage Employee Accounts " + "=" * 30)
+            print("1. ➕ Add New Employee")
+            print("2. 👀 View Employee Accounts")
+            print("3. ❌ Delete Employee Account")
+            print("4. 🔙 Back to Main Menu")
+            print("=" * 80)
 
             try:
                 choice = int(input("Choose the task: "))
@@ -2666,7 +2694,6 @@ class AdminSystem(AdminEmployee):
                     print("Invalid choice.")
             except ValueError:
                 print("Enter a valid number.")
-
 
     def get_existing_id(self):
         existing_id = set()  # Use a set for faster lookups
@@ -2801,11 +2828,13 @@ class AdminSystem(AdminEmployee):
     ##### LOG HISTORY ########
 
     def history_log(self):
+        os.system('cls')
         while True:
-            print("\nSystem Log")
-            print("1. View logs")
-            print("2. Clear logs")
-            print("3. Back to main menu")
+            print("\n" + "=" * 30 + " System Log " + "=" * 30)
+            print("1. 📝 View Logs")
+            print("2. 🧹 Clear Logs")
+            print("3. 🔙 Back to Main Menu")
+            print("=" * 60)
 
             try:
                 option = int(input("Choose an option: "))
@@ -2839,14 +2868,18 @@ class AdminSystem(AdminEmployee):
     
     ######  ADMIN PART ######
 
-    def view_stocks(self): #menu view stock
+    def view_stocks(self):
+        os.system('cls')
         while True:
+            print("\n" + "=" * 50)
+            print("📦  View Stock Menu  📦".center(50))
             print("=" * 50)
-            print("View Stock:")
-            print("1. iPhone")
-            print("2. Macbook")
-            print("3. Airpod")
-            print("4. Exit to Main Menu")
+            print("1️⃣  iPhone")
+            print("2️⃣  MacBook")
+            print("3️⃣  AirPod")
+            print("4️⃣  🔙 Exit to Main Menu")
+            print("=" * 50)
+
             choice = input("Enter the model to add (1/2/3/4): ")
             if choice == "1":
                 self.view_iphone()
@@ -2860,12 +2893,16 @@ class AdminSystem(AdminEmployee):
                 print("Invalid choice. Please try again.")
 
     def add_stocks(self): #add stock
-        # file_path = self.get_file_path()
+        os.system('cls')
         while True:
-            print("1.iPhone")
-            print("2.Macbook")
-            print("3.Airpod")
-            print("4.Exit")
+            print("\n" + "=" * 50)
+            print("📈  Add Stock Menu  📈".center(50))
+            print("=" * 50)
+            print("1️⃣  Add iPhone")
+            print("2️⃣  Add MacBook")
+            print("3️⃣  Add AirPod")
+            print("4️⃣  🔙 Exit to Employee Tasks")
+            print("=" * 50)
             choice = input("Enter the model to add (1/2/3): ")
             if choice == "1":
                 self.add_iphone()
@@ -2879,11 +2916,16 @@ class AdminSystem(AdminEmployee):
                 print("Invalid choice. Please try again.")
 
     def delete_stocks(self): #delete stock
+        os.system('cls')
         while True:
-            print("1.iPhone")
-            print("2.Macbook")
-            print("3.Airpods")
-            print("4. Back to menu")
+            print("\n" + "=" * 50)
+            print("🗑️  Delete Stock Menu  🗑️".center(50))
+            print("=" * 50)
+            print("1️⃣  Remove iPhone")
+            print("2️⃣  Remove MacBook")
+            print("3️⃣  Remove AirPods")
+            print("4️⃣  🔙 Back to Menu")
+            print("=" * 50)
             
             choice = input("Enter the model to remove (1/2/3): ")
             if choice == "1":
@@ -2893,6 +2935,8 @@ class AdminSystem(AdminEmployee):
             elif choice == "3":
                 self.remove_airpod()
             elif choice == "3":
+                self.admin_dashboard()
+            elif choice == "4":
                 self.admin_dashboard()
             else:
                 print("Invalid choice. Please try again.")

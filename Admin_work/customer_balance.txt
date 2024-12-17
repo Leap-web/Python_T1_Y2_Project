@@ -6,3 +6,5 @@ username: leap, balance: 0.0
 username: o, balance: 0.0
 username: l, balance: 0.0
 username: n, balance: 0.0
+username: Bunleap, balance: 0.0
+username: tear, balance: 401.0
