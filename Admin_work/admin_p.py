@@ -42,7 +42,11 @@ class FirstInterface:
                 input("Press Enter to continue...")
 
 class AdminEmployee(FirstInterface):
+<<<<<<< HEAD
+
+=======
     # File paths for employee and stock management
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
     employeefile = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
     recordstock = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\recordstock.txt"
     user_file = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\customer_pw.txt"
@@ -105,7 +109,10 @@ class AdminEmployee(FirstInterface):
 #### MANAGE CUSTOMER PART ####
 
     def manage_customer_acc(self):
+<<<<<<< HEAD
+=======
         # Menu for managing customer accounts
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
         os.system('cls')
         while True:
             print("\n" + "=" * 50)
@@ -1614,7 +1621,10 @@ class Stock(EmployeeInterface):
                 return   
     # let user input
     def stock_menu(self):
+<<<<<<< HEAD
+=======
         # display all stock option
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
         os.system('cls')
         while True:
             print("=" * 80)
@@ -1996,7 +2006,10 @@ class User(Stock):
             print(f"An error occur in your deposit process: {e}. Please try again!")
         
     def help_us(self):
+<<<<<<< HEAD
+=======
         # for help user with their problem function
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
         os.system('cls')
         while True:
             print("\n********** HELP US *********")
@@ -2261,7 +2274,11 @@ class User(Stock):
                 print("2. Register")
                 print("3. Forgot Password")
                 print("4. Help Us")
+<<<<<<< HEAD
                 print("5. Back to menu")
+=======
+                print("5. Return Menu")
+>>>>>>> ede0d320ec354e9a1deeb6ceff3f983d6f2515ff
                 print("6. Exit")
                 option = input("Choose an option (1-6): ")
                 if option == "1":
@@ -2283,8 +2300,15 @@ class User(Stock):
                 elif option == "5":
                     self.clear_screen()
                     self.display()
+<<<<<<< HEAD
                 elif option == "6":
                     self.clear_screen()
+=======
+                    continue
+                elif option == "6":
+                    self.clear_screen()
+                    print("Exiting the programs. Goodbye!\n")
+>>>>>>> ede0d320ec354e9a1deeb6ceff3f983d6f2515ff
                     sys.exit()
                 else:
                     print("Invalid option. Please choose an option (1-6)!\n")
@@ -2394,7 +2418,10 @@ class AdminSystem(AdminEmployee):
     employeefile = r"C:\Users\USER\Documents\GitHubLeapp\Python_T1_Y2_Project\Admin_work\inf_employee.txt"
 
     def __init__(self):
+<<<<<<< HEAD
+=======
         # Initialize the admin system and display the admin account options
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
         self.logged_in_username = None
         self.display_admin_account()
         super().__init__(self.add_macbook, self.add_employee, self.add_airpod, 
@@ -2458,7 +2485,15 @@ class AdminSystem(AdminEmployee):
                 elif choose == 7:
                     self.history_log()
                 elif choose == 8:
+<<<<<<< HEAD
                     self.display()
+=======
+<<<<<<< HEAD
+                    self.display()
+=======
+                    sys.exit(1)
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
+>>>>>>> ede0d320ec354e9a1deeb6ceff3f983d6f2515ff
                 else:
                     print("Choose a correct option")
             except ValueError as e:
@@ -2912,7 +2947,10 @@ class AdminSystem(AdminEmployee):
     ##### LOG HISTORY ########
 
     def history_log(self):
+<<<<<<< HEAD
+=======
         # Read log history from file
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
         os.system('cls')
         while True:
             print("\n" + "=" * 30 + " System Log " + "=" * 30)
@@ -2954,7 +2992,10 @@ class AdminSystem(AdminEmployee):
     ######  ADMIN PART ######
 
     def view_stocks(self):
+<<<<<<< HEAD
+=======
         # Read stock data from file
+>>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
         os.system('cls')
         while True:
             print("\n" + "=" * 50)
