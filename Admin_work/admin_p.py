@@ -433,7 +433,7 @@ class AdminEmployee(FirstInterface):
             return
 
         # Check the existing stock level and limit
-        if stock_data[model_key][storage_key] + quantity > 5:
+        if stock_data[model_key][storage_key]  > 5:
             print(f"Cannot add stock. Adding {quantity} would exceed the limit of 5 for {model_key} ({storage_key}).")
             return
         else:
@@ -620,13 +620,11 @@ class AdminEmployee(FirstInterface):
         return password
 
     def hash_password(self, password):
-        # Hash the password using PBKDF2 with a random salt
         salt = os.urandom(16)
         hashed_password = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100000)
-        return salt.hex() + hashed_password.hex()  # Convert both salt and hash to hex
-
+        return salt + hashed_password
+    
     def verify_password(self, stored_password, input_password):
-        # Verify the input password against the stored hashed password
         salt = stored_password[:16]
         stored_hash = stored_password[16:]
         input_hash = hashlib.pbkdf2_hmac('sha256', input_password.encode(), salt, 100000)
@@ -666,7 +664,6 @@ class EmployeeInterface(AdminEmployee):
                 print(v)
     
     def employee_login(self):
-        # Handle employee login with credential verification
         os.system('cls')
         for attempts_left in range(3, 0, -1):
             print("\n" + "=" * 50)
@@ -678,22 +675,36 @@ class EmployeeInterface(AdminEmployee):
             password = self.masked_input("🔒 Enter your password: ")
 
             self.logged_in_username = username
+
+            # Make sure employees are loaded
+            if not self.employees:
+                print("Error: No employees found.")
+                return
+
+            # Iterate through employees and check login credentials
             for employee in self.employees:
-                # Validate credentials
                 if (
                     employee["username"] == username and 
                     employee["email"] == email and 
-                    employee["id"] == employee_id and
-                    self.verify_password(bytes.fromhex(employee["password"]), password)  # Check password
+                    employee["id"] == employee_id
                 ):
-                    print("Login successful!")
-                    self.log_action("Logged in", username)
-                    self.display_employee_task()
-                    return
+                    # Get the stored password hash and salt
+                    stored_password = bytes.fromhex(employee["password"])
 
+                    # Verify the entered password against the stored hash
+                    if self.verify_password(stored_password, password):
+                        print("Login successful!")
+                        self.log_action("Logged in", username)
+                        self.display_employee_task()
+                        return
+                    else:
+                        print("Error: Incorrect password.")
+                        return
+            
+            # If no employee matched
             print(f"Invalid credentials. You have {attempts_left - 1} attempts left.")
+        
         print("Too many failed attempts. Access denied.")
-
 
     def display_employee_task(self):
         # Display the employee task dashboard
@@ -706,7 +717,8 @@ class EmployeeInterface(AdminEmployee):
                 print("1️⃣  Manage Stock (Add or Update)")
                 print("2️⃣  📦 View Stock")
                 print("3️⃣  📝 Generate Report")
-                print("4️⃣  ❌ Exit")
+                print("4️⃣  🔙 Back to Menu")
+                print("5. Exit")
                 print("=" * 50)
 
                 choose = int(input("Enter a task to do: "))
@@ -717,12 +729,13 @@ class EmployeeInterface(AdminEmployee):
                 elif choose == 3:
                     self.report()
                 elif choose == 4:
+                    self.display()
+                elif choose == 5:
                     sys.exit()
                 else:
                     print("Invalid option")
             except ValueError as ve:
                 print(ve)
-
 
 ##### EMPLOYEE PART ########
 class Stock(EmployeeInterface):
@@ -1260,7 +1273,7 @@ class Stock(EmployeeInterface):
                 return
             else:
                 print("Invalid output. Please enter 'yes', 'y', 'no', or 'n'.")
-                continue
+                user_buy = input("Do you interesting in our product?If you want to buy(yes),if not(no):").lower()
     # for user to view the stock of macbook
     def macbook_menu(self):
         # display the stock of macbook
@@ -2248,7 +2261,8 @@ class User(Stock):
                 print("2. Register")
                 print("3. Forgot Password")
                 print("4. Help Us")
-                print("5. Exit")
+                print("5. Back to menu")
+                print("6. Exit")
                 option = input("Choose an option (1-6): ")
                 if option == "1":
                     self.clear_screen()
@@ -2268,7 +2282,9 @@ class User(Stock):
                     continue
                 elif option == "5":
                     self.clear_screen()
-                    print("Exiting the programs. Goodbye!\n")
+                    self.display()
+                elif option == "6":
+                    self.clear_screen()
                     sys.exit()
                 else:
                     print("Invalid option. Please choose an option (1-6)!\n")
@@ -2413,7 +2429,7 @@ class AdminSystem(AdminEmployee):
     def admin_dashboard(self):
         # Display the admin dashboard with various management options
         os.system('cls')
-        print("\n" + "=" * 40 + " Admin Dashboard " + "=" * 40)
+        print("\n" + "=" * 40 + " Admin Dashboard " + "=" * 20)
         print("1. 🛠️  Add or Update Stock")
         print("2. 📦  View Stock")
         print("3. ❌  Delete Stock")
@@ -2442,7 +2458,7 @@ class AdminSystem(AdminEmployee):
                 elif choose == 7:
                     self.history_log()
                 elif choose == 8:
-                    sys.exit(1)
+                    self.display()
                 else:
                     print("Choose a correct option")
             except ValueError as e:
@@ -2481,10 +2497,9 @@ class AdminSystem(AdminEmployee):
 
 
     def hash_password(self, password):
-        # Hash the password using SHA-256
-        salt = bcrypt.gensalt(rounds=12)
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-        return hashed_password.decode('utf-8')
+        salt = os.urandom(16)
+        hashed_password = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100000)
+        return salt + hashed_password  # This should return bytes (salt + hash)
 
     def save_admin_to_file(self, admin_account_username, admin_account_id, admin_account_email, hashed_password):
         # Save admin account details to the admin management file
@@ -2786,13 +2801,18 @@ class AdminSystem(AdminEmployee):
         return employee_account_id.startswith("IDTB") and employee_account_id not in self.get_existing_id()
 
     def save_employee_to_file(self, employee_account_username, employee_account_id, employee_account_email, hashed_password):
-        # Save the employee to the file
         try:
+            # Check if hashed_password is bytes, then call hex()
+            if isinstance(hashed_password, bytes):
+                hashed_password = hashed_password.hex()
+            
+            # Save the employee to the file
             with open(self.manage_employ, "a") as file:
                 file.write(f"{employee_account_username}, {employee_account_id}, {employee_account_email}, {hashed_password}\n")
             print("Employee account created successfully.")
         except IOError as e:
             print(f"Error saving employee to file: {e}")
+
 
     def add_employee(self):
         # Add a new employee to the system
