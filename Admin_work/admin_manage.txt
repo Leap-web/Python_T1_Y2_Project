@@ -1,13 +1,6 @@
-<<<<<<< HEAD
 Leap_l, IDTB0001, leap@admin.iec.com, $2b$12$FsJCoK5Jbm4lBzMU2DLB6u.IDQwkwiahMro4sDCQIx/wwlaRiBe6q
 Bunleap_l, IDTB0002, bunleap@admin.iec.com, $2b$12$daY4N9mXWE7lcYLCG6Dv3O/eQlG7YttnJfagrPX4mYVvxnxyMvfO2
 Leap_l, IDTB0003, leap@admin.iec.com, $2b$12$5s9SP5FQV9jYrcBbocF4leeNNxhJ.Kfbduf5BQ3avUvjp08kG6aWq
 Bunleap_l, IDTB0004, bunleap@admin.iec.com, $2b$12$kUxLRMIs9KJS5TnM.0Q23uk7TqlkJH61aLsT5mnosk/Oj8SzKCVUK
 Bunleap_l, IDTB0005, bunleap@admin.iec.com, $2b$12$MbBVYCAzYFm2bFlRxCqmm.EjhC.yFjzOBJBZTbK7MQQy0ojrTdhmW
-Leap_p, IDTB0007, leapp@admin.iec.com, $2b$12$1hftRyL6J1fjmWhpmcQYL.tCY4WItcDCmHSUPv1/Yw3drjW8qYliO
-=======
-<<<<<<< HEAD
-=======
-Bunleap_l, IDTB0001, bunleap@admin.iec.com, $2b$12$V.oBe6AJlcZRHYzSJL4YKuhu4bFJqeJY1rTxHlFaARWnpwPimbfhu
->>>>>>> 9ead06f83b67e00711a0e5057b9a27c828d58272
->>>>>>> ede0d320ec354e9a1deeb6ceff3f983d6f2515ff
+Leap_p, IDTB0007, leapp@admin.iec.com, $2b$12$1hftRyL6J1fjmWhpmcQYL.tCY4WItcDCmHSUPv1/Yw3drjW8qYliOLeap_a, IDTB0006, leap@admin.iec.com, b'\x9a7\xe0\x98B\x1d\x18\x04\xdb\x1b\xb3Uh\xaat\xe4\x82O\xb6\xb0iF99 \xce\xe8\x10\xd3\xcd\xb0?\x877;\x83\xcd\x17\x9e\xc5\x12H\xc7\x9b\r\xf9\x04\xae'

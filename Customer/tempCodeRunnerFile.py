@@ -376,6 +376,3 @@ balance_file = "Customer/customer_balance.txt"
 user1 = User(user_file, balance_file)
 user1.show_list()
 user1.user_menu()
-
-
-

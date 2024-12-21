@@ -158,20 +158,3 @@ class Employeesystem:
 if __name__ == "__main__":
     system = Employeesystem()
     system.choose_option()
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-=======
->>>>>>> origin/main
